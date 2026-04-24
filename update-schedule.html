@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>업데이트 일정 - 노써치 샌드박스 2</title>
+<meta name="description" content="카테고리 업데이트 우선순위와 갱신 상태를 공개하는 운영 보드 페이지입니다." />
+<style>
+  :root {
+    --primary: #256fff;
+    --blue-light: #e8f2ff;
+    --gray-10: #1a1a1a;
+    --gray-dark: #545454;
+    --gray-7: #787878;
+    --border: #e5e7eb;
+    --white: #fff;
+    --gray-1: #f9f9f9;
+    --bg: #f6f9fd;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --green: #16a34a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: var(--gray-10);
+    background: linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.92);
+    border-bottom: 1px solid rgba(229,231,235,.95);
+    backdrop-filter: blur(14px);
+  }
+  .topbar-inner {
+    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .brand { font-weight: 800; letter-spacing: -.03em; }
+  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
+  .nav a.is-active, .nav a:hover { color: var(--primary); }
+  .hero { padding: 46px 0 22px; }
+  .hero-panel, .legend-card, .table-card, .note-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+  }
+  .hero-panel { padding: 32px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
+    border-radius: 999px; background: var(--blue-light); color: var(--primary);
+    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  }
+  h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(34px, 5vw, 50px);
+    line-height: 1.08; letter-spacing: -.05em;
+  }
+  .hero-panel p { margin: 0; max-width: 760px; font-size: 17px; color: var(--gray-dark); }
+  section { padding: 24px 0; }
+  .legend-grid, .note-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .legend-card, .note-card { padding: 22px; }
+  .legend-card h3, .note-card h3 { margin: 0 0 8px; font-size: 20px; }
+  .legend-card p, .note-card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
+  .status {
+    display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; margin-bottom: 10px;
+    border-radius: 999px; font-size: 12px; font-weight: 800;
+  }
+  .status.red { background: #feecec; color: var(--red); }
+  .status.yellow { background: #fff6df; color: var(--yellow); }
+  .status.green { background: #eefbf3; color: var(--green); }
+  .table-card { padding: 18px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+  th { color: var(--gray-7); font-size: 13px; }
+  td strong { font-size: 14px; }
+  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
+  @media (max-width: 1024px) {
+    .legend-grid, .note-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .container { width: min(100% - 28px, 1100px); }
+    .topbar-inner { flex-direction: column; align-items: flex-start; }
+    .hero-panel, .legend-card, .note-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <nav class="nav">
+        <a href="index.html">메인</a>
+        <a href="guides.html">구매가이드</a>
+        <a href="picks.html">노써치픽</a>
+        <a class="is-active" href="update-schedule.html">업데이트</a>
+        <a href="categories.html">카테고리</a>
+        <a href="ai-result.html">AI 추천</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-panel">
+          <span class="eyebrow">Update Board</span>
+          <h1>계속 관리되는 기준임을 보여주는 운영 보드</h1>
+          <p>노써치 스타일의 강점은 "추천 결과"보다 "계속 관리되는 신호"에 있습니다. 이 페이지는 어떤 카테고리가 지금 안정 구간인지, 어떤 항목이 곧 갱신될지를 한눈에 보여줍니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container legend-grid">
+        <article class="legend-card">
+          <span class="status red">우선 업데이트</span>
+          <h3>6개월 초과</h3>
+          <p>로봇청소기, 식기세척기, 무선이어폰처럼 피로도가 빨리 누적되는 카테고리는 장기 방치 시 신뢰 손상이 큽니다.</p>
+        </article>
+        <article class="legend-card">
+          <span class="status yellow">모니터링</span>
+          <h3>3~6개월</h3>
+          <p>분기 내 갱신 대상입니다. 신제품 출시나 가격 변동이 발생하면 즉시 우선순위를 올리는 구조로 운용합니다.</p>
+        </article>
+        <article class="legend-card">
+          <span class="status green">정상 구간</span>
+          <h3>3개월 이내</h3>
+          <p>최근 기준이 반영된 카테고리입니다. 대대적 개편보다 가격 변화와 소규모 변경만 추적하면 됩니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>카테고리</th>
+                <th>상태</th>
+                <th>마지막 업데이트</th>
+                <th>다음 액션</th>
+                <th>메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>공기청정기</strong></td>
+                <td><span class="status green">정상</span></td>
+                <td>2026-04-24</td>
+                <td>필터 비용 비교 보강</td>
+                <td>현재 메인 가이드 운영 중</td>
+              </tr>
+              <tr>
+                <td><strong>노트북</strong></td>
+                <td><span class="status yellow">모니터링</span></td>
+                <td>2026-04-22</td>
+                <td>게이밍 신제품 3종 반영</td>
+                <td>`In The Lab` 진행 항목과 연결</td>
+              </tr>
+              <tr>
+                <td><strong>에어컨</strong></td>
+                <td><span class="status yellow">시즌 우선</span></td>
+                <td>2026-04-21</td>
+                <td>설치비와 행사 조건 재정리</td>
+                <td>계절 카테고리 예외 적용</td>
+              </tr>
+              <tr>
+                <td><strong>에어프라이어</strong></td>
+                <td><span class="status red">우선</span></td>
+                <td>2025-12-11</td>
+                <td>실사용 조리 테스트 추가</td>
+                <td>현재 실험실 진행 항목</td>
+              </tr>
+              <tr>
+                <td><strong>헤어드라이어</strong></td>
+                <td><span class="status red">우선</span></td>
+                <td>2025-10-03</td>
+                <td>DB 정규화 완료 후 초안 작성</td>
+                <td>풍량·무게 중심 재정의 필요</td>
+              </tr>
+              <tr>
+                <td><strong>TV</strong></td>
+                <td><span class="status green">정상</span></td>
+                <td>2026-04-18</td>
+                <td>65형 가격대 재확인</td>
+                <td>가이드와 픽 모두 운영 가능</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container note-grid">
+        <article class="note-card">
+          <h3>시즌 카테고리 예외</h3>
+          <p>에어컨, 선풍기, 제습기처럼 시즌성이 강한 카테고리는 날짜보다 시즌 시작 시점이 더 중요합니다. 이 규칙은 메인 보드에도 그대로 반영했습니다.</p>
+        </article>
+        <article class="note-card">
+          <h3>왜 바뀌었는지 기록</h3>
+          <p>"업데이트됨"만 적는 대신 무엇이 바뀌었는지 써야 신뢰가 생깁니다. 메인과 픽 페이지에서도 같은 원칙을 유지했습니다.</p>
+        </article>
+        <article class="note-card">
+          <h3>In The Lab과의 연결</h3>
+          <p>진행 중인 실험 항목을 메인에서 먼저 보여주고, 운영 보드에서는 일정과 우선순위로 이어지게 설계했습니다.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">업데이트 보드는 내부 관리용이면서 동시에 외부 신뢰 장치가 되도록 정리했습니다.</div>
+  </footer>
+</body>
+</html>

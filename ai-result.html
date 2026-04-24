@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 추천 결과 - 노써치 샌드박스 2</title>
+<meta name="description" content="조건 기반 AI 추천 결과 시안입니다. 질문을 태그로 재정리하고 추천 제품 3안을 보여줍니다." />
+<style>
+  :root {
+    --primary: #256fff;
+    --blue-light: #e8f2ff;
+    --blue-pale: #f5f9ff;
+    --accent-red: #ff455b;
+    --gray-10: #1a1a1a;
+    --gray-dark: #545454;
+    --gray-7: #787878;
+    --border: #e5e7eb;
+    --white: #fff;
+    --gray-1: #f9f9f9;
+    --bg: #f4f8ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: var(--gray-10);
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,.14), transparent 24%),
+      linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.92);
+    border-bottom: 1px solid rgba(229,231,235,.95);
+    backdrop-filter: blur(14px);
+  }
+  .topbar-inner {
+    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .brand { font-weight: 800; letter-spacing: -.03em; }
+  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
+  .nav a.is-active, .nav a:hover { color: var(--primary); }
+  .hero { padding: 44px 0 22px; }
+  .hero-panel, .query-card, .result-card, .aside-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+  }
+  .hero-panel {
+    padding: 30px;
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,.16), transparent 24%),
+      linear-gradient(135deg, rgba(255,255,255,.98), rgba(245,249,255,.98));
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 32px; padding: 0 12px; border-radius: 999px;
+    background: var(--blue-light); color: var(--primary);
+    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  }
+  h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(34px, 5vw, 48px);
+    line-height: 1.08; letter-spacing: -.05em;
+  }
+  .hero-panel p { margin: 0; color: var(--gray-dark); font-size: 16px; max-width: 760px; }
+  .layout { display: grid; grid-template-columns: 1fr 320px; gap: 18px; padding-bottom: 48px; }
+  .main { display: grid; gap: 18px; }
+  .query-card, .result-card, .aside-card { padding: 22px; }
+  .query-card strong,
+  .aside-card strong { display: block; margin-bottom: 10px; font-size: 16px; }
+  .query-box {
+    min-height: 58px; display: flex; align-items: center;
+    padding: 0 16px; border-radius: 16px; background: var(--gray-1); border: 1px solid var(--border);
+    font-size: 15px;
+  }
+  .tag-row {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+  }
+  .tag {
+    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
+    border-radius: 999px; background: var(--blue-pale); color: var(--primary);
+    font-size: 12px; font-weight: 800;
+  }
+  .result-card h2 { margin: 0 0 8px; font-size: 24px; letter-spacing: -.03em; }
+  .result-card p { margin: 0; color: var(--gray-dark); font-size: 14px; }
+  .meta {
+    display: grid; gap: 10px; margin-top: 16px;
+  }
+  .meta div {
+    padding: 12px 14px; border-radius: 14px; background: var(--gray-1); border: 1px solid var(--border);
+  }
+  .meta strong { display: block; font-size: 13px; margin-bottom: 4px; }
+  .meta span { font-size: 13px; color: var(--gray-7); }
+  .cta-row {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+  }
+  .button {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 0 16px; border-radius: 12px;
+    font-size: 14px; font-weight: 700;
+  }
+  .button.primary { background: var(--primary); color: var(--white); }
+  .button.secondary { background: var(--white); border: 1px solid var(--border); }
+  .aside-card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
+  .aside-card ul { margin: 12px 0 0; padding-left: 18px; color: var(--gray-dark); }
+  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .container { width: min(100% - 28px, 1120px); }
+    .topbar-inner { flex-direction: column; align-items: flex-start; }
+    .hero-panel, .query-card, .result-card, .aside-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <nav class="nav">
+        <a href="index.html">메인</a>
+        <a href="guides.html">구매가이드</a>
+        <a href="picks.html">노써치픽</a>
+        <a href="update-schedule.html">업데이트</a>
+        <a href="categories.html">카테고리</a>
+        <a class="is-active" href="ai-result.html">AI 추천</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-panel">
+          <span class="eyebrow">AI Result</span>
+          <h1>질문을 조건으로 다시 풀어주는 결과 화면</h1>
+          <p>AI 추천 페이지는 입력창보다 결과 화면의 신뢰가 더 중요합니다. 그래서 질문을 다시 정리하고, 추천 근거를 짧고 명확하게 붙이는 방식으로 구성했습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container layout">
+        <div class="main">
+          <article class="query-card">
+            <strong>사용자 질문</strong>
+            <div class="query-box">6평 방에서 쓸 조용한 공기청정기</div>
+            <div class="tag-row">
+              <span class="tag">소형 공간</span>
+              <span class="tag">저소음 우선</span>
+              <span class="tag">수면용 가능성 높음</span>
+              <span class="tag">공기청정기</span>
+            </div>
+          </article>
+
+          <article class="result-card">
+            <h2>1안. 블루에어 소형 라인업</h2>
+            <p>수면 중 소음 스트레스를 줄이는 데 가장 잘 맞는 타입입니다. 6평 방이라는 조건에서는 과도한 풍량보다 조용한 자동모드 완성도가 더 중요합니다.</p>
+            <div class="meta">
+              <div><strong>왜 추천했는가</strong><span>작은 방에서 저소음과 지속 사용 만족도가 높은 쪽에 가중치를 뒀습니다.</span></div>
+              <div><strong>주의할 점</strong><span>거실까지 같이 커버하려 하면 성능이 부족하게 느껴질 수 있습니다.</span></div>
+            </div>
+          </article>
+
+          <article class="result-card">
+            <h2>2안. 삼성 비스포크 큐브 Air 소형 구성</h2>
+            <p>디자인과 조용한 운용을 같이 챙기고 싶은 경우에 적합합니다. 방 안에 두고 오래 봐야 하는 제품이라는 점을 고려한 추천입니다.</p>
+            <div class="meta">
+              <div><strong>왜 추천했는가</strong><span>작은 공간에서는 성능 수치보다 배치 스트레스와 소음 체감이 더 크게 작동합니다.</span></div>
+              <div><strong>주의할 점</strong><span>동급 가격대에서는 유지비와 디자인 중 어디에 비중을 두는지 먼저 결정해야 합니다.</span></div>
+            </div>
+          </article>
+
+          <article class="result-card">
+            <h2>3안. LG 퓨리케어 컴팩트형</h2>
+            <p>조용함만이 아니라 자동모드와 관리 편의성까지 골고루 챙기고 싶은 경우에 안정적인 후보입니다.</p>
+            <div class="meta">
+              <div><strong>왜 추천했는가</strong><span>소형 공간에서도 필터 관리와 앱 편의성까지 챙기려는 사용자에게 균형이 좋습니다.</span></div>
+              <div><strong>주의할 점</strong><span>순수한 저소음 최우선 기준이라면 1안이 더 직접적인 선택일 수 있습니다.</span></div>
+            </div>
+            <div class="cta-row">
+              <a class="button primary" href="guide.html">공기청정기 가이드 읽기</a>
+              <a class="button secondary" href="picks.html">현재 추천 픽 보기</a>
+            </div>
+          </article>
+        </div>
+
+        <aside class="aside-card">
+          <strong>이 화면에서 같이 보여줄 것</strong>
+          <p>결과 화면에서는 "왜 이 제품인가"와 "어떤 조건이면 다른 선택이 맞는가"를 함께 제시해야 신뢰가 생깁니다.</p>
+          <ul>
+            <li>질문을 태그로 재정리</li>
+            <li>추천 근거를 제품마다 1~2문장으로 요약</li>
+            <li>가이드 읽기, 조건 수정, 픽 페이지 이동 CTA 제공</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">AI 결과 페이지는 입력보다 해석과 추천 근거가 보이도록 구조를 설계했습니다.</div>
+  </footer>
+</body>
+</html>

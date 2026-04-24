@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>노써치 샌드박스 2 - 구매가이드</title>
+<meta name="description" content="노써치 샌드박스의 구매가이드 목록 페이지입니다. 업데이트 상태와 읽어야 할 이유를 함께 보여줍니다." />
+<style>
+  :root {
+    --primary: #256fff;
+    --blue-light: #e8f2ff;
+    --blue-pale: #f5f9ff;
+    --gray-10: #1a1a1a;
+    --gray-dark: #545454;
+    --gray-7: #787878;
+    --border: #e5e7eb;
+    --white: #fff;
+    --gray-1: #f9f9f9;
+    --bg: #f6f9fd;
+    --success: #16a34a;
+    --warning: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: var(--gray-10);
+    background: linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.92);
+    border-bottom: 1px solid rgba(229,231,235,.95);
+    backdrop-filter: blur(14px);
+  }
+  .topbar-inner {
+    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .brand { font-weight: 800; letter-spacing: -.03em; }
+  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
+  .nav a.is-active, .nav a:hover { color: var(--primary); }
+  .hero { padding: 48px 0 22px; }
+  .hero-panel {
+    padding: 32px;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,.14), transparent 28%),
+      var(--white);
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 32px; padding: 0 12px; border-radius: 999px;
+    background: var(--blue-light); color: var(--primary);
+    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  }
+  h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(34px, 5vw, 50px);
+    line-height: 1.1;
+    letter-spacing: -.05em;
+  }
+  .hero-panel p { margin: 0; font-size: 17px; color: var(--gray-dark); max-width: 720px; }
+  .toolbar {
+    display: grid; grid-template-columns: 1.2fr .8fr .8fr; gap: 12px;
+    margin-top: 22px;
+  }
+  .toolbar-item {
+    min-height: 52px;
+    display: flex; align-items: center;
+    padding: 0 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--gray-1);
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  section { padding: 24px 0; }
+  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+  .section-head h2 { margin: 0; font-size: 28px; letter-spacing: -.03em; }
+  .section-head p { margin: 6px 0 0; color: var(--gray-7); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card {
+    padding: 22px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 12px 28px rgba(15,23,42,.04);
+  }
+  .topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .chip {
+    display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px;
+    border-radius: 999px; font-size: 12px; font-weight: 800;
+  }
+  .chip.blue { background: var(--blue-light); color: var(--primary); }
+  .chip.green { background: #eefbf3; color: var(--success); }
+  .chip.yellow { background: #fff6df; color: var(--warning); }
+  .card h3 { margin: 14px 0 8px; font-size: 21px; letter-spacing: -.02em; }
+  .card p { margin: 0; color: var(--gray-dark); font-size: 14px; }
+  .meta {
+    display: grid; gap: 10px; margin-top: 16px;
+  }
+  .meta div {
+    padding: 12px 14px; border-radius: 14px; background: var(--gray-1); border: 1px solid var(--border);
+  }
+  .meta strong { display: block; font-size: 13px; margin-bottom: 4px; }
+  .meta span { font-size: 13px; color: var(--gray-7); }
+  .cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 0 16px; border-radius: 12px; margin-top: 16px;
+    background: var(--primary); color: var(--white); font-size: 14px; font-weight: 700;
+  }
+  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
+  @media (max-width: 1024px) {
+    .toolbar, .grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .container { width: min(100% - 28px, 1160px); }
+    .topbar-inner, .section-head { flex-direction: column; align-items: flex-start; }
+    .toolbar, .grid { grid-template-columns: 1fr; }
+    .hero-panel { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <nav class="nav">
+        <a href="index.html">메인</a>
+        <a class="is-active" href="guides.html">구매가이드</a>
+        <a href="picks.html">노써치픽</a>
+        <a href="update-schedule.html">업데이트</a>
+        <a href="categories.html">카테고리</a>
+        <a href="ai-result.html">AI 추천</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-panel">
+          <span class="eyebrow">Guide Hub</span>
+          <h1>변할 때마다 기록하는 구매가이드</h1>
+          <p>원본 노써치의 카테고리 톤과 현재 샌드박스 구조를 반영해, "무엇을 먼저 읽어야 하는지"와 "지금 읽을 이유"가 같이 보이도록 재정리했습니다.</p>
+          <div class="toolbar">
+            <div class="toolbar-item">추천 정렬: 최신 업데이트 순</div>
+            <div class="toolbar-item">진입 타입: 입문자용 우선</div>
+            <div class="toolbar-item">대표 카테고리: 공기청정기 · 노트북 · TV</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>지금 확인할 구매가이드</h2>
+            <p>업데이트 상태와 읽어야 하는 이유를 카드마다 함께 배치했습니다.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="topline">
+              <span class="chip blue">생활가전</span>
+              <span class="chip green">3시간 전 업데이트</span>
+            </div>
+            <h3>공기청정기 추천 가이드</h3>
+            <p>평형, CADR, 센서, 필터 비용처럼 실제 구매 판단에 영향을 주는 기준만 정리한 메인 입문 가이드.</p>
+            <div class="meta">
+              <div><strong>읽어야 하는 이유</strong><span>6평 방, 20평 거실처럼 공간별 기준을 빠르게 정리합니다.</span></div>
+              <div><strong>핵심 포인트</strong><span>소음, 유지비, 추천 모델 3안</span></div>
+            </div>
+            <a class="cta" href="guide.html">가이드 읽기</a>
+          </article>
+
+          <article class="card">
+            <div class="topline">
+              <span class="chip blue">IT·디지털</span>
+              <span class="chip green">오늘 순위 변경</span>
+            </div>
+            <h3>노트북 추천 가이드</h3>
+            <p>사무용, 영상편집, 게이밍으로 갈라지는 노트북 선택 기준을 용도 중심으로 압축했습니다.</p>
+            <div class="meta">
+              <div><strong>읽어야 하는 이유</strong><span>예산보다 먼저 성능 요구를 정리해야 하는 카테고리입니다.</span></div>
+              <div><strong>핵심 포인트</strong><span>CPU 세대, 발열, 배터리, 화면 크기</span></div>
+            </div>
+            <a class="cta" href="picks.html">관련 픽 보기</a>
+          </article>
+
+          <article class="card">
+            <div class="topline">
+              <span class="chip blue">영상가전</span>
+              <span class="chip yellow">이번 주 재점검</span>
+            </div>
+            <h3>TV 추천 가이드</h3>
+            <p>QLED, OLED, 미니LED 사이의 차이를 크기와 예산 기준으로 다시 읽히게 만든 가이드.</p>
+            <div class="meta">
+              <div><strong>읽어야 하는 이유</strong><span>인치와 패널을 동시에 판단해야 해서 입문 장벽이 높습니다.</span></div>
+              <div><strong>핵심 포인트</strong><span>55형, 65형, 거실 메인 TV 기준</span></div>
+            </div>
+            <a class="cta" href="categories.html">카테고리 보기</a>
+          </article>
+
+          <article class="card">
+            <div class="topline">
+              <span class="chip blue">계절가전</span>
+              <span class="chip green">어제 가격 반영</span>
+            </div>
+            <h3>에어컨 추천 가이드</h3>
+            <p>스탠드형, 벽걸이형, 투인원 구조를 나눠 설치비와 시즌성을 함께 설명하는 가이드.</p>
+            <div class="meta">
+              <div><strong>읽어야 하는 이유</strong><span>시즌 직전 가격과 설치 조건이 크게 움직이는 카테고리입니다.</span></div>
+              <div><strong>핵심 포인트</strong><span>설치비, 면적, 소음, 제습 성능</span></div>
+            </div>
+            <a class="cta" href="update-schedule.html">업데이트 보기</a>
+          </article>
+
+          <article class="card">
+            <div class="topline">
+              <span class="chip blue">생활가전</span>
+              <span class="chip yellow">실험실 진행 중</span>
+            </div>
+            <h3>에어프라이어 추천 가이드</h3>
+            <p>용량 숫자보다 실제 조리 편차, 세척 난이도, 바스켓 구조가 중요하다는 점에 초점을 둔 예정 가이드.</p>
+            <div class="meta">
+              <div><strong>읽어야 하는 이유</strong><span>단순 스펙 비교보다 사용성 평가가 중요한 카테고리입니다.</span></div>
+              <div><strong>핵심 포인트</strong><span>가열 균일도, 청소, 전기료</span></div>
+            </div>
+            <a class="cta" href="index.html#lab">In The Lab 보기</a>
+          </article>
+
+          <article class="card">
+            <div class="topline">
+              <span class="chip blue">뷰티기기</span>
+              <span class="chip yellow">DB 수집 중</span>
+            </div>
+            <h3>헤어드라이어 추천 가이드</h3>
+            <p>풍량, 온도, 무게, 소음 기준을 실제 사용감 기준으로 풀어내기 위한 초안 단계 가이드.</p>
+            <div class="meta">
+              <div><strong>읽어야 하는 이유</strong><span>브랜드 인지도보다 실제 건조 시간과 손목 피로가 더 중요합니다.</span></div>
+              <div><strong>핵심 포인트</strong><span>풍량, 무게, 냉풍, 노즐 구성</span></div>
+            </div>
+            <a class="cta" href="categories.html">관련 카테고리 보기</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">목록 페이지는 "업데이트"와 "읽어야 하는 이유"를 함께 보여주는 구조로 다시 정리했습니다.</div>
+  </footer>
+</body>
+</html>

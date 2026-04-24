@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>공기청정기 추천 가이드 - 노써치 샌드박스 2</title>
+<meta name="description" content="공기청정기 추천 가이드 시안입니다. 평형, CADR, 센서, 유지비 기준과 추천 제품 3안을 정리했습니다." />
+<style>
+  :root {
+    --primary: #256fff;
+    --blue-light: #e8f2ff;
+    --blue-pale: #f5f9ff;
+    --gray-10: #1a1a1a;
+    --gray-dark: #545454;
+    --gray-7: #787878;
+    --border: #e5e7eb;
+    --white: #fff;
+    --gray-1: #f9f9f9;
+    --bg: #f6f9fd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: var(--gray-10);
+    background: linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    line-height: 1.7;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.92);
+    border-bottom: 1px solid rgba(229,231,235,.95);
+    backdrop-filter: blur(14px);
+  }
+  .topbar-inner {
+    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .brand { font-weight: 800; letter-spacing: -.03em; }
+  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
+  .nav a.is-active, .nav a:hover { color: var(--primary); }
+  .hero { padding: 40px 0 24px; }
+  .hero-panel {
+    padding: 32px;
+    border-radius: 26px;
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,.16), transparent 28%),
+      var(--white);
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+  }
+  .breadcrumb { font-size: 13px; color: var(--gray-7); }
+  .chip {
+    display: inline-flex; align-items: center;
+    min-height: 30px; padding: 0 12px; margin-top: 18px;
+    border-radius: 999px; background: var(--blue-light);
+    color: var(--primary); font-size: 12px; font-weight: 800;
+  }
+  h1 {
+    margin: 14px 0 12px;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -.05em;
+  }
+  .hero-panel p { margin: 0; color: var(--gray-dark); font-size: 16px; max-width: 780px; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;
+  }
+  .hero-meta span {
+    display: inline-flex; align-items: center; min-height: 34px; padding: 0 12px;
+    border-radius: 999px; border: 1px solid var(--border); background: var(--gray-1);
+    font-size: 13px; color: var(--gray-dark);
+  }
+  .layout { display: grid; grid-template-columns: 260px 1fr; gap: 18px; padding-bottom: 48px; }
+  .toc, .section-card, .pick-card, .summary-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 22px;
+    box-shadow: 0 12px 28px rgba(15,23,42,.04);
+  }
+  .toc {
+    position: sticky; top: 88px; align-self: start; padding: 20px;
+  }
+  .toc strong { display: block; margin-bottom: 10px; font-size: 15px; }
+  .toc a {
+    display: block; padding: 8px 0; font-size: 14px; color: var(--gray-dark);
+  }
+  .content { display: grid; gap: 18px; }
+  .summary-card { padding: 22px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .summary-item {
+    padding: 14px; border-radius: 16px; background: var(--gray-1); border: 1px solid var(--border);
+  }
+  .summary-item strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .summary-item span { font-size: 13px; color: var(--gray-7); }
+  .section-card { padding: 24px; }
+  .section-card h2 {
+    margin: 0 0 12px; font-size: 26px; letter-spacing: -.03em;
+  }
+  .section-card p { margin: 0 0 12px; color: var(--gray-dark); font-size: 15px; }
+  .table {
+    display: grid; gap: 10px; margin-top: 16px;
+  }
+  .row {
+    display: grid; grid-template-columns: 110px 1fr;
+    gap: 14px; padding: 12px 0; border-top: 1px solid var(--border);
+  }
+  .row strong { font-size: 13px; color: var(--gray-7); }
+  .row span { font-size: 14px; }
+  .pick-list { display: grid; gap: 14px; }
+  .pick-card { padding: 20px; }
+  .pick-card h3 { margin: 0 0 8px; font-size: 20px; }
+  .pick-card p { margin: 0; color: var(--gray-dark); font-size: 14px; }
+  .pick-meta {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+  }
+  .pick-meta span {
+    display: inline-flex; min-height: 28px; align-items: center; padding: 0 10px;
+    border-radius: 999px; background: var(--blue-pale); color: var(--primary);
+    font-size: 12px; font-weight: 700;
+  }
+  .footer { padding: 24px 0 48px; color: var(--gray-7); font-size: 13px; }
+  @media (max-width: 900px) {
+    .layout, .summary-grid { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+  @media (max-width: 768px) {
+    .container { width: min(100% - 28px, 1120px); }
+    .topbar-inner { flex-direction: column; align-items: flex-start; padding: 12px 0; }
+    .hero-panel, .toc, .summary-card, .section-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <nav class="nav">
+        <a href="index.html">메인</a>
+        <a class="is-active" href="guides.html">구매가이드</a>
+        <a href="picks.html">노써치픽</a>
+        <a href="update-schedule.html">업데이트</a>
+        <a href="categories.html">카테고리</a>
+        <a href="ai-result.html">AI 추천</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-panel">
+          <div class="breadcrumb">메인 / 구매가이드 / 공기청정기 추천 가이드</div>
+          <span class="chip">생활가전 · 공기청정기</span>
+          <h1>공기청정기 추천 가이드</h1>
+          <p>업로드된 원본 구조와 기존 샌드박스 내용을 정리해, 평형과 CADR 중심으로 판단하고 소음과 유지비에서 최종 결론을 내리게 만드는 상세 페이지 시안입니다.</p>
+          <div class="hero-meta">
+            <span>2026-04-24 기준 정리</span>
+            <span>CM 직접 검증 흐름 가정</span>
+            <span>추천 픽 3안 포함</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container layout">
+        <aside class="toc">
+          <strong>이 가이드에서 볼 내용</strong>
+          <a href="#intro">0. 인트로</a>
+          <a href="#size">1. 사용 면적</a>
+          <a href="#cadr">2. CADR와 풍량</a>
+          <a href="#sensor">3. 센서와 자동모드</a>
+          <a href="#cost">4. 유지비와 필터</a>
+          <a href="#picks">5. 지금 추천하는 제품</a>
+        </aside>
+
+        <div class="content">
+          <article class="summary-card" id="intro">
+            <div class="summary-grid">
+              <div class="summary-item">
+                <strong>먼저 볼 기준</strong>
+                <span>평형보다 실제 사용 공간 크기를 먼저 판단</span>
+              </div>
+              <div class="summary-item">
+                <strong>핵심 수치</strong>
+                <span>CADR, 소음, 필터 교체 비용</span>
+              </div>
+              <div class="summary-item">
+                <strong>결론 방향</strong>
+                <span>수면용인지 거실용인지 먼저 갈라서 추천</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="section-card" id="size">
+            <h2>1. 사용 면적</h2>
+            <p>공기청정기는 브랜드보다 먼저 "어디에 둘 것인가"를 정해야 합니다. 원룸, 6평 방, 20평 거실은 같은 평형 숫자로 보면 오판하기 쉽습니다.</p>
+            <div class="table">
+              <div class="row"><strong>6평 방</strong><span>저소음과 취침 모드가 우선입니다. CADR가 너무 높으면 오히려 과한 경우가 많습니다.</span></div>
+              <div class="row"><strong>20평 거실</strong><span>빠른 정화량이 중요해서 CADR와 실사용 풍량 차이를 꼭 봐야 합니다.</span></div>
+              <div class="row"><strong>복합 공간</strong><span>문을 자주 열고 닫는 환경이면 표기 면적보다 한 단계 큰 모델이 유리합니다.</span></div>
+            </div>
+          </article>
+
+          <article class="section-card" id="cadr">
+            <h2>2. CADR와 풍량</h2>
+            <p>CADR는 시간당 얼마나 많은 공기를 정화하는지 보여주는 핵심 지표입니다. 다만 제조사 표기 면적은 이상적인 조건인 경우가 많아서 실제 사용은 70~80% 수준으로 보정해 보는 편이 안전합니다.</p>
+            <div class="table">
+              <div class="row"><strong>낮은 CADR</strong><span>조용하지만 공간이 넓어지면 체감 차이가 크게 줄어듭니다.</span></div>
+              <div class="row"><strong>중간 CADR</strong><span>작은 거실과 침실 겸용으로 가장 밸런스가 좋습니다.</span></div>
+              <div class="row"><strong>높은 CADR</strong><span>30평 이상 거실, 반려동물, 요리 후 냄새 제거처럼 부하가 큰 환경에 적합합니다.</span></div>
+            </div>
+          </article>
+
+          <article class="section-card" id="sensor">
+            <h2>3. 센서와 자동모드</h2>
+            <p>실사용 만족도는 자동모드 완성도에서 크게 갈립니다. 먼지 센서만 빠르게 반응하는지, 냄새 변화도 잘 잡는지, 밤에는 조용하게 유지되는지가 중요합니다.</p>
+            <div class="table">
+              <div class="row"><strong>PM 센서</strong><span>미세먼지 대응 핵심. 반응 속도와 과민 반응 여부를 같이 봐야 합니다.</span></div>
+              <div class="row"><strong>가스 센서</strong><span>요리 냄새, 생활 냄새 대응에서 체감 차이를 만듭니다.</span></div>
+              <div class="row"><strong>자동모드</strong><span>센서 수치보다 실제 팬 조절 로직이 더 중요합니다. 조용히 오래 가는 모델이 유리합니다.</span></div>
+            </div>
+          </article>
+
+          <article class="section-card" id="cost">
+            <h2>4. 유지비와 필터</h2>
+            <p>공기청정기는 한 번 사면 끝나는 가전이 아니라, 필터 교체 비용이 계속 들어가는 제품입니다. 초기 가격보다 1년 유지비를 같이 계산해야 판단이 편합니다.</p>
+            <div class="table">
+              <div class="row"><strong>필터 가격</strong><span>정품 필터 교체 비용이 높으면 장기 체감 만족도가 빠르게 떨어집니다.</span></div>
+              <div class="row"><strong>교체 주기</strong><span>사용 환경이 나쁘면 표기보다 더 자주 바꿔야 할 수 있습니다.</span></div>
+              <div class="row"><strong>부가 기능</strong><span>앱, 디스플레이, 무드등보다 청정 성능과 소음이 더 먼저입니다.</span></div>
+            </div>
+          </article>
+
+          <article class="section-card" id="picks">
+            <h2>5. 지금 노써치 CM이 추천하는 공기청정기</h2>
+            <div class="pick-list">
+              <div class="pick-card">
+                <h3>LG 퓨리케어 오브제컬렉션</h3>
+                <p>거실 메인용으로 균형이 가장 좋습니다. CADR, 자동모드, 필터 접근성 모두 무난하게 높은 점수를 주기 쉬운 타입입니다.</p>
+                <div class="pick-meta">
+                  <span>거실 메인 추천</span>
+                  <span>밸런스형</span>
+                  <span>일반 사용자용</span>
+                </div>
+              </div>
+              <div class="pick-card">
+                <h3>삼성 비스포크 큐브 Air</h3>
+                <p>디자인과 공간 배치가 중요한 경우에 유리합니다. 디자인 만족도를 포기하기 어려운 사용자에게 추천할 만합니다.</p>
+                <div class="pick-meta">
+                  <span>디자인 강점</span>
+                  <span>거실/침실 겸용</span>
+                  <span>소음 준수</span>
+                </div>
+              </div>
+              <div class="pick-card">
+                <h3>블루에어 소형 라인업</h3>
+                <p>6평 방, 서재, 취침 공간처럼 조용한 운용이 중요한 환경에서 잘 맞는 타입입니다. 큰 거실에는 다소 아쉬울 수 있습니다.</p>
+                <div class="pick-meta">
+                  <span>6평 방 추천</span>
+                  <span>저소음</span>
+                  <span>수면용</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">상세 가이드는 기준 설명과 추천 픽이 자연스럽게 이어지도록 구조를 정리했습니다.</div>
+  </footer>
+</body>
+</html>
