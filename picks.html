@@ -3,19 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>노써치픽 - 노써치 샌드박스 2</title>
-<meta name="description" content="지금 노써치가 추천하는 제품을 베스트픽, 가성비픽, 플러스픽 구조로 보여주는 페이지입니다." />
+<title>공기청정기 노써치픽 - 노써치 샌드박스 2</title>
+<meta name="description" content="공기청정기 카테고리 전용 노써치픽 서브메인 페이지. 구매가이드 4줄 요약, 추천 픽, 가전백과, 업데이트 내역과 다음 일정까지 한 번에 확인할 수 있습니다." />
 <style>
   :root {
     --primary: #256fff;
     --blue-light: #e8f2ff;
     --blue-pale: #f5f9ff;
     --accent-red: #ff455b;
+    --accent-green: #1f9d61;
+    --accent-amber: #b7791f;
     --gray-10: #1a1a1a;
     --gray-dark: #545454;
     --gray-7: #787878;
     --border: #e5e7eb;
-    --white: #fff;
+    --white: #ffffff;
     --gray-1: #f9f9f9;
     --bg: #f5f8fd;
   }
@@ -30,77 +32,560 @@
   a { color: inherit; text-decoration: none; }
   .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
   .topbar {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(255,255,255,.92);
-    border-bottom: 1px solid rgba(229,231,235,.95);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.95);
     backdrop-filter: blur(14px);
   }
   .topbar-inner {
-    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
-  .brand { font-weight: 800; letter-spacing: -.03em; }
+  .brand { font-weight: 800; letter-spacing: -0.03em; }
   .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
   .nav a.is-active, .nav a:hover { color: var(--primary); }
+  main { padding-bottom: 56px; }
+  section { padding: 24px 0; }
   .hero { padding: 46px 0 22px; }
   .hero-panel {
-    padding: 32px;
-    border-radius: 24px;
+    padding: 34px;
+    border-radius: 26px;
     background:
-      radial-gradient(circle at top right, rgba(255,69,91,.12), transparent 24%),
-      radial-gradient(circle at bottom left, rgba(37,111,255,.10), transparent 24%),
+      radial-gradient(circle at top right, rgba(37, 111, 255, 0.12), transparent 24%),
+      radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.08), transparent 26%),
       var(--white);
     border: 1px solid var(--border);
-    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
   }
   .chip {
-    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
-    border-radius: 999px; background: #ffecef; color: var(--accent-red);
-    font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--blue-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hero-meta {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hero-meta span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #f4f7fb;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--gray-dark);
   }
   h1 {
     margin: 16px 0 12px;
     font-size: clamp(34px, 5vw, 50px);
-    line-height: 1.08; letter-spacing: -.05em;
+    line-height: 1.08;
+    letter-spacing: -0.05em;
   }
-  .hero-panel p { margin: 0; font-size: 17px; color: var(--gray-dark); max-width: 760px; }
-  section { padding: 24px 0; }
-  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-  .section-head h2 { margin: 0; font-size: 28px; letter-spacing: -.03em; }
+  .hero-panel p {
+    margin: 0;
+    max-width: 760px;
+    font-size: 17px;
+    color: var(--gray-dark);
+  }
+  .section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .section-head h2 { margin: 0; font-size: 30px; letter-spacing: -0.03em; }
   .section-head p { margin: 6px 0 0; color: var(--gray-7); }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .card, .note-card {
-    background: var(--white); border: 1px solid var(--border); border-radius: 22px;
-    box-shadow: 0 12px 28px rgba(15,23,42,.04);
+  .summary-box,
+  .panel,
+  .card,
+  .encyclopedia-card,
+  .cm-log,
+  .schedule-strip {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.04);
   }
-  .card { padding: 22px; }
+  .summary-box {
+    padding: 26px;
+    background:
+      linear-gradient(135deg, rgba(232, 242, 255, 0.95), rgba(246, 251, 255, 0.96)),
+      var(--white);
+  }
+  .summary-badge,
+  .mini-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+  .summary-badge {
+    background: #eef5ff;
+    color: var(--primary);
+  }
+  .summary-box h2 {
+    margin: 14px 0 8px;
+    font-size: 28px;
+    letter-spacing: -0.03em;
+  }
+  .summary-box p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .summary-lines {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .summary-guide-thumb {
+    margin-top: 18px;
+  }
+  .summary-cta {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 18px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    box-shadow: 0 12px 24px rgba(37, 111, 255, 0.18);
+  }
+  .summary-line {
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(229, 231, 235, 0.95);
+  }
+  .summary-line strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  .summary-line span {
+    display: block;
+    font-size: 14px;
+    color: var(--gray-dark);
+    line-height: 1.58;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .card { padding: 24px; }
+  .media-thumb {
+    min-height: 196px;
+    margin-bottom: 18px;
+    border-radius: 18px;
+    border: 1px dashed #c9d6ea;
+    background:
+      linear-gradient(135deg, rgba(232, 242, 255, 0.95), rgba(249, 251, 255, 0.98));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    padding: 18px;
+    color: var(--gray-dark);
+  }
+  .media-thumb strong {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .media-thumb span {
+    font-size: 13px;
+    color: var(--gray-7);
+  }
   .tier {
-    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
-    border-radius: 999px; font-size: 12px; font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
   }
   .tier.best { background: var(--blue-light); color: var(--primary); }
-  .tier.value { background: #eefbf3; color: #15803d; }
-  .tier.plus { background: #fff7e7; color: #b45309; }
-  .card h3 { margin: 14px 0 8px; font-size: 21px; letter-spacing: -.02em; }
-  .card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
-  .meta { display: grid; gap: 10px; margin-top: 16px; }
-  .meta div {
-    padding: 12px 14px; border-radius: 14px; background: var(--gray-1); border: 1px solid var(--border);
+  .tier.value { background: #eefbf3; color: var(--accent-green); }
+  .tier.plus { background: #fff7e7; color: var(--accent-amber); }
+  .tier.premium { background: #f4efff; color: #6941c6; }
+  .card h3 {
+    margin: 14px 0 8px;
+    font-size: 25px;
+    letter-spacing: -0.03em;
   }
-  .meta strong { display: block; font-size: 13px; margin-bottom: 4px; }
-  .meta span { font-size: 13px; color: var(--gray-7); }
-  .note-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .note-card { padding: 22px; }
-  .note-card h3 { margin: 0 0 8px; font-size: 20px; }
-  .note-card p { margin: 0; color: var(--gray-dark); font-size: 14px; }
-  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
+  .card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .spec-panel {
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+  }
+  .spec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .spec-head strong {
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+  .spec-link {
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .spec-item {
+    padding: 12px 13px;
+    border-radius: 14px;
+    background: var(--gray-1);
+    border: 1px solid var(--border);
+  }
+  .spec-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--gray-7);
+  }
+  .spec-item span {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-10);
+    line-height: 1.45;
+  }
+  .price-bar {
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 18px;
+    background: #f8fbff;
+    border: 1px solid #dbe7fb;
+    display: grid;
+    grid-template-columns: 1.1fr .8fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+  .price-stat strong,
+  .price-change strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--gray-7);
+    letter-spacing: 0.02em;
+  }
+  .price-stat span {
+    display: block;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--gray-10);
+  }
+  .price-stat small,
+  .price-change small {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--gray-7);
+  }
+  .price-change span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    background: #eefbf3;
+    color: var(--accent-green);
+  }
+  .price-change.is-up span {
+    background: #fff1f2;
+    color: var(--accent-red);
+  }
+  .affiliate-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 14px;
+    background: var(--gray-10);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .why-note {
+    margin-top: 18px;
+    padding: 18px 18px 20px;
+    border-radius: 18px;
+    background:
+      linear-gradient(180deg, rgba(245, 249, 255, 0.95), rgba(255, 255, 255, 1));
+    border: 1px solid #d8e6ff;
+  }
+  .why-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--white);
+    border: 1px solid #d8e6ff;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .why-note p {
+    margin: 12px 0 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--gray-10);
+  }
+  .contender-box {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed #d8e2f2;
+  }
+  .contender-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .contender-head strong {
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+  .contender-list {
+    display: grid;
+    gap: 10px;
+  }
+  .contender-item {
+    padding: 14px;
+    border-radius: 16px;
+    background: #fbfcff;
+    border: 1px solid var(--border);
+  }
+  .contender-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  .contender-item span {
+    display: block;
+    font-size: 13px;
+    color: var(--gray-dark);
+    line-height: 1.55;
+  }
+  .encyclopedia-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .encyclopedia-card {
+    padding: 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  }
+  .mini-badge {
+    background: #f2f4f7;
+    color: var(--gray-dark);
+  }
+  .encyclopedia-card h3 {
+    margin: 14px 0 8px;
+    font-size: 21px;
+    letter-spacing: -0.02em;
+  }
+  .encyclopedia-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .encyclopedia-card a {
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .cm-log {
+    padding: 24px;
+  }
+  .cm-log-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .cm-log-head strong {
+    font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .cm-log-list,
+  .schedule-list {
+    display: grid;
+    gap: 12px;
+  }
+  .cm-log-item {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cm-log-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .cm-log-date {
+    font-size: 13px;
+    color: var(--gray-7);
+    font-weight: 700;
+  }
+  .cm-log-copy strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .cm-log-copy span {
+    display: block;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .schedule-strip {
+    padding: 24px;
+  }
+  .schedule-strip-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .schedule-strip-head h3 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .schedule-link {
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .schedule-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .schedule-item {
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--gray-1);
+    border: 1px solid var(--border);
+  }
+  .schedule-item strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  .schedule-item span {
+    display: block;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .footer {
+    padding: 24px 0 48px;
+    font-size: 13px;
+    color: var(--gray-7);
+  }
   @media (max-width: 1024px) {
-    .grid, .note-grid { grid-template-columns: 1fr 1fr; }
+    .summary-lines,
+    .grid,
+    .encyclopedia-grid,
+    .spec-grid,
+    .schedule-list {
+      grid-template-columns: 1fr 1fr;
+    }
   }
   @media (max-width: 768px) {
     .container { width: min(100% - 28px, 1160px); }
-    .topbar-inner, .section-head { flex-direction: column; align-items: flex-start; }
-    .grid, .note-grid { grid-template-columns: 1fr; }
-    .hero-panel { padding: 24px; }
+    .topbar-inner,
+    .section-head { flex-direction: column; align-items: flex-start; }
+    .summary-lines,
+    .grid,
+    .encyclopedia-grid,
+    .spec-grid,
+    .schedule-list {
+      grid-template-columns: 1fr;
+    }
+    .hero-panel,
+    .summary-box,
+    .card,
+    .encyclopedia-card,
+    .cm-log,
+    .schedule-strip {
+      padding: 22px;
+    }
+    .price-bar {
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+    .affiliate-link {
+      width: 100%;
+    }
+    .cm-log-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .schedule-strip-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 </style>
 </head>
@@ -109,12 +594,11 @@
     <div class="container topbar-inner">
       <a class="brand" href="index.html">노써치 샌드박스 2</a>
       <nav class="nav">
-        <a href="index.html">메인</a>
-        <a href="guides.html">구매가이드</a>
         <a class="is-active" href="picks.html">노써치픽</a>
-        <a href="update-schedule.html">업데이트</a>
+        <a href="guides.html">구매가이드</a>
+        <a href="encyclopedia.html">가전백과</a>
         <a href="categories.html">카테고리</a>
-        <a href="ai-result.html">AI 추천</a>
+        <a href="wiki.html">위키검색</a>
       </nav>
     </div>
   </header>
@@ -123,9 +607,47 @@
     <section class="hero">
       <div class="container">
         <div class="hero-panel">
-          <span class="chip">Nosearch Picks</span>
-          <h1>지금 결론이 필요한 사람을 위한 추천 페이지</h1>
-          <p>이 페이지는 "무엇이 더 좋은가"보다 "누구에게 지금 맞는가"를 먼저 보여주도록 설계했습니다. 베스트픽, 가성비픽, 플러스픽의 세 층위로 추천 이유를 정리했습니다.</p>
+          <span class="chip">Air Purifier Picks</span>
+          <h1>공기청정기 카테고리를 위한 노써치픽 서브메인</h1>
+          <p>이 페이지는 공기청정기만 다룹니다. 구매가이드의 핵심 기준부터 지금 추천하는 픽, 관련 가전백과, 최근 변경 이유와 다음 업데이트 예상 일정까지 카테고리 단위로 한 번에 볼 수 있게 구성했습니다.</p>
+          <div class="hero-meta">
+            <span>최근 반영: 필터 비용·소음 체감</span>
+            <span>추천 범위: 10평대부터 거실 메인용까지</span>
+            <span>다음 점검 포인트: 환절기 수요 구간</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="summary-box">
+          <span class="summary-badge">4-LINE GUIDE SUMMARY</span>
+          <h2>공기청정기 구매가이드 4줄 요약</h2>
+          <p>구매가이드 끝까지 읽을 시간은 없고, 대충 사기엔 찜찜한 사람을 위한 빠른 압축본입니다.</p>
+          <div class="media-thumb summary-guide-thumb">
+            <strong>구매가이드 썸네일 자리</strong>
+            <span>공기청정기 구매가이드 커버 이미지 또는 핵심 기준 요약 썸네일</span>
+          </div>
+          <a class="summary-cta" href="guide.html">구매가이드 풀버전 보러가기</a>
+          <div class="summary-lines">
+            <div class="summary-line">
+              <strong>1. 평수는 “딱 맞게”보다 “한 단계 크게”</strong>
+              <span>거실에서 쓸 건데 표기 면적만 믿으면 종종 숨이 찹니다. 공기청정기도 집에 오면 생각보다 더 열심히 일합니다.</span>
+            </div>
+            <div class="summary-line">
+              <strong>2. 소음이 거슬리면 자동모드도 무용지물</strong>
+              <span>밤마다 존재감이 큰 제품은 결국 약풍 고정행입니다. 조용한 모델이 오래 사랑받는 이유가 여기 있습니다.</span>
+            </div>
+            <div class="summary-line">
+              <strong>3. 필터 값이 본체보다 얌전해야 마음이 편함</strong>
+              <span>본체는 할인받아 샀는데 필터 교체 때 정신이 번쩍 드는 경우가 있습니다. 유지비는 나중에 복수하는 항목입니다.</span>
+            </div>
+            <div class="summary-line">
+              <strong>4. 센서와 청정 속도는 “체감”이 중요</strong>
+              <span>스펙표 숫자보다 요리하고 환기했을 때 얼마나 빨리 반응하는지가 더 중요합니다. 느리면 공기가 아니라 인내심을 정화합니다.</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -134,69 +656,277 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <h2>지금 추천하는 픽</h2>
-            <p>기존 샌드박스 콘텐츠를 정리해 메인 카테고리별 대표 픽을 압축했습니다.</p>
+            <h2>지금 추천하는 공기청정기 픽</h2>
+            <p>공기청정기 카테고리에서 지금 가장 먼저 보여줘야 하는 4가지 포지션을 기준으로 정리했습니다.</p>
           </div>
         </div>
 
         <div class="grid">
           <article class="card">
+            <div class="media-thumb">
+              <strong>제품 이미지 자리</strong>
+              <span>베스트픽 대표 제품 컷 또는 라이프스타일 이미지</span>
+            </div>
             <span class="tier best">베스트픽</span>
-            <h3>공기청정기 30평형 - LG 퓨리케어 오브제컬렉션</h3>
-            <p>거실 메인용 기준으로 밸런스가 가장 좋습니다. 소음, 자동모드, 유지비, 체감 청정 속도 모두 평균 이상을 기대할 수 있습니다.</p>
-            <div class="meta">
-              <div><strong>이런 사람에게</strong><span>한 번 사고 오래 쓰는 거실 메인 공기청정기를 찾는 사용자</span></div>
-              <div><strong>추천 이유</strong><span>가족 단위 사용에서도 무난하게 불만이 적은 타입</span></div>
+            <h3>LG 퓨리케어 오브제컬렉션</h3>
+            <p>거실 메인용 기준으로 밸런스가 가장 좋습니다. 자동모드 안정감, 청정 속도, 필터 관리 편의가 모두 고르게 좋은 쪽입니다.</p>
+            <div class="spec-panel">
+              <div class="spec-head">
+                <strong>주요 스펙 요약</strong>
+                <a class="spec-link" href="guide.html">스펙 기준 보기 →</a>
+              </div>
+              <div class="spec-grid">
+                <div class="spec-item">
+                  <strong>권장 공간</strong>
+                  <span>30평형 전후 거실 메인</span>
+                </div>
+                <div class="spec-item">
+                  <strong>센서 구성</strong>
+                  <span>미세먼지 + 냄새 감지</span>
+                </div>
+                <div class="spec-item">
+                  <strong>강점</strong>
+                  <span>자동모드 안정감, 저소음</span>
+                </div>
+                <div class="spec-item">
+                  <strong>관리 포인트</strong>
+                  <span>필터 교체비 중간 수준</span>
+                </div>
+              </div>
+            </div>
+            <div class="price-bar">
+              <div class="price-stat">
+                <strong>최저가</strong>
+                <span>₩489,000</span>
+                <small>2026.04.27 오늘 기준</small>
+              </div>
+              <div class="price-change">
+                <strong>가격 변화</strong>
+                <span>7일 전 대비 -3.8%</span>
+                <small>최근 할인 구간 진입</small>
+              </div>
+              <a class="affiliate-link" href="#">제휴몰 바로가기</a>
+            </div>
+            <div class="why-note">
+              <span class="why-label">Why This Pick</span>
+              <p>가족이 함께 쓰는 공간에서 소음과 성능의 타협점이 가장 자연스럽습니다. 거실 메인 한 대를 오래 가져갈 때 가장 덜 후회할 선택지에 가깝습니다.</p>
+            </div>
+            <div class="contender-box">
+              <div class="contender-head">
+                <span class="mini-badge">같이 고민한 제품</span>
+                <strong>픽이 될 뻔했지만 한끗 부족했던 모델</strong>
+              </div>
+              <div class="contender-list">
+                <div class="contender-item">
+                  <strong>삼성 비스포크 큐브 에어</strong>
+                  <span>디자인 완성도는 좋았지만, 이번 비교에서는 자동모드 안정감과 수면 소음 쪽에서 LG 쪽이 조금 더 앞섰습니다.</span>
+                </div>
+                <div class="contender-item">
+                  <strong>블루에어 클래식 중대형 라인</strong>
+                  <span>청정 체감은 좋지만 유지비와 가격 구간까지 같이 보면 베스트픽 자리로 올리기엔 부담이 있었습니다.</span>
+                </div>
+              </div>
             </div>
           </article>
 
           <article class="card">
+            <div class="media-thumb">
+              <strong>제품 이미지 자리</strong>
+              <span>가성비픽 대표 제품 컷 또는 가격 메리트 강조 비주얼</span>
+            </div>
             <span class="tier value">가성비픽</span>
-            <h3>노트북 사무용 100만원대 - 맥북 에어 기본형</h3>
-            <p>영상편집 전용은 아니지만 문서 작업, 화상회의, 휴대성이라는 현실적인 조건에선 여전히 강합니다.</p>
-            <div class="meta">
-              <div><strong>이런 사람에게</strong><span>문서·브라우징 중심, 긴 배터리, 안정성을 우선하는 사용자</span></div>
-              <div><strong>추천 이유</strong><span>성능보다 발열과 사용 스트레스가 적은 쪽에 무게를 둔 선택</span></div>
+            <h3>삼성 블루스카이 중형 라인</h3>
+            <p>핵심 기능은 챙기되 예산을 무리하게 올리고 싶지 않을 때 가장 무난한 선택지입니다. 체급 대비 가격 구간이 안정적입니다.</p>
+            <div class="spec-panel">
+              <div class="spec-head">
+                <strong>주요 스펙 요약</strong>
+                <a class="spec-link" href="guide.html">스펙 기준 보기 →</a>
+              </div>
+              <div class="spec-grid">
+                <div class="spec-item">
+                  <strong>권장 공간</strong>
+                  <span>20평대 전후 공간</span>
+                </div>
+                <div class="spec-item">
+                  <strong>센서 구성</strong>
+                  <span>미세먼지 중심 기본 구성</span>
+                </div>
+                <div class="spec-item">
+                  <strong>강점</strong>
+                  <span>실구매가, 무난한 유지관리</span>
+                </div>
+                <div class="spec-item">
+                  <strong>관리 포인트</strong>
+                  <span>부가기능은 상위 라인 대비 단순</span>
+                </div>
+              </div>
+            </div>
+            <div class="price-bar">
+              <div class="price-stat">
+                <strong>최저가</strong>
+                <span>₩279,000</span>
+                <small>2026.04.27 오늘 기준</small>
+              </div>
+              <div class="price-change">
+                <strong>가격 변화</strong>
+                <span>30일 전 대비 -8.4%</span>
+                <small>가성비 구간 확대</small>
+              </div>
+              <a class="affiliate-link" href="#">제휴몰 바로가기</a>
+            </div>
+            <div class="why-note">
+              <span class="why-label">Why This Pick</span>
+              <p>기본 청정 성능과 관리 난이도 사이 균형이 좋아 첫 구매 부담이 덜합니다. 가격 때문에 급을 낮추고 싶진 않지만 과소비도 피하고 싶은 사람에게 딱 맞습니다.</p>
+            </div>
+            <div class="contender-box">
+              <div class="contender-head">
+                <span class="mini-badge">같이 고민한 제품</span>
+                <strong>가격은 비슷했지만 밀린 모델</strong>
+              </div>
+              <div class="contender-list">
+                <div class="contender-item">
+                  <strong>위닉스 타워형 중형 라인</strong>
+                  <span>할인 타이밍에 따라 경쟁력이 있지만, 최근 가격 구간에서는 삼성 쪽이 조금 더 안정적으로 유리했습니다.</span>
+                </div>
+                <div class="contender-item">
+                  <strong>쿠쿠 인스퓨어 중형 라인</strong>
+                  <span>기본 성능은 무난하지만 필터 체감 비용과 제품 완성도에서 한끗 아쉬움이 남았습니다.</span>
+                </div>
+              </div>
             </div>
           </article>
 
           <article class="card">
+            <div class="media-thumb">
+              <strong>제품 이미지 자리</strong>
+              <span>플러스픽 제품 컷 또는 앱 연동 포인트용 썸네일</span>
+            </div>
             <span class="tier plus">플러스픽</span>
-            <h3>침실용 에어컨 - 저소음 특화 모델</h3>
-            <p>절대적인 냉방 능력보다 취침 중 소음과 직풍 스트레스를 줄이는 데 강점이 있는 타입입니다.</p>
-            <div class="meta">
-              <div><strong>이런 사람에게</strong><span>침실 전용으로 조용한 에어컨이 꼭 필요한 사용자</span></div>
-              <div><strong>추천 이유</strong><span>용도가 분명할수록 만족도가 높아지는 조건부 추천</span></div>
+            <h3>샤오미 스마트 공기청정기 상위 라인</h3>
+            <p>앱 연동, 공간 배치 유연성, 관리 편의까지 챙기고 싶은 사람에게 어울립니다. 성능만이 아니라 쓰는 재미까지 고려한 포지션입니다.</p>
+            <div class="spec-panel">
+              <div class="spec-head">
+                <strong>주요 스펙 요약</strong>
+                <a class="spec-link" href="guide.html">스펙 기준 보기 →</a>
+              </div>
+              <div class="spec-grid">
+                <div class="spec-item">
+                  <strong>권장 공간</strong>
+                  <span>서재·침실·세컨드 공간</span>
+                </div>
+                <div class="spec-item">
+                  <strong>연결성</strong>
+                  <span>앱 연동, 스마트홈 활용</span>
+                </div>
+                <div class="spec-item">
+                  <strong>강점</strong>
+                  <span>배치 유연성, 조작 편의</span>
+                </div>
+                <div class="spec-item">
+                  <strong>관리 포인트</strong>
+                  <span>필터 수급과 앱 완성도 체크</span>
+                </div>
+              </div>
+            </div>
+            <div class="price-bar">
+              <div class="price-stat">
+                <strong>최저가</strong>
+                <span>₩198,000</span>
+                <small>2026.04.27 오늘 기준</small>
+              </div>
+              <div class="price-change is-up">
+                <strong>가격 변화</strong>
+                <span>14일 전 대비 +2.1%</span>
+                <small>상위 옵션 재고 영향</small>
+              </div>
+              <a class="affiliate-link" href="#">제휴몰 바로가기</a>
+            </div>
+            <div class="why-note">
+              <span class="why-label">Why This Pick</span>
+              <p>보조방이나 서재에서도 쓰기 좋고, 연결성과 편의성이 매력적입니다. 단순히 공기만 깨끗해지는 게 아니라 사용하는 경험까지 매끈해야 만족하는 사람에게 잘 맞습니다.</p>
+            </div>
+            <div class="contender-box">
+              <div class="contender-head">
+                <span class="mini-badge">같이 고민한 제품</span>
+                <strong>플러스픽 후보군에서 아쉽게 밀린 모델</strong>
+              </div>
+              <div class="contender-list">
+                <div class="contender-item">
+                  <strong>LG 퓨리케어 미니 라인</strong>
+                  <span>브랜드 선호는 높지만 가격 대비 확장성에서는 샤오미 쪽이 더 매력적이었습니다.</span>
+                </div>
+                <div class="contender-item">
+                  <strong>발뮤다 에어엔진</strong>
+                  <span>감성 만족도는 높지만 앱 활용성과 실구매 효율까지 포함하면 이번 포지션에서는 우선순위가 낮았습니다.</span>
+                </div>
+              </div>
             </div>
           </article>
 
           <article class="card">
-            <span class="tier best">베스트픽</span>
-            <h3>TV 65형 - LG OLED evo C 라인</h3>
-            <p>거실 메인 TV 기준으로 화질 체감이 분명하고, 가격 메리트가 생긴 구간에서는 설득력이 큽니다.</p>
-            <div class="meta">
-              <div><strong>이런 사람에게</strong><span>영화와 OTT 비중이 높고 화질 체감을 중요하게 보는 사용자</span></div>
-              <div><strong>추천 이유</strong><span>QLED 대비 가격 간격이 줄어들 때 가장 매력적입니다</span></div>
+            <div class="media-thumb">
+              <strong>제품 이미지 자리</strong>
+              <span>프리미엄픽 제품 컷 또는 대형 공간 사용 장면</span>
             </div>
-          </article>
-
-          <article class="card">
-            <span class="tier value">가성비픽</span>
-            <h3>무선이어폰 - 오픈형 실속 모델</h3>
-            <p>절대 성능보다 편한 착용감과 통화 품질, 가격 균형을 우선하는 경우에 적합합니다.</p>
-            <div class="meta">
-              <div><strong>이런 사람에게</strong><span>장시간 착용, 운동, 출퇴근 위주로 쓰는 사용자</span></div>
-              <div><strong>추천 이유</strong><span>비싼 플래그십보다 체감 가성비가 더 선명합니다</span></div>
+            <span class="tier premium">프리미엄픽</span>
+            <h3>블루에어 대형 프리미엄 라인</h3>
+            <p>넓은 공간에서 빠른 청정 체감과 상위권 마감 완성도를 우선하면 이쪽이 설득력 있습니다. 가격은 높지만 존재감도 확실합니다.</p>
+            <div class="spec-panel">
+              <div class="spec-head">
+                <strong>주요 스펙 요약</strong>
+                <a class="spec-link" href="guide.html">스펙 기준 보기 →</a>
+              </div>
+              <div class="spec-grid">
+                <div class="spec-item">
+                  <strong>권장 공간</strong>
+                  <span>대형 거실, 오픈형 공간</span>
+                </div>
+                <div class="spec-item">
+                  <strong>청정 체감</strong>
+                  <span>상위권 풍량과 반응 속도</span>
+                </div>
+                <div class="spec-item">
+                  <strong>강점</strong>
+                  <span>대공간 대응력, 마감 완성도</span>
+                </div>
+                <div class="spec-item">
+                  <strong>관리 포인트</strong>
+                  <span>구매가와 소모품 비용 모두 높음</span>
+                </div>
+              </div>
             </div>
-          </article>
-
-          <article class="card">
-            <span class="tier plus">플러스픽</span>
-            <h3>로봇청소기 - 프리미엄 흡입 강점 모델</h3>
-            <p>반려동물 털이나 먼지 민감도가 높은 경우에만 가격을 정당화할 수 있는 상위 모델군입니다.</p>
-            <div class="meta">
-              <div><strong>이런 사람에게</strong><span>청소 빈도와 먼지 스트레스가 높은 집</span></div>
-              <div><strong>추천 이유</strong><span>필요가 명확할 때만 추천하는 프리미엄 선택</span></div>
+            <div class="price-bar">
+              <div class="price-stat">
+                <strong>최저가</strong>
+                <span>₩899,000</span>
+                <small>2026.04.27 오늘 기준</small>
+              </div>
+              <div class="price-change">
+                <strong>가격 변화</strong>
+                <span>30일 전 대비 -5.2%</span>
+                <small>프로모션 반영 구간</small>
+              </div>
+              <a class="affiliate-link" href="#">제휴몰 바로가기</a>
+            </div>
+            <div class="why-note">
+              <span class="why-label">Why This Pick</span>
+              <p>공간이 크고 공기질 변화가 잦은 집에서 상위 체급의 장점이 분명하게 드러납니다. 가격보다 성능 체감과 공간 대응력을 먼저 보는 쪽이라면 이 등급의 만족도가 확실합니다.</p>
+            </div>
+            <div class="contender-box">
+              <div class="contender-head">
+                <span class="mini-badge">같이 고민한 제품</span>
+                <strong>프리미엄 후보 중 마지막까지 비교한 모델</strong>
+              </div>
+              <div class="contender-list">
+                <div class="contender-item">
+                  <strong>다이슨 빅+콰이엇 포름알데히드</strong>
+                  <span>특화 기능과 존재감은 강하지만, 대공간 메인 기준으로는 가격 대비 설득력이 더 갈렸습니다.</span>
+                </div>
+                <div class="contender-item">
+                  <strong>LG 시그니처 공기청정기 상위 라인</strong>
+                  <span>브랜드 매력은 충분하지만 이번 비교에서는 체감 성능과 가격 균형이 블루에어 쪽에 조금 더 기울었습니다.</span>
+                </div>
+              </div>
             </div>
           </article>
         </div>
@@ -207,26 +937,127 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <h2>추천 페이지에 꼭 같이 있어야 하는 것</h2>
-            <p>추천은 결과만 보여주면 금방 낡습니다. 이유와 변경 맥락을 같이 남겨야 다시 찾게 됩니다.</p>
+            <h2>공기청정기 관련 가전백과</h2>
+            <p>픽만 보면 끝나지 않는 질문들을 짧게 풀어주는 공기청정기 전용 읽을거리입니다.</p>
           </div>
         </div>
-        <div class="note-grid">
-          <article class="note-card">
-            <h3>추천 이유</h3>
-            <p>한 줄 결론과 함께, 왜 이 제품이 지금 추천인지 설명해야 합니다. 성능이 아니라 사용 맥락으로 풀어야 차별점이 생깁니다.</p>
+
+        <div class="encyclopedia-grid">
+          <article class="encyclopedia-card">
+            <div class="media-thumb">
+              <strong>가전백과 썸네일 자리</strong>
+              <span>공기청정기 면적 해석 카드 또는 인포그래픽 썸네일</span>
+            </div>
+            <span class="mini-badge">가전백과</span>
+            <h3>CA 인증 면적, 왜 체감 평수와 다를까</h3>
+            <p>표기 면적과 실제 사용 환경 사이에 왜 간극이 생기는지, 거실과 방에서 어떻게 해석해야 하는지 설명합니다.</p>
+            <a href="encyclopedia.html">콘텐츠 보기 →</a>
           </article>
-          <article class="note-card">
-            <h3>업데이트 히스토리</h3>
-            <p>추천이 언제, 왜 바뀌었는지 적어두면 운영의 신뢰가 쌓입니다. 업데이트 보드와 연결성이 중요합니다.</p>
+
+          <article class="encyclopedia-card">
+            <div class="media-thumb">
+              <strong>가전백과 썸네일 자리</strong>
+              <span>필터 비용 비교 카드 또는 교체 주기 썸네일</span>
+            </div>
+            <span class="mini-badge">가전백과</span>
+            <h3>HEPA 등급보다 먼저 봐야 할 필터 비용</h3>
+            <p>필터 교체 주기와 실구매 유지비를 같이 봐야 하는 이유를 정리했습니다. 본체보다 뒤늦게 아픈 지점입니다.</p>
+            <a href="encyclopedia.html">콘텐츠 보기 →</a>
           </article>
+
+          <article class="encyclopedia-card">
+            <div class="media-thumb">
+              <strong>가전백과 썸네일 자리</strong>
+              <span>자동모드 반응 테스트 장면 또는 센서 설명 썸네일</span>
+            </div>
+            <span class="mini-badge">가전백과</span>
+            <h3>자동모드가 똑똑한지 확인하는 가장 쉬운 방법</h3>
+            <p>센서 반응과 풍량 전환이 좋은 제품은 일상에서 체감이 훨씬 좋습니다. 실제 사용 기준으로 보는 체크포인트입니다.</p>
+            <a href="encyclopedia.html">콘텐츠 보기 →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>CM 업데이트 히스토리</h2>
+            <p>최근 업데이트 내역, 픽이 바뀐 이유, 이번 점검 포인트를 CM 코멘트처럼 한 줄씩 쌓아두는 형식으로 정리했습니다.</p>
+          </div>
+        </div>
+
+        <div class="cm-log">
+          <div class="cm-log-head">
+            <span class="mini-badge">CM LOG</span>
+            <strong>공기청정기 카테고리 메모</strong>
+          </div>
+          <div class="cm-log-list">
+            <div class="cm-log-item">
+              <div class="cm-log-date">2026.04.24</div>
+              <div class="cm-log-copy">
+                <strong>베스트픽은 그대로 유지했습니다.</strong>
+                <span>거실 메인용 기준으로 다시 봐도 LG 퓨리케어 오브제컬렉션이 가장 안정적이었습니다. 이번에는 수면 소음이랑 필터 유지비 비중을 더 높여서 봤습니다.</span>
+              </div>
+            </div>
+            <div class="cm-log-item">
+              <div class="cm-log-date">2026.04.22</div>
+              <div class="cm-log-copy">
+                <strong>가성비픽은 가격이 도와줬습니다.</strong>
+                <span>삼성 블루스카이 중형 라인의 실구매가가 내려오면서 추천 우선순위를 올렸습니다. 성능은 원래 무난했는데, 이제 가격까지 덜 부담스럽습니다.</span>
+              </div>
+            </div>
+            <div class="cm-log-item">
+              <div class="cm-log-date">2026.04.19</div>
+              <div class="cm-log-copy">
+                <strong>플러스픽은 앱 사용성과 필터 수급을 다시 반영했습니다.</strong>
+                <span>스마트 기능이 실제 생활에서 얼마나 유효한지 다시 체크했고, 필터 구하기 쉬운지도 같이 봤습니다. 이번 점검 포인트는 자동모드 반응과 교체 비용 체감이었습니다.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>다음 업데이트 예상 일정</h2>
+            <p>복잡한 표 대신, 다음에 언제 무엇을 볼지만 빠르게 확인할 수 있게 압축했습니다.</p>
+          </div>
+        </div>
+
+        <div class="schedule-strip">
+          <div class="schedule-strip-head">
+            <div>
+              <span class="mini-badge">NEXT CHECK</span>
+              <h3>다음 점검 예정만 빠르게 보기</h3>
+            </div>
+            <a class="schedule-link" href="update-schedule.html">전체 업데이트 예상 일정 보기 →</a>
+          </div>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <strong>5월 2주차</strong>
+              <span>필터 가격과 묶음 구매 조건 점검</span>
+            </div>
+            <div class="schedule-item">
+              <strong>5월 4주차</strong>
+              <span>초여름 환기 시즌 기준 재비교</span>
+            </div>
+            <div class="schedule-item">
+              <strong>6월 1주차</strong>
+              <span>프리미엄 라인 실구매가 재평가</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container">추천 페이지는 순위를 나열하는 대신, 상황별 결론을 빠르게 읽히는 구조로 다시 다듬었습니다.</div>
+    <div class="container">공기청정기 노써치픽 페이지는 카테고리 단위의 추천, 배경 정보, 업데이트 이유와 일정까지 함께 보여주는 서브메인 템플릿입니다.</div>
   </footer>
 </body>
 </html>

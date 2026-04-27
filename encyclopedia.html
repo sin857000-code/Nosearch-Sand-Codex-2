@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>가전백과 - 노써치 샌드박스 2</title>
+<meta name="description" content="노써치 샌드박스의 가전백과 페이지입니다. 추천 전에 알아두면 좋은 개념과 용어를 정리합니다." />
+<style>
+  :root {
+    --primary: #256fff;
+    --blue-light: #e8f2ff;
+    --gray-10: #1a1a1a;
+    --gray-dark: #545454;
+    --gray-7: #787878;
+    --border: #e5e7eb;
+    --white: #fff;
+    --gray-1: #f9f9f9;
+    --bg: #f6f9fd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: var(--gray-10);
+    background: linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.92);
+    border-bottom: 1px solid rgba(229,231,235,.95);
+    backdrop-filter: blur(14px);
+  }
+  .topbar-inner {
+    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .brand { font-weight: 800; letter-spacing: -.03em; }
+  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
+  .nav a.is-active, .nav a:hover { color: var(--primary); }
+  .hero { padding: 46px 0 22px; }
+  .hero-panel, .card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+  }
+  .hero-panel { padding: 32px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
+    border-radius: 999px; background: var(--blue-light); color: var(--primary);
+    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  }
+  h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(34px, 5vw, 50px);
+    line-height: 1.08; letter-spacing: -.05em;
+  }
+  .hero-panel p { margin: 0; max-width: 760px; font-size: 17px; color: var(--gray-dark); }
+  section { padding: 24px 0; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { padding: 22px; }
+  .label {
+    display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px;
+    border-radius: 999px; background: var(--blue-light); color: var(--primary);
+    font-size: 12px; font-weight: 800;
+  }
+  .card h2 { margin: 14px 0 8px; font-size: 22px; letter-spacing: -.03em; }
+  .card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
+  .meta {
+    display: grid; gap: 10px; margin-top: 16px;
+  }
+  .meta div {
+    padding: 12px 14px; border-radius: 14px; background: var(--gray-1); border: 1px solid var(--border);
+  }
+  .meta strong { display: block; font-size: 13px; margin-bottom: 4px; }
+  .meta span { font-size: 13px; color: var(--gray-7); }
+  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .container { width: min(100% - 28px, 1160px); }
+    .topbar-inner { flex-direction: column; align-items: flex-start; }
+    .grid { grid-template-columns: 1fr; }
+    .hero-panel, .card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <nav class="nav">
+        <a href="picks.html">노써치픽</a>
+        <a href="guides.html">구매가이드</a>
+        <a class="is-active" href="encyclopedia.html">가전백과</a>
+        <a href="categories.html">카테고리</a>
+        <a href="wiki.html">위키검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-panel">
+          <span class="eyebrow">Appliance Encyclopedia</span>
+          <h1>추천 전에 알고 있으면 훨씬 쉬워지는 가전백과</h1>
+          <p>가전백과는 노써치픽과 구매가이드 사이를 메워주는 배경지식형 콘텐츠 섹션입니다. 제품을 바로 고르기 전에 용어와 구조를 이해하고 싶은 사용자를 위한 흐름입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container grid">
+        <article class="card">
+          <span class="label">공기청정기</span>
+          <h2>CADR와 사용 면적은 어떻게 읽어야 할까</h2>
+          <p>스펙표의 숫자를 그대로 믿기보다 실제 공간 크기와 사용 환경으로 보정해서 읽는 법을 설명하는 콘텐츠.</p>
+          <div class="meta">
+            <div><strong>연결되는 추천</strong><span>공기청정기 노써치픽, 공기청정기 구매가이드</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="label">에어컨</span>
+          <h2>설치비는 왜 제품 가격과 따로 봐야 할까</h2>
+          <p>시즌 가전에서 설치 조건과 부가비용이 왜 실제 체감 가격을 바꾸는지 설명하는 콘텐츠.</p>
+          <div class="meta">
+            <div><strong>연결되는 추천</strong><span>침실용 에어컨 픽, 에어컨 구매가이드</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="label">TV</span>
+          <h2>OLED와 QLED는 무엇이 다를까</h2>
+          <p>브랜드 마케팅 문구보다 실제 시청 환경과 예산 기준에서 어떤 차이를 체감하는지 설명하는 콘텐츠.</p>
+          <div class="meta">
+            <div><strong>연결되는 추천</strong><span>TV 노써치픽, TV 구매가이드</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="label">노트북</span>
+          <h2>CPU 세대보다 먼저 봐야 하는 것들</h2>
+          <p>용도, 발열, 휴대성, 배터리처럼 실제 사용에서 더 자주 부딪히는 기준을 먼저 정리하는 콘텐츠.</p>
+          <div class="meta">
+            <div><strong>연결되는 추천</strong><span>사무용 노트북 픽, 노트북 구매가이드</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="label">로봇청소기</span>
+          <h2>흡입력 숫자보다 중요한 청소 동선</h2>
+          <p>센서 구조와 집 구조, 반려동물 여부가 실제 만족도를 얼마나 바꾸는지 설명하는 콘텐츠.</p>
+          <div class="meta">
+            <div><strong>연결되는 추천</strong><span>로봇청소기 픽, 향후 심화 가이드</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="label">준비 중</span>
+          <h2>에어프라이어 용량 숫자만 보면 왜 헷갈릴까</h2>
+          <p>실험실에서 준비 중인 에어프라이어 콘텐츠와 이어질 예정인 예비 백과형 문서 슬롯입니다.</p>
+          <div class="meta">
+            <div><strong>연결되는 추천</strong><span>`In The Lab` 에어프라이어 테스트와 연동</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">가전백과는 추천과 가이드 사이의 배경지식형 콘텐츠 허브로 새로 추가했습니다.</div>
+  </footer>
+</body>
+</html>
