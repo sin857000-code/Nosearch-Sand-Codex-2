@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>구매가이드 편집기</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-store="guide">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <small>Nosearch Backoffice</small>
+        <strong>콘텐츠 운영 센터</strong>
+      </div>
+      <nav class="nav">
+        <a href="index.html">대시보드</a>
+        <a href="submain-editor.html">노써치픽 서브메인</a>
+        <a class="is-active" href="guide-editor.html">구매가이드</a>
+        <a href="encyclopedia-editor.html">가전백과</a>
+        <a href="wiki-editor.html">위키검색</a>
+        <a href="schedule-editor.html">업데이트 일정</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <span class="eyebrow">Guide Editor</span>
+        <h1>구매가이드 목록과 상세 구조를 같이 관리합니다.</h1>
+        <p>가이드 목록 카드 문구부터 상세 챕터 제목과 연결 링크까지 한 화면에서 정리할 수 있게 만들었습니다. 서브메인과 가전백과 연결 구조를 확인하기 좋은 편집기입니다.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>구매가이드 목록 정보</h2>
+            <p>가이드 목록 페이지에서 보이는 제목, 설명, 상태 문구를 편집합니다.</p>
+          </div>
+        </div>
+
+        <form data-editor-form>
+          <div class="grid-2">
+            <article class="panel">
+              <div class="field">
+                <label for="guide-category">카테고리</label>
+                <select id="guide-category" name="category">
+                  <option>공기청정기</option>
+                  <option>노트북</option>
+                  <option>제습기</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="listTitle">목록 제목</label>
+                <input id="listTitle" name="listTitle" />
+              </div>
+              <div class="field">
+                <label for="listSummary">목록 설명</label>
+                <textarea id="listSummary" name="listSummary"></textarea>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="field">
+                <label for="listStatus">현재 상태 문구</label>
+                <input id="listStatus" name="listStatus" />
+              </div>
+              <div class="field">
+                <label for="linkedSubmain">연결 서브메인</label>
+                <input id="linkedSubmain" name="linkedSubmain" />
+              </div>
+              <div class="field">
+                <label for="linkedEncyclopedia">연결 가전백과 묶음</label>
+                <input id="linkedEncyclopedia" name="linkedEncyclopedia" />
+              </div>
+            </article>
+          </div>
+
+          <div class="table-card section">
+            <div class="section-head">
+              <div>
+                <h2>상세 가이드 챕터</h2>
+                <p>구매가이드 상세 페이지에서 상단에 배치할 주요 챕터와 한 줄 본문을 정리합니다.</p>
+              </div>
+            </div>
+            <div class="grid-2">
+              <article class="panel">
+                <div class="field">
+                  <label for="chapter1Title">챕터 1 제목</label>
+                  <input id="chapter1Title" name="chapter1Title" />
+                </div>
+                <div class="field">
+                  <label for="chapter1Body">챕터 1 요약</label>
+                  <textarea id="chapter1Body" name="chapter1Body"></textarea>
+                </div>
+                <div class="field">
+                  <label for="chapter2Title">챕터 2 제목</label>
+                  <input id="chapter2Title" name="chapter2Title" />
+                </div>
+                <div class="field">
+                  <label for="chapter2Body">챕터 2 요약</label>
+                  <textarea id="chapter2Body" name="chapter2Body"></textarea>
+                </div>
+              </article>
+
+              <article class="panel">
+                <div class="field">
+                  <label for="chapter3Title">챕터 3 제목</label>
+                  <input id="chapter3Title" name="chapter3Title" />
+                </div>
+                <div class="field">
+                  <label for="chapter3Body">챕터 3 요약</label>
+                  <textarea id="chapter3Body" name="chapter3Body"></textarea>
+                </div>
+                <div class="field">
+                  <label for="chapter4Title">챕터 4 제목</label>
+                  <input id="chapter4Title" name="chapter4Title" />
+                </div>
+                <div class="field">
+                  <label for="chapter4Body">챕터 4 요약</label>
+                  <textarea id="chapter4Body" name="chapter4Body"></textarea>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="save-bar">
+            <div class="save-status" data-save-status>아직 저장 기록이 없습니다.</div>
+            <div class="action-row">
+              <button class="primary" type="button" data-save>저장</button>
+              <button class="secondary" type="button" data-reset>샘플로 되돌리기</button>
+              <button class="ghost" type="button" data-export>JSON 내보내기</button>
+              <a class="secondary" href="../guide.html">상세 가이드 보기</a>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>위키검색 편집기</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-store="wiki">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <small>Nosearch Backoffice</small>
+        <strong>콘텐츠 운영 센터</strong>
+      </div>
+      <nav class="nav">
+        <a href="index.html">대시보드</a>
+        <a href="submain-editor.html">노써치픽 서브메인</a>
+        <a href="guide-editor.html">구매가이드</a>
+        <a href="encyclopedia-editor.html">가전백과</a>
+        <a class="is-active" href="wiki-editor.html">위키검색</a>
+        <a href="schedule-editor.html">업데이트 일정</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <span class="eyebrow">Wiki Editor</span>
+        <h1>키워드와 검색 결과 우선순위를 편집합니다.</h1>
+        <p>노써치의 모든 콘텐츠를 키워드 중심으로 다시 묶는 페이지인 만큼, 어떤 검색어가 들어왔을 때 어떤 결과를 먼저 보여줄지 명확히 관리할 수 있게 구성했습니다.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>검색 시나리오 편집</h2>
+            <p>대표 키워드, 별칭, 상위 노출 결과 3개와 노출 메모를 정리합니다.</p>
+          </div>
+        </div>
+
+        <form data-editor-form>
+          <div class="grid-2">
+            <article class="panel">
+              <div class="field">
+                <label for="keyword">대표 키워드</label>
+                <input id="keyword" name="keyword" />
+              </div>
+              <div class="field">
+                <label for="aliases">별칭 키워드</label>
+                <textarea id="aliases" name="aliases"></textarea>
+              </div>
+              <div class="field">
+                <label for="exposure">추천 영역 노출 상태</label>
+                <select id="exposure" name="exposure">
+                  <option>추천 키워드 노출</option>
+                  <option>검색 전용</option>
+                  <option>비노출</option>
+                </select>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="field">
+                <label for="primaryResult">1순위 결과</label>
+                <input id="primaryResult" name="primaryResult" />
+              </div>
+              <div class="field">
+                <label for="secondaryResult">2순위 결과</label>
+                <input id="secondaryResult" name="secondaryResult" />
+              </div>
+              <div class="field">
+                <label for="tertiaryResult">3순위 결과</label>
+                <input id="tertiaryResult" name="tertiaryResult" />
+              </div>
+              <div class="field">
+                <label for="rationale">노출 이유 메모</label>
+                <textarea id="rationale" name="rationale"></textarea>
+              </div>
+            </article>
+          </div>
+
+          <div class="save-bar">
+            <div class="save-status" data-save-status>아직 저장 기록이 없습니다.</div>
+            <div class="action-row">
+              <button class="primary" type="button" data-save>저장</button>
+              <button class="secondary" type="button" data-reset>샘플로 되돌리기</button>
+              <button class="ghost" type="button" data-export>JSON 내보내기</button>
+              <a class="secondary" href="../wiki.html">사용자 페이지 보기</a>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

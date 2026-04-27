@@ -1,0 +1,9 @@
+{
+  "keyword": "공기청정기 소음",
+  "aliases": "자동모드 소음, 저소음 공기청정기, 야간 소음",
+  "primaryResult": "picks-air-cleaner.html",
+  "secondaryResult": "guide.html",
+  "tertiaryResult": "encyclopedia.html",
+  "rationale": "실제 사용 고민에서 가장 먼저 검색되는 표현이라 서브메인, 가이드, 백과를 순서대로 노출하는 구조가 자연스럽습니다.",
+  "exposure": "추천 키워드 노출"
+}

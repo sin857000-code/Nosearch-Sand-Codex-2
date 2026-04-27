@@ -3,88 +3,321 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>카테고리 허브 - 노써치 샌드박스 2</title>
-<meta name="description" content="노써치 샌드박스의 카테고리 허브 페이지입니다. 주요 카테고리 묶음과 대표 진입 경로를 보여줍니다." />
+<title>카테고리 허브 - Nosearch Sand Codex 2</title>
+<meta name="description" content="노써치 홈과 같은 흐름으로 정리한 카테고리 허브입니다. 아이콘 중심으로 카테고리를 고르고, 서브메인과 큐레이션으로 이어집니다." />
 <style>
   :root {
     --primary: #256fff;
     --blue-light: #e8f2ff;
+    --blue-pale: #f5f9ff;
     --gray-10: #1a1a1a;
     --gray-dark: #545454;
     --gray-7: #787878;
     --border: #e5e7eb;
-    --white: #fff;
+    --white: #ffffff;
+    --surface: #f4f8ff;
     --gray-1: #f9f9f9;
-    --bg: #f6f9fd;
+    --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.05);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
     color: var(--gray-10);
-    background: linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    background:
+      radial-gradient(circle at top left, rgba(37,111,255,0.1), transparent 24%),
+      linear-gradient(180deg, #fbfdff 0%, var(--surface) 100%);
     line-height: 1.6;
   }
   a { color: inherit; text-decoration: none; }
-  .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+  .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
   .topbar {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(255,255,255,.92);
-    border-bottom: 1px solid rgba(229,231,235,.95);
-    backdrop-filter: blur(14px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(229,231,235,0.95);
   }
   .topbar-inner {
-    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
-  .brand { font-weight: 800; letter-spacing: -.03em; }
-  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
-  .nav a.is-active, .nav a:hover { color: var(--primary); }
-  .hero { padding: 46px 0 22px; }
-  .hero-panel, .card {
-    background: var(--white); border: 1px solid var(--border); border-radius: 24px;
-    box-shadow: 0 18px 40px rgba(15,23,42,.05);
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
-  .hero-panel { padding: 32px; }
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    color: var(--white);
+    background: linear-gradient(135deg, #256fff, #5cb8ff);
+    box-shadow: 0 12px 28px rgba(37,111,255,0.28);
+  }
+  .brand-copy small {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-7);
+  }
+  .brand-copy strong {
+    display: block;
+    font-size: 18px;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .nav a:hover,
+  .nav a.is-active { color: var(--primary); }
+  main { padding-bottom: 56px; }
+  section { padding: 28px 0; }
+  .hero-panel,
+  .icon-panel,
+  .curation-panel,
+  .lane-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    box-shadow: var(--shadow-md);
+  }
+  .hero-panel {
+    padding: 34px;
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,0.12), transparent 24%),
+      linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,249,255,0.98));
+  }
   .eyebrow {
-    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
-    border-radius: 999px; background: var(--blue-light); color: var(--primary);
-    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--blue-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   h1 {
     margin: 16px 0 12px;
-    font-size: clamp(34px, 5vw, 50px);
-    line-height: 1.08; letter-spacing: -.05em;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.06;
+    letter-spacing: -0.05em;
   }
-  .hero-panel p { margin: 0; max-width: 760px; font-size: 17px; color: var(--gray-dark); }
-  section { padding: 24px 0; }
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .card { padding: 22px; }
-  .card h2 { margin: 0 0 8px; font-size: 24px; letter-spacing: -.03em; }
-  .card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
-  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-  .chip {
-    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
-    border-radius: 999px; border: 1px solid var(--border); background: var(--gray-1);
-    font-size: 12px; color: var(--gray-dark);
+  .hero-panel p {
+    margin: 0;
+    max-width: 760px;
+    font-size: 17px;
+    color: var(--gray-dark);
   }
-  .cta {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-height: 42px; padding: 0 16px; border-radius: 12px; margin-top: 16px;
-    background: var(--primary); color: var(--white); font-size: 14px; font-weight: 700;
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
   }
-  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
+  .hero-meta span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--gray-1);
+    font-size: 13px;
+    color: var(--gray-dark);
+  }
+  .section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -0.04em;
+  }
+  .section-head p {
+    margin: 8px 0 0;
+    color: var(--gray-dark);
+    max-width: 760px;
+  }
+  .section-link {
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .icon-panel { padding: 28px; }
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px 14px;
+  }
+  .icon-tile {
+    display: block;
+    text-align: center;
+  }
+  .icon-circle {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 116px;
+    margin: 0 auto 10px;
+    border-radius: 28px;
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(circle at top left, rgba(37,111,255,0.12), transparent 34%),
+      linear-gradient(180deg, #ffffff 0%, #f5f8ff 100%);
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .icon-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .icon-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--gray-7);
+  }
+  .lane-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .lane-card {
+    padding: 22px;
+    background:
+      radial-gradient(circle at top right, rgba(255,69,91,0.08), transparent 24%),
+      linear-gradient(135deg, rgba(255,255,255,0.98), rgba(249,251,255,0.98));
+  }
+  .lane-card h3 {
+    margin: 14px 0 8px;
+    font-size: 26px;
+    letter-spacing: -0.04em;
+  }
+  .lane-card p {
+    margin: 0;
+    color: var(--gray-dark);
+    font-size: 14px;
+  }
+  .lane-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .lane-list div {
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    font-size: 13px;
+    color: var(--gray-dark);
+  }
+  .lane-list strong {
+    display: block;
+    font-size: 14px;
+    color: var(--gray-10);
+    margin-bottom: 4px;
+  }
+  .curation-panel { padding: 28px; }
+  .curation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .curation-card {
+    padding: 22px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: var(--gray-1);
+  }
+  .curation-card h3 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    letter-spacing: -0.04em;
+  }
+  .curation-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .curation-items {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .curation-items div {
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--gray-dark);
+  }
+  .footer {
+    padding: 10px 0 44px;
+    font-size: 13px;
+    color: var(--gray-7);
+  }
+  @media (max-width: 1080px) {
+    .icon-grid { grid-template-columns: repeat(4, 1fr); }
+    .lane-grid,
+    .curation-grid { grid-template-columns: 1fr 1fr; }
+  }
   @media (max-width: 768px) {
-    .container { width: min(100% - 28px, 1160px); }
-    .topbar-inner { flex-direction: column; align-items: flex-start; }
-    .grid { grid-template-columns: 1fr; }
-    .hero-panel, .card { padding: 20px; }
+    .container { width: min(100% - 28px, 1180px); }
+    .topbar-inner,
+    .section-head { flex-direction: column; align-items: flex-start; }
+    .nav { flex-wrap: wrap; }
+    .icon-grid,
+    .lane-grid,
+    .curation-grid { grid-template-columns: 1fr 1fr; }
+    .hero-panel,
+    .icon-panel,
+    .curation-panel,
+    .lane-card { padding: 24px; }
+  }
+  @media (max-width: 540px) {
+    .icon-grid,
+    .lane-grid,
+    .curation-grid { grid-template-columns: 1fr; }
+    .icon-circle { max-width: 100%; }
   }
 </style>
 </head>
 <body>
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <a class="brand" href="index.html">
+        <span class="brand-mark">N</span>
+        <span class="brand-copy">
+          <small>Nosearch Sand Codex 2</small>
+          <strong>홈</strong>
+        </span>
+      </a>
       <nav class="nav">
         <a href="picks.html">노써치픽</a>
         <a href="guides.html">구매가이드</a>
@@ -96,71 +329,178 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section>
       <div class="container">
         <div class="hero-panel">
           <span class="eyebrow">Category Hub</span>
-          <h1>노써치가 다루는 영역을 먼저 보는 허브</h1>
-          <p>노써치픽, 구매가이드, 가전백과로 퍼져 나가기 전 어떤 카테고리부터 봐야 하는지 빠르게 탐색할 수 있게 정리했습니다.</p>
+          <h1>카테고리를 먼저 고르고<br />서브메인으로 들어갑니다.</h1>
+          <p>홈에서 큐레이션을 훑은 뒤, 여기서는 관심 있는 카테고리 자체를 고르는 흐름입니다. 버튼 대신 아이콘 자체가 진입점이 되고, 그 다음엔 노써치픽 서브메인이나 구매가이드로 이어집니다.</p>
+          <div class="hero-meta">
+            <span>아이콘형 탐색 허브</span>
+            <span>서브메인 중심 구조</span>
+            <span>가전백과 연결</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="container grid">
-        <article class="card">
-          <h2>생활가전</h2>
-          <p>공기청정기, 로봇청소기, 무선청소기처럼 비교와 추천 수요가 가장 높은 핵심 영역입니다.</p>
-          <div class="chips">
-            <span class="chip">공기청정기</span>
-            <span class="chip">로봇청소기</span>
-            <span class="chip">무선청소기</span>
-            <span class="chip">의류관리기</span>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>추천받고 싶은 제품을 선택해 보세요</h2>
+            <p>카드 설명보다 빠르게 고를 수 있도록 아이콘만으로 정리한 카테고리 진입 구간입니다.</p>
           </div>
-          <a class="cta" href="guide.html">대표 가이드 보기</a>
-        </article>
+        </div>
+        <div class="icon-panel">
+          <div class="icon-grid">
+            <a class="icon-tile" href="picks-air-cleaner.html">
+              <div class="icon-circle">🌬️</div>
+              <span class="icon-title">공기청정기</span>
+              <span class="icon-sub">픽 서브메인</span>
+            </a>
+            <a class="icon-tile" href="picks-laptop.html">
+              <div class="icon-circle">💻</div>
+              <span class="icon-title">노트북</span>
+              <span class="icon-sub">가이드 우선</span>
+            </a>
+            <a class="icon-tile" href="picks-robot-vacuum.html">
+              <div class="icon-circle">🧹</div>
+              <span class="icon-title">로봇청소기</span>
+              <span class="icon-sub">점검 예정</span>
+            </a>
+            <a class="icon-tile" href="encyclopedia.html">
+              <div class="icon-circle">📺</div>
+              <span class="icon-title">TV</span>
+              <span class="icon-sub">백과 연결</span>
+            </a>
+            <a class="icon-tile" href="picks-dehumidifier.html">
+              <div class="icon-circle">❄️</div>
+              <span class="icon-title">에어컨</span>
+              <span class="icon-sub">시즌형 카테고리</span>
+            </a>
+            <a class="icon-tile" href="encyclopedia.html">
+              <div class="icon-circle">💨</div>
+              <span class="icon-title">헤어드라이어</span>
+              <span class="icon-sub">백과 먼저 보기</span>
+            </a>
+            <a class="icon-tile" href="update-schedule.html">
+              <div class="icon-circle">🍟</div>
+              <span class="icon-title">에어프라이어</span>
+              <span class="icon-sub">준비 중</span>
+            </a>
+            <a class="icon-tile" href="guides.html">
+              <div class="icon-circle">💦</div>
+              <span class="icon-title">제습기</span>
+              <span class="icon-sub">구매가이드</span>
+            </a>
+            <a class="icon-tile" href="update-schedule.html">
+              <div class="icon-circle">🧼</div>
+              <span class="icon-title">식기세척기</span>
+              <span class="icon-sub">업데이트 예정</span>
+            </a>
+            <a class="icon-tile" href="encyclopedia.html">
+              <div class="icon-circle">🛋️</div>
+              <span class="icon-title">거실가전</span>
+              <span class="icon-sub">묶음 탐색</span>
+            </a>
+            <a class="icon-tile" href="wiki.html">
+              <div class="icon-circle">🔎</div>
+              <span class="icon-title">키워드 검색</span>
+              <span class="icon-sub">위키검색</span>
+            </a>
+            <a class="icon-tile" href="index.html">
+              <div class="icon-circle">🏠</div>
+              <span class="icon-title">홈 큐레이션</span>
+              <span class="icon-sub">CM 편집 허브</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <article class="card">
-          <h2>주방가전</h2>
-          <p>에어프라이어, 식기세척기, 정수기처럼 설치와 유지비 설명이 같이 필요한 영역입니다.</p>
-          <div class="chips">
-            <span class="chip">에어프라이어</span>
-            <span class="chip">식기세척기</span>
-            <span class="chip">정수기</span>
-            <span class="chip">전자레인지</span>
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>지금 많이 타는 진입 흐름</h2>
+            <p>카테고리를 고른 다음 사용자가 가장 자연스럽게 타게 되는 콘텐츠 흐름을 묶어 보여줍니다.</p>
           </div>
-          <a class="cta" href="encyclopedia.html">관련 백과 보기</a>
-        </article>
+        </div>
+        <div class="lane-grid">
+          <article class="lane-card">
+            <span class="eyebrow">Flow 01</span>
+            <h3>공기청정기부터</h3>
+            <p>바로 판단해야 하는 카테고리는 서브메인 픽을 먼저 보고, 필요하면 구매가이드와 가전백과로 내려가는 흐름입니다.</p>
+            <div class="lane-list">
+              <div><strong>1.</strong> 공기청정기 픽 서브메인 열기</div>
+              <div><strong>2.</strong> 4줄 구매가이드 요약 확인</div>
+              <div><strong>3.</strong> 필터 비용, 자동모드 백과로 확장</div>
+            </div>
+          </article>
+          <article class="lane-card">
+            <span class="eyebrow">Flow 02</span>
+            <h3>노트북은 기준부터</h3>
+            <p>고민이 길어지는 카테고리는 가이드 우선 진입이 더 자연스럽습니다. 기준을 잡고 픽으로 내려가는 구조입니다.</p>
+            <div class="lane-list">
+              <div><strong>1.</strong> 노트북 구매가이드 진입</div>
+              <div><strong>2.</strong> 문서용/작업용 기준 확인</div>
+              <div><strong>3.</strong> 위키검색으로 발열, 램 보충</div>
+            </div>
+          </article>
+          <article class="lane-card">
+            <span class="eyebrow">Flow 03</span>
+            <h3>업데이트를 기다리는 카테고리</h3>
+            <p>아직 메인 서브메인이 덜 다듬어진 카테고리는 일정 보드와 알림 흐름으로 연결됩니다.</p>
+            <div class="lane-list">
+              <div><strong>1.</strong> 운영 일정에서 현재 상태 확인</div>
+              <div><strong>2.</strong> In The Lab 알림 등록</div>
+              <div><strong>3.</strong> 공개되면 서브메인으로 이동</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-        <article class="card">
-          <h2>IT·디지털</h2>
-          <p>노트북, 모니터, 무선이어폰처럼 사용 목적별로 추천 논리가 갈리는 영역입니다.</p>
-          <div class="chips">
-            <span class="chip">노트북</span>
-            <span class="chip">모니터</span>
-            <span class="chip">무선이어폰</span>
-            <span class="chip">태블릿</span>
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>노써치 CM이 묶어둔 진입 묶음</h2>
+            <p>카테고리 선택이 막막할 때는 홈의 큐레이션과 같은 문법으로 묶인 주제형 진입을 타게 합니다.</p>
           </div>
-          <a class="cta" href="picks.html">현재 추천 픽 보기</a>
-        </article>
-
-        <article class="card">
-          <h2>계절가전</h2>
-          <p>에어컨, 선풍기, 제습기처럼 시즌 시작 전에 업데이트 우선순위가 높아지는 영역입니다.</p>
-          <div class="chips">
-            <span class="chip">에어컨</span>
-            <span class="chip">선풍기</span>
-            <span class="chip">제습기</span>
-            <span class="chip">난방기</span>
+          <a class="section-link" href="index.html">홈 큐레이션 보기 →</a>
+        </div>
+        <div class="curation-panel">
+          <div class="curation-grid">
+            <article class="curation-card">
+              <h3>Take a seat</h3>
+              <p>앉아 있는 시간이 길어지는 사람을 위해 의자, 조명, 주변 가전을 한 묶음으로 보는 큐레이션입니다.</p>
+              <div class="curation-items">
+                <div>노트북 가이드</div>
+                <div>모니터 백과</div>
+                <div>의자 추천 모음 대신 감각적인 주제 진입</div>
+              </div>
+            </article>
+            <article class="curation-card">
+              <h3>당신의 거실을 채울 가전</h3>
+              <p>거실이라는 생활 단위로 공기청정기, TV, 로봇청소기 서브메인을 같이 묶는 방식입니다.</p>
+              <div class="curation-items">
+                <div>공기청정기 픽 서브메인</div>
+                <div>TV 백과</div>
+                <div>로봇청소기 일정 보드</div>
+              </div>
+            </article>
           </div>
-          <a class="cta" href="guides.html">관련 가이드 보기</a>
-        </article>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container">카테고리 허브는 노써치픽, 구매가이드, 가전백과로 이어지는 중간 관문 역할로 구성했습니다.</div>
+    <div class="container">
+      카테고리 허브는 버튼보다 빠른 아이콘 탐색과, 그 다음에 이어질 서브메인 흐름을 중심으로 다시 정리했습니다.
+    </div>
   </footer>
 </body>
 </html>

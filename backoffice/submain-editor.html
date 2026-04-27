@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>노써치픽 서브메인 편집기</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-store="submain">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <small>Nosearch Backoffice</small>
+        <strong>콘텐츠 운영 센터</strong>
+      </div>
+      <nav class="nav">
+        <a href="index.html">대시보드</a>
+        <a class="is-active" href="submain-editor.html">노써치픽 서브메인</a>
+        <a href="guide-editor.html">구매가이드</a>
+        <a href="encyclopedia-editor.html">가전백과</a>
+        <a href="wiki-editor.html">위키검색</a>
+        <a href="schedule-editor.html">업데이트 일정</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <span class="eyebrow">Submain Editor</span>
+        <h1>카테고리별 노써치픽 서브메인을 편집합니다.</h1>
+        <p>이 편집기는 <span class="mono">picks-air-cleaner.html</span> 같은 카테고리 서브메인의 톤, 4줄 요약, 대표 픽, CM 히스토리, 다음 업데이트 일정까지 한 번에 관리하는 용도입니다.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>서브메인 기본 설정</h2>
+            <p>카테고리 이름, 상태, 헤드라인, 상단 요약 문구를 먼저 정리합니다.</p>
+          </div>
+        </div>
+
+        <form data-editor-form>
+          <div class="grid-2">
+            <article class="panel">
+              <h3>기본 정보</h3>
+              <div class="inline-2">
+                <div class="field">
+                  <label for="category">카테고리</label>
+                  <select id="category" name="category">
+                    <option>공기청정기</option>
+                    <option>노트북</option>
+                    <option>로봇청소기</option>
+                    <option>제습기</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="status">상태</label>
+                  <select id="status" name="status">
+                    <option>공개</option>
+                    <option>초안</option>
+                    <option>검수중</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="slug">연결 파일</label>
+                <input id="slug" name="slug" />
+              </div>
+
+              <div class="field">
+                <label for="title">서브메인 제목</label>
+                <input id="title" name="title" />
+              </div>
+
+              <div class="field">
+                <label for="summary">상단 소개 문구</label>
+                <textarea id="summary" name="summary"></textarea>
+              </div>
+
+              <div class="inline-2">
+                <div class="field">
+                  <label for="badge1">메타 배지 1</label>
+                  <input id="badge1" name="badge1" />
+                </div>
+                <div class="field">
+                  <label for="badge2">메타 배지 2</label>
+                  <input id="badge2" name="badge2" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="badge3">메타 배지 3</label>
+                <input id="badge3" name="badge3" />
+              </div>
+            </article>
+
+            <article class="panel">
+              <h3>구매가이드 4줄 요약</h3>
+              <div class="field">
+                <label for="summaryLine1">요약 1</label>
+                <input id="summaryLine1" name="summaryLine1" />
+              </div>
+              <div class="field">
+                <label for="summaryLine2">요약 2</label>
+                <input id="summaryLine2" name="summaryLine2" />
+              </div>
+              <div class="field">
+                <label for="summaryLine3">요약 3</label>
+                <input id="summaryLine3" name="summaryLine3" />
+              </div>
+              <div class="field">
+                <label for="summaryLine4">요약 4</label>
+                <input id="summaryLine4" name="summaryLine4" />
+              </div>
+              <div class="chip-list">
+                <div><strong>운영 팁</strong><span>유머러스하지만 기준이 분명해야 합니다.</span></div>
+                <div><strong>톤 앤 매너</strong><span>광고 카피보다 CM의 솔직한 한 줄에 가깝게.</span></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="table-card section">
+            <div class="section-head">
+              <div>
+                <h2>대표 픽 구성</h2>
+                <p>베스트, 가성비, 플러스, 프리미엄 픽의 핵심 모델명을 관리합니다.</p>
+              </div>
+            </div>
+            <div class="grid-4">
+              <div class="field">
+                <label for="bestPick">베스트픽</label>
+                <input id="bestPick" name="bestPick" />
+              </div>
+              <div class="field">
+                <label for="valuePick">가성비픽</label>
+                <input id="valuePick" name="valuePick" />
+              </div>
+              <div class="field">
+                <label for="plusPick">플러스픽</label>
+                <input id="plusPick" name="plusPick" />
+              </div>
+              <div class="field">
+                <label for="premiumPick">프리미엄픽</label>
+                <input id="premiumPick" name="premiumPick" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2 section">
+            <article class="panel">
+              <h3>가전백과 연결</h3>
+              <div class="field">
+                <label for="encyclopediaLinks">가전백과/연결 콘텐츠</label>
+                <textarea id="encyclopediaLinks" name="encyclopediaLinks"></textarea>
+                <small>줄바꿈 기준으로 한 항목씩 적어두면 됩니다.</small>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h3>CM 히스토리와 다음 일정</h3>
+              <div class="field">
+                <label for="cmHistory">CM 업데이트 히스토리</label>
+                <textarea id="cmHistory" name="cmHistory"></textarea>
+              </div>
+              <div class="field">
+                <label for="nextSchedule">다음 업데이트 예상 일정</label>
+                <textarea id="nextSchedule" name="nextSchedule"></textarea>
+              </div>
+            </article>
+          </div>
+
+          <div class="save-bar">
+            <div class="save-status" data-save-status>아직 저장 기록이 없습니다.</div>
+            <div class="action-row">
+              <button class="primary" type="button" data-save>저장</button>
+              <button class="secondary" type="button" data-reset>샘플로 되돌리기</button>
+              <button class="ghost" type="button" data-export>JSON 내보내기</button>
+              <a class="secondary" href="../picks-air-cleaner.html">사용자 페이지 보기</a>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>업데이트 일정 - 노써치 샌드박스 2</title>
-<meta name="description" content="카테고리 업데이트 우선순위와 갱신 상태를 표와 달력 형태로 볼 수 있는 운영 보드 페이지입니다." />
+<title>업데이트 일정 - Nosearch Sand Codex 2</title>
+<meta name="description" content="홈과 같은 흐름으로 다시 정리한 노써치 운영 일정 보드입니다. 표 보기와 달력 보기 모두 제공합니다." />
 <style>
   :root {
     --primary: #256fff;
@@ -14,181 +14,299 @@
     --gray-dark: #545454;
     --gray-7: #787878;
     --border: #e5e7eb;
-    --white: #fff;
+    --white: #ffffff;
     --gray-1: #f9f9f9;
-    --bg: #f6f9fd;
+    --surface: #f4f8ff;
     --red: #ef4444;
     --yellow: #f59e0b;
     --green: #16a34a;
-    --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 14px 32px rgba(15,23,42,0.05);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
     color: var(--gray-10);
-    background: linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+    background:
+      radial-gradient(circle at top left, rgba(37,111,255,0.1), transparent 24%),
+      linear-gradient(180deg, #fbfdff 0%, var(--surface) 100%);
     line-height: 1.6;
   }
   a { color: inherit; text-decoration: none; }
   button { font: inherit; }
-  .container { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
+  .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
   .topbar {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(255,255,255,.92);
-    border-bottom: 1px solid rgba(229,231,235,.95);
-    backdrop-filter: blur(14px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(229,231,235,0.95);
   }
   .topbar-inner {
-    min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
-  .brand { font-weight: 800; letter-spacing: -.03em; }
-  .nav { display: flex; gap: 18px; font-size: 14px; color: var(--gray-dark); }
-  .nav a:hover { color: var(--primary); }
-  .hero { padding: 46px 0 22px; }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    color: var(--white);
+    background: linear-gradient(135deg, #256fff, #5cb8ff);
+    box-shadow: 0 12px 28px rgba(37,111,255,0.28);
+  }
+  .brand-copy small {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-7);
+  }
+  .brand-copy strong {
+    display: block;
+    font-size: 18px;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 14px;
+    color: var(--gray-dark);
+  }
+  .nav a:hover,
+  .nav a.is-active { color: var(--primary); }
+  main { padding-bottom: 56px; }
+  section { padding: 28px 0; }
   .hero-panel,
   .legend-card,
-  .table-card,
-  .note-card,
+  .board-card,
   .calendar-card {
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 26px;
     box-shadow: var(--shadow-md);
   }
-  .hero-panel { padding: 32px; }
+  .hero-panel {
+    padding: 34px;
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,0.12), transparent 24%),
+      linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,249,255,0.98));
+  }
   .eyebrow {
-    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px;
-    border-radius: 999px; background: var(--blue-light); color: var(--primary);
-    font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--blue-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   h1 {
     margin: 16px 0 12px;
-    font-size: clamp(34px, 5vw, 50px);
-    line-height: 1.08; letter-spacing: -.05em;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.06;
+    letter-spacing: -0.05em;
   }
-  .hero-panel p { margin: 0; max-width: 760px; font-size: 17px; color: var(--gray-dark); }
-  section { padding: 24px 0; }
-  .legend-grid, .note-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-  }
-  .legend-card, .note-card, .calendar-card { padding: 22px; }
-  .legend-card h3, .note-card h3, .calendar-card h3 { margin: 0 0 8px; font-size: 20px; }
-  .legend-card p, .note-card p, .calendar-card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
-  .status {
-    display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; margin-bottom: 10px;
-    border-radius: 999px; font-size: 12px; font-weight: 800;
-  }
-  .status.red { background: #feecec; color: var(--red); }
-  .status.yellow { background: #fff6df; color: var(--yellow); }
-  .status.green { background: #eefbf3; color: var(--green); }
-  .view-switch {
-    display: inline-flex;
-    gap: 8px;
-    padding: 6px;
-    border-radius: 16px;
-    background: var(--gray-1);
-    border: 1px solid var(--border);
-  }
-  .view-switch button {
-    min-height: 38px;
-    padding: 0 14px;
-    border: none;
-    border-radius: 12px;
-    background: transparent;
+  .hero-panel p {
+    margin: 0;
+    max-width: 780px;
+    font-size: 17px;
     color: var(--gray-dark);
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .hero-meta span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--gray-1);
+    font-size: 13px;
+    color: var(--gray-dark);
+  }
+  .section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -0.04em;
+  }
+  .section-head p {
+    margin: 8px 0 0;
+    color: var(--gray-dark);
+    max-width: 760px;
+  }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .legend-card { padding: 22px; }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .status.red { background: #fee2e2; color: var(--red); }
+  .status.yellow { background: #fff7ed; color: var(--yellow); }
+  .status.green { background: #ecfdf3; color: var(--green); }
+  .legend-card h3,
+  .calendar-card h3 { margin: 0 0 8px; font-size: 20px; }
+  .legend-card p,
+  .calendar-card p { margin: 0; font-size: 14px; color: var(--gray-dark); }
+  .board-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .view-toggle {
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--white);
     cursor: pointer;
+    font-size: 13px;
     font-weight: 700;
   }
-  .view-switch button.is-active {
-    background: var(--white);
-    color: var(--primary);
-    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+  .view-toggle.is-active {
+    background: var(--gray-10);
+    color: var(--white);
+    border-color: var(--gray-10);
   }
-  .view-panel[hidden] { display: none; }
-  .table-card { padding: 18px; overflow: auto; }
-  table { width: 100%; border-collapse: collapse; min-width: 760px; }
-  th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
-  th { color: var(--gray-7); font-size: 13px; }
-  td strong { font-size: 14px; }
+  .board-card { padding: 24px; }
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .schedule-table th,
+  .schedule-table td {
+    padding: 14px 12px;
+    border-top: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px;
+  }
+  .schedule-table th {
+    border-top: 0;
+    color: var(--gray-7);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
   .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
-    margin-top: 18px;
   }
-  .calendar-day,
-  .calendar-cell {
+  .calendar-weekday,
+  .calendar-day {
     border-radius: 16px;
     border: 1px solid var(--border);
     background: var(--gray-1);
   }
-  .calendar-day {
-    min-height: 44px;
-    display: grid;
-    place-items: center;
+  .calendar-weekday {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 12px;
     font-weight: 800;
     color: var(--gray-7);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
-  .calendar-cell {
-    min-height: 136px;
+  .calendar-day {
+    min-height: 140px;
     padding: 12px;
-    background: linear-gradient(180deg, #ffffff, #f9fbff);
+    background: var(--white);
   }
-  .calendar-cell.dimmed {
-    opacity: 0.42;
+  .calendar-day strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
   }
-  .calendar-date {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 800;
-    background: var(--gray-1);
-  }
-  .calendar-date.today {
-    background: var(--gray-10);
-    color: var(--white);
-  }
-  .calendar-events {
-    display: grid;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .event {
-    padding: 8px 9px;
+  .calendar-day div {
+    margin-top: 8px;
+    padding: 8px 10px;
     border-radius: 12px;
     font-size: 12px;
-    line-height: 1.4;
+    color: var(--gray-dark);
   }
-  .event.red { background: #fff1f2; color: #be123c; }
-  .event.yellow { background: #fffbeb; color: #b45309; }
-  .event.green { background: #effdf5; color: #047857; }
-  .event.blue { background: #eff6ff; color: #1d4ed8; }
-  .footer { padding: 24px 0 48px; font-size: 13px; color: var(--gray-7); }
-  @media (max-width: 1024px) {
-    .legend-grid, .note-grid { grid-template-columns: 1fr; }
-    .calendar-grid { grid-template-columns: repeat(2, 1fr); }
-    .calendar-day { display: none; }
+  .dot-red { background: #fee2e2; }
+  .dot-yellow { background: #fff7ed; }
+  .dot-green { background: #ecfdf3; }
+  .is-hidden { display: none; }
+  .footer {
+    padding: 10px 0 44px;
+    font-size: 13px;
+    color: var(--gray-7);
+  }
+  @media (max-width: 1080px) {
+    .legend-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
-    .container { width: min(100% - 28px, 1100px); }
-    .topbar-inner { flex-direction: column; align-items: flex-start; }
-    .hero-panel, .legend-card, .note-card, .calendar-card { padding: 20px; }
+    .container { width: min(100% - 28px, 1180px); }
+    .topbar-inner,
+    .section-head { flex-direction: column; align-items: flex-start; }
+    .nav { flex-wrap: wrap; }
     .calendar-grid { grid-template-columns: 1fr; }
-    .view-switch { width: 100%; }
-    .view-switch button { flex: 1; }
+    .board-toolbar { flex-wrap: wrap; }
+    .board-card,
+    .hero-panel,
+    .legend-card { padding: 24px; }
+    .schedule-table,
+    .schedule-table tbody,
+    .schedule-table tr,
+    .schedule-table td { display: block; width: 100%; }
+    .schedule-table thead { display: none; }
+    .schedule-table td { border-top: 0; padding: 10px 0; }
+    .schedule-table tr { padding: 14px 0; border-top: 1px solid var(--border); }
   }
 </style>
 </head>
 <body>
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="index.html">노써치 샌드박스 2</a>
+      <a class="brand" href="index.html">
+        <span class="brand-mark">N</span>
+        <span class="brand-copy">
+          <small>Nosearch Sand Codex 2</small>
+          <strong>홈</strong>
+        </span>
+      </a>
       <nav class="nav">
         <a href="picks.html">노써치픽</a>
         <a href="guides.html">구매가이드</a>
@@ -200,259 +318,184 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section>
       <div class="container">
         <div class="hero-panel">
           <span class="eyebrow">Update Board</span>
-          <h1>계속 관리되는 기준임을 보여주는 운영 보드</h1>
-          <p>메인 네비게이션에서는 한 단계 뒤로 물렸지만, 실제 운영 신뢰를 보여주는 페이지로서는 여전히 중요합니다. 이번엔 표 보기뿐 아니라 달력형 보기까지 추가해 업데이트 흐름을 시간축으로도 볼 수 있게 했습니다.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container legend-grid">
-        <article class="legend-card">
-          <span class="status red">우선 업데이트</span>
-          <h3>6개월 초과</h3>
-          <p>로봇청소기, 식기세척기, 무선이어폰처럼 피로도가 빨리 누적되는 카테고리는 장기 방치 시 신뢰 손상이 큽니다.</p>
-        </article>
-        <article class="legend-card">
-          <span class="status yellow">모니터링</span>
-          <h3>3~6개월</h3>
-          <p>분기 내 갱신 대상입니다. 신제품 출시나 가격 변동이 발생하면 즉시 우선순위를 올리는 구조로 운용합니다.</p>
-        </article>
-        <article class="legend-card">
-          <span class="status green">정상 구간</span>
-          <h3>3개월 이내</h3>
-          <p>최근 기준이 반영된 카테고리입니다. 대대적 개편보다 가격 변화와 소규모 변경만 추적하면 됩니다.</p>
-        </article>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="calendar-card">
-          <div style="display:flex; align-items:end; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-            <div>
-              <h3>업데이트 스케줄 보기</h3>
-              <p>같은 데이터를 표와 달력 중 더 편한 방식으로 볼 수 있게 구성했습니다.</p>
-            </div>
-            <div class="view-switch" role="tablist" aria-label="업데이트 보기 전환">
-              <button class="is-active" type="button" data-view-target="table-view" aria-selected="true">표 보기</button>
-              <button type="button" data-view-target="calendar-view" aria-selected="false">달력 보기</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="table-view" class="view-panel">
-      <div class="container">
-        <div class="table-card">
-          <table>
-            <thead>
-              <tr>
-                <th>카테고리</th>
-                <th>상태</th>
-                <th>마지막 업데이트</th>
-                <th>다음 액션</th>
-                <th>메모</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>공기청정기</strong></td>
-                <td><span class="status green">정상</span></td>
-                <td>2026-04-24</td>
-                <td>필터 비용 비교 보강</td>
-                <td>현재 메인 가이드 운영 중</td>
-              </tr>
-              <tr>
-                <td><strong>노트북</strong></td>
-                <td><span class="status yellow">모니터링</span></td>
-                <td>2026-04-22</td>
-                <td>게이밍 신제품 3종 반영</td>
-                <td>`In The Lab` 진행 항목과 연결</td>
-              </tr>
-              <tr>
-                <td><strong>에어컨</strong></td>
-                <td><span class="status yellow">시즌 우선</span></td>
-                <td>2026-04-21</td>
-                <td>설치비와 행사 조건 재정리</td>
-                <td>계절 카테고리 예외 적용</td>
-              </tr>
-              <tr>
-                <td><strong>에어프라이어</strong></td>
-                <td><span class="status red">우선</span></td>
-                <td>2025-12-11</td>
-                <td>실사용 조리 테스트 추가</td>
-                <td>현재 실험실 진행 항목</td>
-              </tr>
-              <tr>
-                <td><strong>헤어드라이어</strong></td>
-                <td><span class="status red">우선</span></td>
-                <td>2025-10-03</td>
-                <td>DB 정규화 완료 후 초안 작성</td>
-                <td>풍량·무게 중심 재정의 필요</td>
-              </tr>
-              <tr>
-                <td><strong>TV</strong></td>
-                <td><span class="status green">정상</span></td>
-                <td>2026-04-18</td>
-                <td>65형 가격대 재확인</td>
-                <td>가이드와 픽 모두 운영 가능</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="calendar-view" class="view-panel" hidden>
-      <div class="container">
-        <div class="calendar-card">
-          <h3>2026년 4월 업데이트 캘린더</h3>
-          <p>실제 갱신일과 예정 작업을 달력 위에 올려, 어떤 주에 무엇이 몰려 있는지 바로 읽히게 했습니다.</p>
-          <div class="calendar-grid" aria-label="2026년 4월 업데이트 일정">
-            <div class="calendar-day">월</div>
-            <div class="calendar-day">화</div>
-            <div class="calendar-day">수</div>
-            <div class="calendar-day">목</div>
-            <div class="calendar-day">금</div>
-            <div class="calendar-day">토</div>
-            <div class="calendar-day">일</div>
-
-            <div class="calendar-cell dimmed"><span class="calendar-date">30</span></div>
-            <div class="calendar-cell dimmed"><span class="calendar-date">31</span></div>
-            <div class="calendar-cell"><span class="calendar-date">1</span></div>
-            <div class="calendar-cell"><span class="calendar-date">2</span></div>
-            <div class="calendar-cell"><span class="calendar-date">3</span></div>
-            <div class="calendar-cell"><span class="calendar-date">4</span></div>
-            <div class="calendar-cell"><span class="calendar-date">5</span></div>
-
-            <div class="calendar-cell"><span class="calendar-date">6</span></div>
-            <div class="calendar-cell"><span class="calendar-date">7</span></div>
-            <div class="calendar-cell"><span class="calendar-date">8</span></div>
-            <div class="calendar-cell"><span class="calendar-date">9</span></div>
-            <div class="calendar-cell"><span class="calendar-date">10</span></div>
-            <div class="calendar-cell"><span class="calendar-date">11</span></div>
-            <div class="calendar-cell"><span class="calendar-date">12</span></div>
-
-            <div class="calendar-cell"><span class="calendar-date">13</span></div>
-            <div class="calendar-cell"><span class="calendar-date">14</span></div>
-            <div class="calendar-cell"><span class="calendar-date">15</span></div>
-            <div class="calendar-cell"><span class="calendar-date">16</span></div>
-            <div class="calendar-cell"><span class="calendar-date">17</span></div>
-            <div class="calendar-cell">
-              <span class="calendar-date">18</span>
-              <div class="calendar-events">
-                <div class="event green">TV 가격대 재확인</div>
-              </div>
-            </div>
-            <div class="calendar-cell"><span class="calendar-date">19</span></div>
-
-            <div class="calendar-cell">
-              <span class="calendar-date">20</span>
-              <div class="calendar-events">
-                <div class="event yellow">에어컨 시즌성 점검</div>
-              </div>
-            </div>
-            <div class="calendar-cell">
-              <span class="calendar-date">21</span>
-              <div class="calendar-events">
-                <div class="event yellow">설치비 조건 재정리</div>
-              </div>
-            </div>
-            <div class="calendar-cell">
-              <span class="calendar-date">22</span>
-              <div class="calendar-events">
-                <div class="event yellow">노트북 신제품 반영</div>
-              </div>
-            </div>
-            <div class="calendar-cell"><span class="calendar-date">23</span></div>
-            <div class="calendar-cell">
-              <span class="calendar-date">24</span>
-              <div class="calendar-events">
-                <div class="event green">공기청정기 가이드 갱신</div>
-                <div class="event blue">필터 비용 비교 보강</div>
-              </div>
-            </div>
-            <div class="calendar-cell"><span class="calendar-date">25</span></div>
-            <div class="calendar-cell"><span class="calendar-date">26</span></div>
-
-            <div class="calendar-cell">
-              <span class="calendar-date today">27</span>
-              <div class="calendar-events">
-                <div class="event blue">실험실 알림 설정 오픈</div>
-              </div>
-            </div>
-            <div class="calendar-cell">
-              <span class="calendar-date">28</span>
-              <div class="calendar-events">
-                <div class="event red">에어프라이어 테스트 집중</div>
-              </div>
-            </div>
-            <div class="calendar-cell">
-              <span class="calendar-date">29</span>
-              <div class="calendar-events">
-                <div class="event red">헤어드라이어 DB 정규화</div>
-              </div>
-            </div>
-            <div class="calendar-cell">
-              <span class="calendar-date">30</span>
-              <div class="calendar-events">
-                <div class="event blue">5월 시즌 카테고리 계획 확정</div>
-              </div>
-            </div>
-            <div class="calendar-cell dimmed"><span class="calendar-date">1</span></div>
-            <div class="calendar-cell dimmed"><span class="calendar-date">2</span></div>
-            <div class="calendar-cell dimmed"><span class="calendar-date">3</span></div>
+          <h1>업데이트 일정은 운영팀의 보드처럼<br />가볍고 빠르게 읽히면 됩니다.</h1>
+          <p>홈의 In The Lab과 픽 서브메인 하단 일정에서 이어지는 전체 보드입니다. 카테고리별 갱신 우선순위와 다음 점검 예정일을 표와 달력 두 형태로 모두 볼 수 있게 정리했습니다.</p>
+          <div class="hero-meta">
+            <span>표 보기 / 달력 보기</span>
+            <span>시즌가전 우선 반영</span>
+            <span>2026.04.27 기준 운영 보드</span>
           </div>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="container note-grid">
-        <article class="note-card">
-          <h3>시즌 카테고리 예외</h3>
-          <p>에어컨, 선풍기, 제습기처럼 시즌성이 강한 카테고리는 날짜보다 시즌 시작 시점이 더 중요합니다. 이 규칙은 메인 보드에도 그대로 반영했습니다.</p>
-        </article>
-        <article class="note-card">
-          <h3>왜 바뀌었는지 기록</h3>
-          <p>`업데이트됨`만 적는 대신 무엇이 바뀌었는지 써야 신뢰가 생깁니다. 메인과 픽 페이지에서도 같은 원칙을 유지했습니다.</p>
-        </article>
-        <article class="note-card">
-          <h3>In The Lab과의 연결</h3>
-          <p>진행 중인 실험 항목을 메인에서 먼저 보여주고, 운영 보드에서는 일정과 우선순위로 이어지게 설계했습니다.</p>
-        </article>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>우선순위 기준</h2>
+            <p>홈에서 보이는 빠른 운영 신호를 실제 작업 기준으로 풀어쓴 설명입니다.</p>
+          </div>
+        </div>
+        <div class="legend-grid">
+          <article class="legend-card">
+            <span class="status red">우선 업데이트</span>
+            <h3>6개월 초과</h3>
+            <p>픽과 가이드 모두 정보 피로도가 높아지는 구간입니다. 계절성 카테고리보다 먼저 레드로 잡힙니다.</p>
+          </article>
+          <article class="legend-card">
+            <span class="status yellow">모니터링</span>
+            <h3>3~6개월</h3>
+            <p>바로 위험하진 않지만, 가격과 라인업 변화가 쌓이면 재점검이 필요한 구간입니다.</p>
+          </article>
+          <article class="legend-card">
+            <span class="status green">정상</span>
+            <h3>3개월 이내</h3>
+            <p>현재 픽과 가이드 신뢰도가 유지되는 상태입니다. 홈과 서브메인 문구만 가볍게 손보는 수준입니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>전체 업데이트 예상 일정</h2>
+            <p>표 보기와 달력 보기를 전환해 같은 정보를 다른 밀도로 읽을 수 있습니다.</p>
+          </div>
+        </div>
+        <div class="board-card">
+          <div class="board-toolbar">
+            <button class="view-toggle is-active" type="button" data-view="table">표 보기</button>
+            <button class="view-toggle" type="button" data-view="calendar">달력 보기</button>
+          </div>
+
+          <div id="table-view">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>카테고리</th>
+                  <th>상태</th>
+                  <th>다음 점검일</th>
+                  <th>메모</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>공기청정기</td>
+                  <td><span class="status green">정상</span></td>
+                  <td>2026.04.30</td>
+                  <td>필터 비용 비교표 2차 점검</td>
+                </tr>
+                <tr>
+                  <td>노트북</td>
+                  <td><span class="status yellow">모니터링</span></td>
+                  <td>2026.05.02</td>
+                  <td>신제품 비교표 재정렬, 발열 메모 보강</td>
+                </tr>
+                <tr>
+                  <td>로봇청소기</td>
+                  <td><span class="status red">우선 업데이트</span></td>
+                  <td>2026.05.06</td>
+                  <td>센서와 장애물 회피 체감 재검증</td>
+                </tr>
+                <tr>
+                  <td>제습기</td>
+                  <td><span class="status yellow">시즌 준비</span></td>
+                  <td>2026.05.10</td>
+                  <td>시즌 개시 전 가이드와 픽 묶음 재정리</td>
+                </tr>
+                <tr>
+                  <td>에어컨</td>
+                  <td><span class="status red">우선 업데이트</span></td>
+                  <td>2026.05.13</td>
+                  <td>성수기 전 가격 반영과 추천 구조 재정비</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="calendar-view" class="is-hidden">
+            <div class="calendar-grid">
+              <div class="calendar-weekday">Mon</div>
+              <div class="calendar-weekday">Tue</div>
+              <div class="calendar-weekday">Wed</div>
+              <div class="calendar-weekday">Thu</div>
+              <div class="calendar-weekday">Fri</div>
+              <div class="calendar-weekday">Sat</div>
+              <div class="calendar-weekday">Sun</div>
+
+              <div class="calendar-day"><strong>28</strong></div>
+              <div class="calendar-day"><strong>29</strong></div>
+              <div class="calendar-day">
+                <strong>30</strong>
+                <div class="dot-green">공기청정기 필터 비용 2차 점검</div>
+              </div>
+              <div class="calendar-day"><strong>1</strong></div>
+              <div class="calendar-day">
+                <strong>2</strong>
+                <div class="dot-yellow">노트북 비교표 재정렬</div>
+              </div>
+              <div class="calendar-day"><strong>3</strong></div>
+              <div class="calendar-day"><strong>4</strong></div>
+
+              <div class="calendar-day"><strong>5</strong></div>
+              <div class="calendar-day">
+                <strong>6</strong>
+                <div class="dot-red">로봇청소기 우선 점검</div>
+              </div>
+              <div class="calendar-day"><strong>7</strong></div>
+              <div class="calendar-day"><strong>8</strong></div>
+              <div class="calendar-day"><strong>9</strong></div>
+              <div class="calendar-day">
+                <strong>10</strong>
+                <div class="dot-yellow">제습기 시즌 가이드 정리</div>
+              </div>
+              <div class="calendar-day"><strong>11</strong></div>
+
+              <div class="calendar-day"><strong>12</strong></div>
+              <div class="calendar-day">
+                <strong>13</strong>
+                <div class="dot-red">에어컨 성수기 전 업데이트</div>
+              </div>
+              <div class="calendar-day"><strong>14</strong></div>
+              <div class="calendar-day"><strong>15</strong></div>
+              <div class="calendar-day"><strong>16</strong></div>
+              <div class="calendar-day"><strong>17</strong></div>
+              <div class="calendar-day"><strong>18</strong></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container">업데이트 보드는 표 보기와 달력 보기를 함께 제공하는 운영 보조 페이지로 다듬었습니다.</div>
+    <div class="container">
+      업데이트 일정 페이지는 홈의 운영 신호와 서브메인 하단 일정 정보를 한데 모으는 전체 보드로 다시 정리했습니다.
+    </div>
   </footer>
 
+  <script src="content-render.js"></script>
   <script>
     (function () {
-      var toggles = document.querySelectorAll("[data-view-target]");
-      var panels = document.querySelectorAll(".view-panel");
+      var buttons = document.querySelectorAll(".view-toggle");
+      var tableView = document.getElementById("table-view");
+      var calendarView = document.getElementById("calendar-view");
 
-      toggles.forEach(function (toggle) {
-        toggle.addEventListener("click", function () {
-          var target = toggle.getAttribute("data-view-target");
-
-          toggles.forEach(function (button) {
-            var active = button === toggle;
-            button.classList.toggle("is-active", active);
-            button.setAttribute("aria-selected", active ? "true" : "false");
+      buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var view = button.getAttribute("data-view");
+          buttons.forEach(function (item) {
+            item.classList.toggle("is-active", item === button);
           });
-
-          panels.forEach(function (panel) {
-            panel.hidden = panel.id !== target;
-          });
+          tableView.classList.toggle("is-hidden", view !== "table");
+          calendarView.classList.toggle("is-hidden", view !== "calendar");
         });
       });
     })();

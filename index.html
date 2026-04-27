@@ -4,28 +4,20 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>노써치 샌드박스 2 - 홈</title>
-<meta name="description" content="노써치픽을 전면에 배치하고, 구매가이드와 가전백과로 이어지는 노써치 샌드박스 홈 페이지입니다." />
+<meta name="description" content="노써치픽을 가장 먼저 보여주고, CM 큐레이션과 가전백과, 실험중인 콘텐츠까지 이어지는 노써치 홈 페이지입니다." />
 <style>
   :root {
     --primary: #256fff;
-    --primary-deep: #1748b8;
     --blue-light: #e8f2ff;
     --blue-pale: #f5f9ff;
     --accent-red: #ff455b;
-    --accent-red-soft: #ffecef;
     --gray-10: #1a1a1a;
     --gray-dark: #545454;
     --gray-7: #787878;
-    --gray-5: #b3b3b3;
     --border: #e5e7eb;
     --white: #ffffff;
     --gray-1: #f9f9f9;
-    --surface: #f3f7fd;
-    --navy: #0f172a;
-    --navy-deep: #111827;
-    --success: #16a34a;
-    --success-soft: #edfdf3;
-    --warning: #f59e0b;
+    --surface: #f4f8ff;
     --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.08);
     --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.05);
   }
@@ -95,30 +87,14 @@
   }
   .nav a:hover,
   .nav a.is-active { color: var(--primary); }
-  .hero { padding: 56px 0 26px; }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 20px;
-  }
-  .hero-panel,
-  .signal-panel,
+  .pick-card,
   .lab,
-  .carousel-card,
-  .route-card,
-  .info-card {
+  .curation-card,
+  .wiki-panel {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 26px;
     box-shadow: var(--shadow-md);
-  }
-  .hero-panel {
-    padding: 36px;
-    background:
-      radial-gradient(circle at top right, rgba(255, 69, 91, 0.13), transparent 22%),
-      radial-gradient(circle at bottom left, rgba(37, 111, 255, 0.16), transparent 28%),
-      linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,249,255,0.98));
-    box-shadow: var(--shadow-lg);
   }
   .eyebrow {
     display: inline-flex;
@@ -126,7 +102,7 @@
     gap: 8px;
     padding: 8px 12px;
     border-radius: 999px;
-    background: var(--accent-red-soft);
+    background: #ffecef;
     color: var(--accent-red);
     font-size: 12px;
     font-weight: 800;
@@ -146,17 +122,6 @@
     line-height: 1.02;
     letter-spacing: -0.055em;
   }
-  .hero-copy {
-    font-size: 17px;
-    color: var(--gray-dark);
-    max-width: 720px;
-  }
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 24px;
-  }
   .button {
     display: inline-flex;
     align-items: center;
@@ -167,9 +132,7 @@
     border-radius: 14px;
     font-size: 14px;
     font-weight: 700;
-    transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
   }
-  .button:hover { transform: translateY(-1px); }
   .button.primary {
     background: var(--gray-10);
     color: var(--white);
@@ -180,107 +143,18 @@
     color: var(--gray-10);
     border: 1px solid var(--border);
   }
-  .hero-side {
-    display: grid;
-    gap: 16px;
-  }
-  .signal-panel {
-    padding: 22px;
-    background:
-      linear-gradient(180deg, rgba(15,23,42,0.98), rgba(29,78,216,0.94));
-    color: var(--white);
-    overflow: hidden;
-    position: relative;
-  }
-  .signal-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.12), transparent 30%),
-      radial-gradient(circle at 20% 90%, rgba(255,255,255,0.08), transparent 22%);
-    pointer-events: none;
-  }
-  .signal-panel > * { position: relative; z-index: 1; }
-  .signal-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .signal-head strong {
-    font-size: 17px;
-    display: block;
-  }
-  .signal-badge {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding: 0 10px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.12);
-    color: #dbeafe;
-    font-size: 12px;
-    font-weight: 800;
-  }
-  .signal-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .signal-card {
-    padding: 14px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.06));
-    border: 1px solid rgba(255,255,255,0.1);
-    backdrop-filter: blur(8px);
-  }
-  .signal-value {
-    display: block;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    margin-bottom: 6px;
-  }
-  .signal-label {
-    display: block;
-    font-size: 12px;
-    color: rgba(255,255,255,0.72);
-    margin-bottom: 10px;
-  }
-  .signal-bar {
-    height: 6px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.14);
-    overflow: hidden;
-  }
-  .signal-bar i {
-    display: block;
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #93c5fd, #ffffff);
-  }
-  .signal-note {
-    margin-top: 14px;
-    padding: 13px 14px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.08);
-    font-size: 13px;
-    color: rgba(255,255,255,0.82);
-  }
-  section.block { padding: 24px 0; }
+  section.block { padding: 28px 0; }
   .section-head {
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 18px;
   }
   .section-head h2 {
     margin: 0;
-    font-size: 30px;
-    letter-spacing: -0.03em;
+    font-size: 32px;
+    letter-spacing: -0.04em;
   }
   .section-head p {
     margin: 6px 0 0;
@@ -291,112 +165,18 @@
     font-size: 14px;
     font-weight: 700;
   }
-  .carousel-shell { position: relative; display: none; }
-  .carousel-scroll {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    padding: 4px 2px 16px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-  }
-  .carousel-scroll::-webkit-scrollbar { height: 8px; }
-  .carousel-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
-  .carousel-card {
-    flex: 0 0 calc((100% - 32px) / 3);
-    scroll-snap-align: start;
-    padding: 24px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,249,255,0.98));
-    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-  }
-  .carousel-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 38px rgba(15, 23, 42, 0.07);
-    border-color: rgba(37, 111, 255, 0.26);
-  }
-  .carousel-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .pick-chip {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding: 0 10px;
-    border-radius: 999px;
-    background: var(--accent-red-soft);
-    color: var(--accent-red);
-    font-size: 12px;
-    font-weight: 800;
-  }
-  .pick-updated {
-    font-size: 12px;
-    color: var(--gray-7);
-  }
-  .carousel-card h3 {
-    margin: 0 0 8px;
-    font-size: 22px;
-    letter-spacing: -0.03em;
-    line-height: 1.25;
-  }
-  .carousel-card p {
-    margin: 0;
-    color: var(--gray-dark);
-    font-size: 14px;
-  }
-  .pick-points {
-    display: grid;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .pick-point {
-    padding: 12px 14px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--gray-1);
-  }
-  .pick-point strong {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 4px;
-  }
-  .pick-point span {
-    font-size: 13px;
-    color: var(--gray-7);
-  }
-  .carousel-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 42px;
-    padding: 0 14px;
-    border-radius: 12px;
-    margin-top: 16px;
-    background: var(--gray-10);
-    color: var(--white);
-    font-size: 14px;
-    font-weight: 700;
-  }
   .home-picks-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
   }
-  .home-pick-card {
-    padding: 24px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,249,255,0.98));
-  }
-  .home-media-thumb {
+  .pick-card { padding: 24px; }
+  .media-thumb {
     min-height: 184px;
     margin-bottom: 18px;
     border-radius: 18px;
     border: 1px dashed #c9d6ea;
-    background: linear-gradient(135deg, rgba(232, 242, 255, 0.95), rgba(249, 251, 255, 0.98));
+    background: linear-gradient(135deg, rgba(232,242,255,0.95), rgba(249,251,255,0.98));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -406,81 +186,203 @@
     padding: 18px;
     color: var(--gray-dark);
   }
-  .home-media-thumb strong {
+  .media-thumb strong {
     font-size: 14px;
     letter-spacing: 0.02em;
   }
-  .home-media-thumb span {
+  .media-thumb span {
     font-size: 13px;
     color: var(--gray-7);
   }
-  .home-pick-meta {
+  .pick-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 14px;
   }
-  .home-pick-card h3 {
+  .pick-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--blue-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .pick-chip.value { background: #eefbf3; color: #15803d; }
+  .pick-updated {
+    font-size: 12px;
+    color: var(--gray-7);
+    font-weight: 700;
+  }
+  .pick-card h3 {
     margin: 0 0 8px;
     font-size: 26px;
     letter-spacing: -0.03em;
     line-height: 1.24;
   }
-  .home-pick-card > p {
+  .pick-card > p {
     margin: 0;
     color: var(--gray-dark);
     font-size: 14px;
   }
-  .home-spec-panel,
-  .home-price-bar,
-  .home-why-note {
+  .category-summary {
     margin-top: 18px;
+    padding: 16px;
     border-radius: 18px;
     border: 1px solid var(--border);
-    background: var(--white);
+    background: linear-gradient(180deg, rgba(245,249,255,0.95), rgba(255,255,255,1));
   }
-  .home-spec-panel { padding: 16px; }
-  .home-spec-head {
+  .category-summary-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 12px;
   }
-  .home-spec-head strong {
+  .category-summary-head strong {
     font-size: 15px;
     letter-spacing: -0.02em;
   }
-  .home-spec-link {
+  .category-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .category-summary-item {
+    padding: 12px;
+    border-radius: 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+  }
+  .category-summary-item strong {
+    display: block;
+    font-size: 12px;
+    color: var(--gray-7);
+    margin-bottom: 6px;
+  }
+  .category-summary-item span {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-10);
+    line-height: 1.45;
+  }
+  .category-mini-list {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 12px;
+  }
+  .category-mini-item {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .category-mini-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--gray-10);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+  }
+  .category-mini-copy strong {
+    display: block;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .category-mini-copy span {
+    display: block;
+    font-size: 13px;
+    color: var(--gray-dark);
+    line-height: 1.55;
+  }
+  .category-footer {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .category-footnote {
+    font-size: 13px;
+    color: var(--gray-7);
+  }
+  .category-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: var(--gray-10);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .spec-panel,
+  .price-bar,
+  .why-note {
+    margin-top: 18px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--white);
+  }
+  .spec-panel { padding: 16px; }
+  .spec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .spec-head strong {
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+  .spec-link {
     color: var(--primary);
     font-size: 13px;
     font-weight: 700;
   }
-  .home-spec-grid {
+  .spec-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  .home-spec-item {
+  .spec-item {
     padding: 12px 13px;
     border-radius: 14px;
     background: var(--gray-1);
     border: 1px solid var(--border);
   }
-  .home-spec-item strong {
+  .spec-item strong {
     display: block;
     margin-bottom: 4px;
     font-size: 12px;
     color: var(--gray-7);
   }
-  .home-spec-item span {
+  .spec-item span {
     display: block;
     font-size: 14px;
     font-weight: 700;
     color: var(--gray-10);
   }
-  .home-price-bar {
+  .price-bar {
     padding: 16px;
     background: #f8fbff;
     border-color: #dbe7fb;
@@ -489,27 +391,27 @@
     gap: 12px;
     align-items: center;
   }
-  .home-price-stat strong,
-  .home-price-change strong {
+  .price-stat strong,
+  .price-change strong {
     display: block;
     margin-bottom: 4px;
     font-size: 12px;
     color: var(--gray-7);
   }
-  .home-price-stat span {
+  .price-stat span {
     display: block;
     font-size: 24px;
     font-weight: 800;
     letter-spacing: -0.03em;
   }
-  .home-price-stat small,
-  .home-price-change small {
+  .price-stat small,
+  .price-change small {
     display: block;
     margin-top: 4px;
     font-size: 12px;
     color: var(--gray-7);
   }
-  .home-price-change span {
+  .price-change span {
     display: inline-flex;
     align-items: center;
     min-height: 32px;
@@ -520,7 +422,7 @@
     background: #eefbf3;
     color: #15803d;
   }
-  .home-affiliate-link {
+  .affiliate-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -533,12 +435,12 @@
     font-weight: 800;
     white-space: nowrap;
   }
-  .home-why-note {
+  .why-note {
     padding: 18px 18px 20px;
     background: linear-gradient(180deg, rgba(245,249,255,0.95), rgba(255,255,255,1));
     border-color: #d8e6ff;
   }
-  .home-why-label {
+  .why-label {
     display: inline-flex;
     align-items: center;
     min-height: 28px;
@@ -552,7 +454,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
-  .home-why-note p {
+  .why-note p {
     margin: 12px 0 0;
     font-size: 15px;
     line-height: 1.65;
@@ -562,232 +464,326 @@
     background: linear-gradient(145deg, #111827 0%, #172554 100%);
     color: var(--white);
     overflow: hidden;
-    position: relative;
   }
-  .lab::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 90% 10%, rgba(37, 111, 255, 0.25), transparent 30%),
-      radial-gradient(circle at 10% 90%, rgba(255, 69, 91, 0.18), transparent 28%);
-    pointer-events: none;
-  }
-  .lab-inner {
-    position: relative;
-    z-index: 1;
-    padding: 30px;
-  }
+  .lab-inner { padding: 28px; }
   .lab-head {
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 20px;
+    gap: 16px;
+    margin-bottom: 18px;
   }
   .lab-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
     font-size: 12px;
     font-weight: 800;
-    letter-spacing: .08em;
-    color: #9fc5ff;
+    letter-spacing: .06em;
     text-transform: uppercase;
   }
   .live-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #69a7ff;
-    box-shadow: 0 0 0 0 rgba(105, 167, 255, .4);
-    animation: pulse 1.6s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(105, 167, 255, .45); }
-    70% { box-shadow: 0 0 0 10px rgba(105, 167, 255, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(105, 167, 255, 0); }
+    background: #60a5fa;
+    box-shadow: 0 0 0 6px rgba(96,165,250,0.16);
   }
   .lab-title {
-    margin: 10px 0 6px;
+    margin-top: 14px;
     font-size: 30px;
-    letter-spacing: -0.03em;
+    font-weight: 800;
+    letter-spacing: -0.04em;
   }
   .lab-sub {
-    color: rgba(255,255,255,.72);
+    margin-top: 8px;
+    color: rgba(255,255,255,0.74);
+    max-width: 720px;
     font-size: 14px;
   }
   .lab-link {
-    color: #9fc5ff;
+    color: #c6d4ff;
     font-size: 14px;
     font-weight: 700;
-    white-space: nowrap;
   }
   .lab-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
   .lab-item {
     display: grid;
-    grid-template-columns: 46px 1fr auto;
-    gap: 12px 14px;
-    padding: 18px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.09);
   }
   .lab-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    display: grid;
-    place-items: center;
-    background: rgba(159, 197, 255, 0.12);
-    font-size: 22px;
-  }
-  .lab-item-title {
-    font-size: 15px;
-    font-weight: 700;
-  }
-  .lab-item-sub {
-    font-size: 13px;
-    color: rgba(255, 255, 255, .7);
-    margin-top: 4px;
-  }
-  .lab-progress {
-    text-align: right;
-    min-width: 76px;
-  }
-  .lab-progress-bar {
-    width: 76px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-    overflow: hidden;
-    margin-bottom: 6px;
-  }
-  .lab-progress-bar i {
-    display: block;
-    height: 100%;
-    background: linear-gradient(90deg, #69a7ff, #c3ddff);
-  }
-  .lab-progress span {
-    font-size: 12px;
-    color: rgba(255, 255, 255, .7);
-  }
-  .lab-notify-btn {
-    grid-column: 1 / -1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 42px;
-    border-radius: 12px;
-    background: rgba(159, 197, 255, 0.12);
-    color: #d8e7ff;
-    border: 1px solid rgba(159, 197, 255, 0.32);
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform .16s ease, background .16s ease, border-color .16s ease;
-  }
-  .lab-notify-btn:hover {
-    transform: translateY(-1px);
-    background: rgba(159, 197, 255, 0.18);
-    border-color: rgba(159, 197, 255, 0.5);
-  }
-  .lab-notify-btn.is-active {
-    background: rgba(22, 163, 74, 0.16);
-    border-color: rgba(110, 231, 183, 0.42);
-    color: #dcfce7;
-  }
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .info-card {
-    padding: 22px;
-  }
-  .label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 30px;
-    padding: 0 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 800;
-    background: var(--blue-light);
-    color: var(--primary);
-  }
-  .info-card h3 {
-    margin: 14px 0 8px;
-    font-size: 21px;
-    letter-spacing: -0.02em;
-  }
-  .info-card p {
-    margin: 0;
-    color: var(--gray-7);
-    font-size: 14px;
-  }
-  .meta-list {
-    display: grid;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .meta-item {
-    padding: 12px 14px;
-    border-radius: 14px;
-    background: var(--gray-1);
-    border: 1px solid var(--border);
-  }
-  .meta-item strong {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 4px;
-  }
-  .meta-item span {
-    font-size: 13px;
-    color: var(--gray-7);
-  }
-  .routes {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-  .route-card {
-    padding: 22px;
-    transition: transform .16s ease, border-color .16s ease;
-  }
-  .route-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(37, 111, 255, .42);
-  }
-  .route-card .icon {
     width: 42px;
     height: 42px;
     border-radius: 14px;
     display: grid;
     place-items: center;
-    background: var(--blue-pale);
+    background: rgba(255,255,255,0.12);
     font-size: 20px;
-    margin-bottom: 14px;
   }
-  .route-card h3 {
-    margin: 0 0 8px;
-    font-size: 18px;
+  .lab-item-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
-  .route-card p {
+  .lab-item-sub {
+    margin-top: 4px;
+    color: rgba(255,255,255,0.68);
+    font-size: 13px;
+  }
+  .lab-progress {
+    min-width: 150px;
+  }
+  .lab-progress-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    overflow: hidden;
+  }
+  .lab-progress-bar i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #60a5fa, #93c5fd);
+  }
+  .lab-progress span {
+    display: block;
+    margin-top: 8px;
+    color: rgba(255,255,255,0.72);
+    font-size: 12px;
+  }
+  .lab-notify-btn {
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(198,212,255,0.28);
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .lab-notify-btn.is-subscribed {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+  }
+  .curation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .curation-card {
+    overflow: hidden;
+    padding: 0;
+  }
+  .curation-card-head {
+    padding: 18px 18px 14px;
+    border-top: 4px solid var(--gray-10);
+  }
+  .curation-card h3 {
     margin: 0;
-    color: var(--gray-7);
+    font-size: 34px;
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+  .curation-card p {
+    margin: 10px 0 0;
+    color: var(--gray-dark);
     font-size: 14px;
   }
-  .route-card strong {
-    display: inline-block;
-    margin-top: 14px;
-    color: var(--primary);
+  .curation-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 0 18px;
+  }
+  .curation-thumb {
+    aspect-ratio: 1 / .72;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(232,242,255,0.95), rgba(248,250,252,0.98));
+    border: 1px dashed #cbd5e1;
+  }
+  .curation-list {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+  }
+  .curation-item {
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .curation-item strong {
+    display: block;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+  }
+  .curation-item span {
+    display: block;
+    margin-top: 4px;
+    color: var(--gray-7);
+    font-size: 13px;
+  }
+  .wiki-panel {
+    padding: 24px;
+    background:
+      radial-gradient(circle at top right, rgba(37,111,255,.12), transparent 26%),
+      linear-gradient(135deg, rgba(255,255,255,0.98), rgba(245,249,255,0.98));
+  }
+  .youtube-section {
+    padding: 24px;
+    border-radius: 26px;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(250,250,255,0.98));
+    box-shadow: var(--shadow-md);
+  }
+  .youtube-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .youtube-head h3 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -0.04em;
+  }
+  .youtube-head p {
+    margin: 10px 0 0;
+    color: var(--gray-dark);
+    max-width: 760px;
+  }
+  .youtube-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: #ff455b;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .youtube-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .youtube-card {
+    display: block;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--white);
+  }
+  .youtube-thumb {
+    aspect-ratio: 16 / 9;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px;
+    background:
+      linear-gradient(180deg, rgba(17,24,39,0.08), rgba(17,24,39,0.72)),
+      linear-gradient(135deg, rgba(37,111,255,0.18), rgba(255,69,91,0.2));
+    color: var(--white);
+  }
+  .youtube-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 26px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.16);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .youtube-thumb strong {
+    font-size: 21px;
+    line-height: 1.22;
+    letter-spacing: -0.03em;
+  }
+  .youtube-body {
+    padding: 16px 16px 18px;
+  }
+  .youtube-body strong {
+    display: block;
+    font-size: 17px;
+    line-height: 1.4;
+    letter-spacing: -0.03em;
+  }
+  .youtube-body p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--gray-dark);
+    line-height: 1.6;
+  }
+  .youtube-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .youtube-meta span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--gray-1);
+    color: var(--gray-7);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .wiki-panel h3 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -0.04em;
+  }
+  .wiki-panel p {
+    margin: 10px 0 0;
+    color: var(--gray-dark);
+    max-width: 720px;
+  }
+  .wiki-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .wiki-keyword {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--gray-dark);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .footer {
+    padding: 26px 0 52px;
+    color: var(--gray-7);
     font-size: 13px;
   }
   .toast {
@@ -812,42 +808,50 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .footer {
-    padding: 26px 0 52px;
-    color: var(--gray-7);
-    font-size: 13px;
-  }
   @media (max-width: 1024px) {
-    .hero-grid,
-    .signal-grid,
-    .info-grid,
-    .routes,
     .home-picks-grid,
-    .home-spec-grid { grid-template-columns: 1fr 1fr; }
-    .carousel-card { flex-basis: calc((100% - 16px) / 2); }
+    .spec-grid,
+    .curation-grid,
+    .category-summary-grid {
+      grid-template-columns: 1fr 1fr;
+    }
   }
   @media (max-width: 768px) {
     .container { width: min(100% - 28px, 1180px); }
     .topbar-inner,
     .section-head,
     .lab-head { flex-direction: column; align-items: flex-start; }
-    .hero-grid,
-    .signal-grid,
-    .lab-list,
-    .info-grid,
-    .routes,
+    .nav { flex-wrap: wrap; }
     .home-picks-grid,
-    .home-spec-grid { grid-template-columns: 1fr; }
-    .hero-panel,
-    .signal-panel,
-    .lab-inner { padding: 24px; }
-    .carousel-card { flex-basis: 88%; }
-    .home-pick-card { padding: 22px; }
-    .home-price-bar {
+    .youtube-grid,
+    .spec-grid,
+    .curation-grid,
+    .category-summary-grid,
+    .curation-strip,
+    .lab-list {
+      grid-template-columns: 1fr;
+    }
+    .pick-card,
+    .lab-inner,
+    .wiki-panel {
+      padding: 24px;
+    }
+    .pick-card { padding: 22px; }
+    .price-bar {
       grid-template-columns: 1fr;
       align-items: stretch;
     }
-    .home-affiliate-link { width: 100%; }
+    .affiliate-link { width: 100%; }
+    .lab-item {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .category-mini-item,
+    .category-footer {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+    .lab-progress { min-width: 0; width: 100%; }
     .toast {
       left: 14px;
       right: 14px;
@@ -878,48 +882,80 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-panel">
-          <span class="eyebrow">Nosearch Picks First</span>
-          <h1>지금 봐야 할 건<br />노써치픽부터입니다.</h1>
-          <p class="hero-copy">
-            홈 우선순위를 다시 잡았습니다. 가장 먼저 최근 업데이트된 노써치픽을 전면 영역으로 보여주고,
-            그 다음에 구매가이드와 가전백과로 이어지도록 흐름을 정리했습니다.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="picks.html">노써치픽 전체 보기</a>
-            <a class="button secondary" href="guides.html">구매가이드 보기</a>
-            <a class="button secondary" href="encyclopedia.html">가전백과 보기</a>
+    <section class="block">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>노써치 CM 큐레이션</h2>
+            <p>여러 픽 페이지와 가전백과를 한데 묶는 편집 섹션입니다. 이름은 키치하게, 연결은 실용적으로 가져가는 CM 전용 큐레이션 영역을 상정했습니다.</p>
           </div>
         </div>
-        <div class="hero-side">
-          <div class="signal-panel">
-            <div class="signal-head">
-              <strong>빠른 운영 신호</strong>
-              <span class="signal-badge">Mockup</span>
+        <div class="curation-grid">
+          <article class="curation-card">
+            <div class="curation-card-head">
+              <h3>Take a seat</h3>
+              <p>앉아 있는 시간이 길어지는 사람을 위해, 자세와 공간을 같이 생각한 의자·조명·주변 가전 큐레이션.</p>
             </div>
-            <div class="signal-grid">
-              <div class="signal-card">
-                <span class="signal-value">06</span>
-                <span class="signal-label">이번 주 픽 갱신</span>
-                <div class="signal-bar"><i style="width: 82%"></i></div>
+            <div class="curation-strip">
+              <div class="curation-thumb"></div>
+              <div class="curation-thumb"></div>
+              <div class="curation-thumb"></div>
+            </div>
+            <div class="curation-list">
+              <div class="curation-item">
+                <strong>장시간 앉아도 덜 버거운 세팅</strong>
+                <span>노트북 픽 · 모니터 가이드 · 조명 가전백과</span>
               </div>
-              <div class="signal-card">
-                <span class="signal-value">14</span>
-                <span class="signal-label">가이드 운영 중</span>
-                <div class="signal-bar"><i style="width: 68%"></i></div>
-              </div>
-              <div class="signal-card">
-                <span class="signal-value">04</span>
-                <span class="signal-label">실험실 진행</span>
-                <div class="signal-bar"><i style="width: 46%"></i></div>
+              <div class="curation-item">
+                <strong>CM 메모</strong>
+                <span>사무용 노트북 픽과 작업 환경 백과를 함께 묶는 구성</span>
               </div>
             </div>
-            <div class="signal-note">
-              숫자만 두는 대신 실제 운영 패턴이 느껴지도록 대비, 바, 강조 배지를 넣었습니다. 메인 우선순위는 픽, 가이드, 백과 순서를 유지합니다.
+          </article>
+
+          <article class="curation-card">
+            <div class="curation-card-head">
+              <h3>당신의 거실을 채울 가전</h3>
+              <p>거실에서 오래 머무는 집을 위해, 공기청정기와 TV, 로봇청소기까지 같이 보는 묶음 큐레이션.</p>
             </div>
-          </div>
+            <div class="curation-strip">
+              <div class="curation-thumb"></div>
+              <div class="curation-thumb"></div>
+              <div class="curation-thumb"></div>
+            </div>
+            <div class="curation-list">
+              <div class="curation-item">
+                <strong>거실 메인 가전 한 번에 보기</strong>
+                <span>공기청정기 픽 · TV 픽 · CADR/패널 백과</span>
+              </div>
+              <div class="curation-item">
+                <strong>CM 메모</strong>
+                <span>가족 단위 사용자를 상정한 생활 밀착형 큐레이션</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="curation-card">
+            <div class="curation-card-head">
+              <h3>밤에 더 예민한 사람들</h3>
+              <p>소음, 수면, 직풍, 은은한 조작감처럼 숫자보다 체감이 먼저인 포인트들을 묶은 큐레이션.</p>
+            </div>
+            <div class="curation-strip">
+              <div class="curation-thumb"></div>
+              <div class="curation-thumb"></div>
+              <div class="curation-thumb"></div>
+            </div>
+            <div class="curation-list">
+              <div class="curation-item">
+                <strong>조용해야만 추천할 수 있는 제품들</strong>
+                <span>공기청정기 픽 · 침실용 에어컨 픽 · 소음 백과</span>
+              </div>
+              <div class="curation-item">
+                <strong>CM 메모</strong>
+                <span>소음 민감층 타깃으로 제목도 더 장난기 있게 갈 수 있는 영역</span>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -929,201 +965,116 @@
         <div class="section-head">
           <div>
             <h2>최근 업데이트된 노써치픽</h2>
-            <p>메인에서 가장 먼저 보여줘야 하는 영역입니다. 최근 바뀐 추천만 빠르게 훑을 수 있게 카드 밀도와 강조선을 다시 다듬었습니다.</p>
+            <p>단일 제품이 아니라 카테고리 서브메인 단위로 보여주는 영역입니다. 각 카드는 해당 카테고리 페이지에 들어갔을 때 바로 보게 될 핵심 흐름을 먼저 요약합니다.</p>
           </div>
-          <a class="section-link" href="picks.html">노써치픽 전체 보기 →</a>
+          <a class="section-link" href="picks.html">노써치픽 허브 보기 →</a>
         </div>
-        <div class="home-picks-grid">
-          <article class="carousel-card home-pick-card">
-            <div class="home-media-thumb">
-              <strong>제품 이미지 자리</strong>
-              <span>공기청정기 대표 제품 컷 또는 라이프스타일 이미지</span>
+        <div class="home-picks-grid home-picks-grid-categories">
+          <article class="pick-card">
+            <div class="media-thumb">
+              <strong>카테고리 대표 비주얼 자리</strong>
+              <span>공기청정기 서브메인을 대표하는 제품군 컷 또는 생활 장면</span>
             </div>
-            <div class="home-pick-meta">
-              <span class="pick-chip">생활가전 · 베스트픽</span>
+            <div class="pick-meta">
+              <span class="pick-chip">생활가전 서브메인</span>
               <span class="pick-updated">3시간 전 업데이트</span>
             </div>
-            <h3>공기청정기 카테고리<br />LG 퓨리케어 오브제컬렉션</h3>
-            <p>홈에서도 바로 픽의 밀도를 느낄 수 있게 `picks.html`과 같은 정보 구조로 끌어왔습니다. 자동모드 완성도와 유지비 균형이 이번 업데이트에서도 다시 확인됐습니다.</p>
-            <div class="home-spec-panel">
-              <div class="home-spec-head">
-                <strong>주요 스펙 요약</strong>
-                <a class="home-spec-link" href="picks.html">스펙 더 보기 →</a>
+            <h3>공기청정기 카테고리<br />업데이트된 서브메인 바로 보기</h3>
+            <p>단일 제품 추천이 아니라 공기청정기 카테고리 페이지 자체를 요약하는 카드입니다. 들어가면 4줄 구매가이드, 4가지 픽, 관련 가전백과, CM 히스토리와 다음 점검 일정까지 한 번에 보게 됩니다.</p>
+            <div class="category-summary">
+              <div class="category-summary-head">
+                <strong>이 서브메인에서 바로 보는 것</strong>
+                <a class="spec-link" href="picks-air-cleaner.html">공기청정기 픽 보기 →</a>
               </div>
-              <div class="home-spec-grid">
-                <div class="home-spec-item">
-                  <strong>권장 공간</strong>
-                  <span>30평형 전후 거실 메인</span>
+              <div class="category-summary-grid">
+                <div class="category-summary-item">
+                  <strong>핵심 요약</strong>
+                  <span>구매가이드 4줄 요약과 풀버전 진입</span>
                 </div>
-                <div class="home-spec-item">
-                  <strong>센서 구성</strong>
-                  <span>미세먼지 + 냄새 감지</span>
+                <div class="category-summary-item">
+                  <strong>대표 픽</strong>
+                  <span>베스트 · 가성비 · 플러스 · 프리미엄</span>
                 </div>
-                <div class="home-spec-item">
-                  <strong>강점</strong>
-                  <span>자동모드 안정감, 저소음</span>
-                </div>
-                <div class="home-spec-item">
-                  <strong>관리 포인트</strong>
-                  <span>필터 교체비 중간 수준</span>
+                <div class="category-summary-item">
+                  <strong>업데이트 맥락</strong>
+                  <span>CM 코멘트 히스토리와 다음 점검 일정</span>
                 </div>
               </div>
             </div>
-            <div class="home-price-bar">
-              <div class="home-price-stat">
-                <strong>최저가</strong>
-                <span>₩489,000</span>
-                <small>2026.04.27 오늘 기준</small>
+            <div class="category-mini-list">
+              <div class="category-mini-item">
+                <div class="category-mini-label">최근 변경</div>
+                <div class="category-mini-copy">
+                  <strong>플러스픽 기준이 유지비까지 보는 쪽으로 더 선명해졌습니다</strong>
+                  <span>소음과 CADR만 보던 구조에서 필터 비용과 자동모드 안정감을 더 크게 반영한 업데이트가 들어갔습니다.</span>
+                </div>
               </div>
-              <div class="home-price-change">
-                <strong>가격 변화</strong>
-                <span>7일 전 대비 -3.8%</span>
-                <small>최근 할인 구간 진입</small>
+              <div class="category-mini-item">
+                <div class="category-mini-label">같이 읽기</div>
+                <div class="category-mini-copy">
+                  <strong>필터 비용, 자동모드, 냄새 센서 관련 가전백과가 같이 묶입니다</strong>
+                  <span>픽만 보고 끝내지 않고 왜 이런 판단이 나왔는지 바로 이해할 수 있게 백과 콘텐츠를 함께 배치했습니다.</span>
+                </div>
               </div>
-              <a class="home-affiliate-link" href="picks.html">제휴몰 보기</a>
             </div>
-            <div class="home-why-note">
-              <span class="home-why-label">Why This Pick</span>
-              <p>가족이 함께 쓰는 공간에서 소음과 성능의 타협점이 가장 자연스럽습니다. 홈에서 한 번 보고 바로 들어가도 추천 근거가 충분히 읽히도록 설명 단을 유지했습니다.</p>
+            <div class="category-footer">
+              <span class="category-footnote">서브메인 갱신 기준: 2026.04.27 오전 점검 반영</span>
+              <a class="category-link" href="picks-air-cleaner.html">공기청정기 서브메인 열기</a>
             </div>
           </article>
 
-          <article class="carousel-card home-pick-card">
-            <div class="home-media-thumb">
-              <strong>제품 이미지 자리</strong>
-              <span>가성비픽 대표 컷 또는 가격 메리트 강조 비주얼</span>
+          <article class="pick-card">
+            <div class="media-thumb">
+              <strong>카테고리 대표 비주얼 자리</strong>
+              <span>노트북 카테고리를 설명하는 제품군 컷 또는 작업 장면</span>
             </div>
-            <div class="home-pick-meta">
-              <span class="pick-chip value">IT · 가성비픽</span>
+            <div class="pick-meta">
+              <span class="pick-chip value">IT 서브메인</span>
               <span class="pick-updated">오늘 순위 변경</span>
             </div>
-            <h3>노트북 카테고리<br />맥북 에어 기본형</h3>
-            <p>문서 작업과 화상회의 위주 사용자라면 여전히 판단이 빠른 쪽입니다. 카드 구조도 `picks.html` 쪽 톤에 맞춰 홈에서의 일관성을 살렸습니다.</p>
-            <div class="home-spec-panel">
-              <div class="home-spec-head">
-                <strong>주요 스펙 요약</strong>
-                <a class="home-spec-link" href="picks.html">스펙 더 보기 →</a>
+            <h3>노트북 카테고리<br />우선순위가 바뀐 서브메인 요약</h3>
+            <p>제품 하나를 전면에 세우는 대신, 노트북 서브메인 전체가 어떻게 바뀌었는지를 보여주는 카드입니다. 어떤 사용자 기준이 올라왔고, 어떤 백과가 같이 묶이는지가 먼저 읽혀야 합니다.</p>
+            <div class="category-summary">
+              <div class="category-summary-head">
+                <strong>이 서브메인에서 바로 보는 것</strong>
+                <a class="spec-link" href="picks-laptop.html">노트북 서브메인 보기 →</a>
               </div>
-              <div class="home-spec-grid">
-                <div class="home-spec-item">
-                  <strong>권장 용도</strong>
-                  <span>문서 작업, 화상회의, 이동 사용</span>
+              <div class="category-summary-grid">
+                <div class="category-summary-item">
+                  <strong>핵심 요약</strong>
+                  <span>문서용 · 영상편집용 기준 4줄로 빠르게 정리</span>
                 </div>
-                <div class="home-spec-item">
-                  <strong>체감 장점</strong>
-                  <span>배터리, 무게, 발열 안정성</span>
+                <div class="category-summary-item">
+                  <strong>대표 픽</strong>
+                  <span>입문형 · 밸런스형 · 작업형 · 프리미엄</span>
                 </div>
-                <div class="home-spec-item">
-                  <strong>강점</strong>
-                  <span>기본형 완성도, 스트레스 적음</span>
-                </div>
-                <div class="home-spec-item">
-                  <strong>관리 포인트</strong>
-                  <span>포트 구성과 저장공간 확인</span>
+                <div class="category-summary-item">
+                  <strong>업데이트 맥락</strong>
+                  <span>포트 구성과 발열 체감 기준 재정리</span>
                 </div>
               </div>
             </div>
-            <div class="home-price-bar">
-              <div class="home-price-stat">
-                <strong>최저가</strong>
-                <span>₩1,399,000</span>
-                <small>2026.04.27 오늘 기준</small>
+            <div class="category-mini-list">
+              <div class="category-mini-item">
+                <div class="category-mini-label">최근 변경</div>
+                <div class="category-mini-copy">
+                  <strong>가성비보다 사용 스트레스가 적은 모델이 더 위로 올라왔습니다</strong>
+                  <span>문서 작업과 화상회의 중심 사용자에게는 배터리, 소음, 발열이 숫자 스펙보다 실제 만족도를 더 크게 좌우한다는 판단을 반영했습니다.</span>
+                </div>
               </div>
-              <div class="home-price-change">
-                <strong>가격 변화</strong>
-                <span>14일 전 대비 -4.1%</span>
-                <small>신제품 비교 후 재정렬</small>
+              <div class="category-mini-item">
+                <div class="category-mini-label">같이 읽기</div>
+                <div class="category-mini-copy">
+                  <strong>램, 발열, 디스플레이 밝기 관련 가전백과와 연결됩니다</strong>
+                  <span>노트북 스펙표가 길게 느껴지는 사람도 바로 감이 오도록 백과 쪽 설명을 곁들여 들어가는 구조입니다.</span>
+                </div>
               </div>
-              <a class="home-affiliate-link" href="picks.html">제휴몰 보기</a>
             </div>
-            <div class="home-why-note">
-              <span class="home-why-label">Why This Pick</span>
-              <p>가격만 보면 더 저렴한 대안도 있지만, 실제 사용 스트레스까지 포함하면 여전히 설득력이 큽니다. 홈에서도 `왜 추천하나`가 먼저 보이게 배치했습니다.</p>
+            <div class="category-footer">
+              <span class="category-footnote">서브메인 갱신 기준: 2026.04.27 오후 비교표 재정렬</span>
+              <a class="category-link" href="picks-laptop.html">노트북 서브메인 열기</a>
             </div>
           </article>
-        </div>
-        <div class="carousel-shell">
-          <div class="carousel-scroll">
-            <article class="carousel-card">
-              <div class="carousel-meta">
-                <span class="pick-chip">생활가전 · 베스트픽</span>
-                <span class="pick-updated">3시간 전 업데이트</span>
-              </div>
-              <h3>공기청정기 30평형<br />LG 퓨리케어 오브제컬렉션</h3>
-              <p>거실 메인용 기준으로 밸런스가 가장 좋습니다. 자동모드 완성도와 유지비 균형이 이번 업데이트에서 다시 확인된 타입입니다.</p>
-              <div class="pick-points">
-                <div class="pick-point">
-                  <strong>왜 바뀌었나</strong>
-                  <span>필터 비용과 소음 체감 기준을 반영해 순위가 안정화됐습니다.</span>
-                </div>
-                <div class="pick-point">
-                  <strong>누구에게 맞나</strong>
-                  <span>거실 메인용으로 오래 쓸 한 대를 찾는 사용자</span>
-                </div>
-              </div>
-              <a class="carousel-cta" href="picks.html">이 픽 자세히 보기</a>
-            </article>
-
-            <article class="carousel-card">
-              <div class="carousel-meta">
-                <span class="pick-chip">IT · 가성비픽</span>
-                <span class="pick-updated">오늘 순위 변경</span>
-              </div>
-              <h3>사무용 노트북 100만원대<br />맥북 에어 기본형</h3>
-              <p>문서 작업과 화상회의 위주라면 여전히 판단이 빠릅니다. 신제품 비교 후에도 사용 스트레스가 적은 쪽으로 정리됐습니다.</p>
-              <div class="pick-points">
-                <div class="pick-point">
-                  <strong>왜 바뀌었나</strong>
-                  <span>최신 세대 가격과 발열 밸런스를 다시 반영했습니다.</span>
-                </div>
-                <div class="pick-point">
-                  <strong>누구에게 맞나</strong>
-                  <span>휴대성과 배터리를 우선하는 일반 사용자</span>
-                </div>
-              </div>
-              <a class="carousel-cta" href="picks.html">이 픽 자세히 보기</a>
-            </article>
-
-            <article class="carousel-card">
-              <div class="carousel-meta">
-                <span class="pick-chip">영상가전 · 베스트픽</span>
-                <span class="pick-updated">어제 가격 반영</span>
-              </div>
-              <h3>거실 메인 TV 65형<br />LG OLED evo C 라인</h3>
-              <p>가격 메리트가 생긴 구간에서 다시 전면으로 올라왔습니다. 화질 체감과 가격 간격이 이번 판단 포인트였습니다.</p>
-              <div class="pick-points">
-                <div class="pick-point">
-                  <strong>왜 바뀌었나</strong>
-                  <span>동급 QLED 대비 가격 간격이 줄어든 구간을 반영했습니다.</span>
-                </div>
-                <div class="pick-point">
-                  <strong>누구에게 맞나</strong>
-                  <span>OTT와 영화 감상이 많은 거실 메인 사용자</span>
-                </div>
-              </div>
-              <a class="carousel-cta" href="picks.html">이 픽 자세히 보기</a>
-            </article>
-
-            <article class="carousel-card">
-              <div class="carousel-meta">
-                <span class="pick-chip">계절가전 · 플러스픽</span>
-                <span class="pick-updated">어제 가격 반영</span>
-              </div>
-              <h3>침실용 에어컨<br />저소음 특화 모델</h3>
-              <p>절대 성능보다 소음과 직풍 억제가 중요한 조건부 추천입니다. 용도가 분명한 사용자에게만 전면 추천합니다.</p>
-              <div class="pick-points">
-                <div class="pick-point">
-                  <strong>왜 바뀌었나</strong>
-                  <span>최근 설치비와 행사 조건을 다시 반영했습니다.</span>
-                </div>
-                <div class="pick-point">
-                  <strong>누구에게 맞나</strong>
-                  <span>침실 전용으로 조용한 냉방이 꼭 필요한 사용자</span>
-                </div>
-              </div>
-              <a class="carousel-cta" href="picks.html">이 픽 자세히 보기</a>
-            </article>
-          </div>
         </div>
       </div>
     </section>
@@ -1136,17 +1087,17 @@
               <div>
                 <div class="lab-eyebrow"><span class="live-dot"></span>In The Lab</div>
                 <div class="lab-title">지금 노써치 CM이 준비중인 콘텐츠</div>
-                <div class="lab-sub">메인에서 다음 움직임을 보여주는 실험실 섹션입니다. 각 항목 아래 버튼은 실제 알림 토글로 바꿨습니다.</div>
+                <div class="lab-sub">홈에서 다음 움직임을 보여주는 실험실 섹션입니다. 각 항목은 실제 알림 토글 상태를 유지하도록 연결했습니다.</div>
               </div>
               <a class="lab-link" href="update-schedule.html">다음 업데이트 일정 보기 →</a>
             </div>
 
             <div class="lab-list">
               <div class="lab-item">
-                <div class="lab-icon">🌬️</div>
+                <div class="lab-icon">🫧</div>
                 <div>
                   <div class="lab-item-title">공기청정기 12개 모델 비교 진행 중</div>
-                  <div class="lab-item-sub">30평 이상 거실용 · CADR · 소음 · 필터 비용 비교</div>
+                  <div class="lab-item-sub">30평대 이상 거실용 기준 · CADR · 소음 · 필터 비용 비교</div>
                 </div>
                 <div class="lab-progress">
                   <div class="lab-progress-bar"><i style="width:72%"></i></div>
@@ -1156,10 +1107,10 @@
               </div>
 
               <div class="lab-item">
-                <div class="lab-icon">🍳</div>
+                <div class="lab-icon">🍟</div>
                 <div>
                   <div class="lab-item-title">에어프라이어 리뷰 준비 중</div>
-                  <div class="lab-item-sub">가정용 5L급 · 조리 품질 · 세척 · 전기료 측정</div>
+                  <div class="lab-item-sub">가정용 5L급 · 조리 편의 · 예열 · 연기량 측정</div>
                 </div>
                 <div class="lab-progress">
                   <div class="lab-progress-bar"><i style="width:34%"></i></div>
@@ -1169,10 +1120,10 @@
               </div>
 
               <div class="lab-item">
-                <div class="lab-icon">💻</div>
+                <div class="lab-icon">🎮</div>
                 <div>
                   <div class="lab-item-title">노트북 게이밍 추가 테스트</div>
-                  <div class="lab-item-sub">신제품 3종 · FPS · 발열 · 배터리 재측정</div>
+                  <div class="lab-item-sub">최신작 3종 · FPS · 발열 · 배터리 수명 비교</div>
                 </div>
                 <div class="lab-progress">
                   <div class="lab-progress-bar"><i style="width:58%"></i></div>
@@ -1185,7 +1136,7 @@
                 <div class="lab-icon">💨</div>
                 <div>
                   <div class="lab-item-title">헤어드라이어 DB 수집 중</div>
-                  <div class="lab-item-sub">국내 판매 30종 스펙 정규화 · 풍량 · 소음 벤치마크</div>
+                  <div class="lab-item-sub">국내 판매 30종 스펙 정리 · 풍량 · 소음 벤치마크</div>
                 </div>
                 <div class="lab-progress">
                   <div class="lab-progress-bar"><i style="width:18%"></i></div>
@@ -1199,128 +1150,81 @@
       </div>
     </section>
 
-    <section class="block" style="display:none">
+    <section class="block">
       <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>지금 들어가면 좋은 페이지</h2>
-            <p>노써치픽 다음 우선순위는 구매가이드, 그리고 그 아래에 가전백과를 배치해 읽는 흐름을 나눴습니다.</p>
+        <div class="youtube-section">
+          <div class="youtube-head">
+            <div>
+              <h3>노써치 유튜브</h3>
+              <p>노써치픽과 구매가이드, 가전백과를 영상으로 먼저 훑어보는 섹션입니다. 썸네일 한 장으로 감 잡고 싶은 사람을 위해 최근 업로드 흐름을 홈에 같이 묶었습니다.</p>
+            </div>
+            <a class="youtube-link" href="https://www.youtube.com/@nosearch" target="_blank" rel="noreferrer">유튜브 채널 보기</a>
           </div>
-        </div>
-        <div class="info-grid">
-          <article class="info-card">
-            <span class="label">Picks First</span>
-            <h3>노써치픽</h3>
-            <p>지금 바로 결론이 필요한 사용자에게 가장 먼저 보여줘야 하는 추천 리스트입니다.</p>
-            <div class="meta-list">
-              <div class="meta-item">
-                <strong>추천 진입</strong>
-                <span>비교보다 빠른 결정을 원하는 사용자</span>
+          <div class="youtube-grid">
+            <a class="youtube-card" href="https://www.youtube.com/@nosearch" target="_blank" rel="noreferrer">
+              <div class="youtube-thumb">
+                <span class="youtube-badge">Picks Update</span>
+                <strong>공기청정기 픽 바뀐 이유<br />3분 안에 정리</strong>
               </div>
-              <div class="meta-item">
-                <strong>대표 항목</strong>
-                <span>공기청정기, 노트북, TV, 침실용 에어컨</span>
+              <div class="youtube-body">
+                <strong>이번엔 왜 플러스픽 기준이 달라졌는지 CM이 직접 설명하는 영상</strong>
+                <p>필터 비용, 자동모드, 소음 체감처럼 글로 보면 길어지는 판단 포인트를 영상에서 먼저 압축해 보여주는 포맷입니다.</p>
+                <div class="youtube-meta">
+                  <span>최근 업로드</span>
+                  <span>공기청정기</span>
+                  <span>픽 해설</span>
+                </div>
               </div>
-            </div>
-          </article>
-          <article class="info-card">
-            <span class="label">Guide Second</span>
-            <h3>구매가이드</h3>
-            <p>픽의 결론을 이해한 뒤, 기준과 이유를 더 깊게 읽고 싶은 사용자를 위한 두 번째 축입니다.</p>
-            <div class="meta-list">
-              <div class="meta-item">
-                <strong>추천 진입</strong>
-                <span>왜 이 제품이 올라왔는지 기준부터 이해하고 싶은 사용자</span>
+            </a>
+
+            <a class="youtube-card" href="https://www.youtube.com/@nosearch" target="_blank" rel="noreferrer">
+              <div class="youtube-thumb">
+                <span class="youtube-badge">Guide Recap</span>
+                <strong>노트북 구매가이드<br />4줄 요약판</strong>
               </div>
-              <div class="meta-item">
-                <strong>대표 항목</strong>
-                <span>공기청정기 추천 가이드, 노트북 추천 가이드, TV 추천 가이드</span>
+              <div class="youtube-body">
+                <strong>문서용, 영상편집용, 발열 민감형까지 누구를 위한 기준인지 빠르게 요약하는 영상</strong>
+                <p>구매가이드를 다 읽기 전에 기준부터 잡고 싶은 사람을 위한 짧은 해설형 영상 자리입니다.</p>
+                <div class="youtube-meta">
+                  <span>가이드 요약</span>
+                  <span>노트북</span>
+                  <span>짧은 해설</span>
+                </div>
               </div>
-            </div>
-          </article>
-          <article class="info-card">
-            <span class="label">Encyclopedia</span>
-            <h3>가전백과</h3>
-            <p>추천보다 한 단계 앞의 배경지식형 콘텐츠입니다. 용어와 구조를 먼저 이해하고 싶은 사용자에게 맞는 축입니다.</p>
-            <div class="meta-list">
-              <div class="meta-item">
-                <strong>추천 진입</strong>
-                <span>필터, CADR, OLED 같은 용어를 먼저 이해하고 싶은 사용자</span>
+            </a>
+
+            <a class="youtube-card" href="https://www.youtube.com/@nosearch" target="_blank" rel="noreferrer">
+              <div class="youtube-thumb">
+                <span class="youtube-badge">Encyclopedia</span>
+                <strong>가전백과로 보는<br />필터 비용의 진실</strong>
               </div>
-              <div class="meta-item">
-                <strong>대표 항목</strong>
-                <span>공기청정기 센서 읽는 법, 에어컨 설치비 구조, OLED와 QLED 차이</span>
+              <div class="youtube-body">
+                <strong>스펙표에 잘 안 보이지만 오래 쓸수록 차이 나는 비용 포인트를 백과형으로 풀어낸 영상</strong>
+                <p>픽과 가이드를 다 본 뒤에도 남는 질문을 유튜브에서 가볍게 해소하는 연결 섹션입니다.</p>
+                <div class="youtube-meta">
+                  <span>가전백과</span>
+                  <span>유지비</span>
+                  <span>CM 설명</span>
+                </div>
               </div>
-            </div>
-          </article>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="block">
       <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>빠른 진입 경로</h2>
-            <p>메인에서 바로 이어질 수 있게 핵심 섹션을 네 갈래로 다시 압축했습니다.</p>
+        <div class="wiki-panel">
+          <h3>노써치 위키검색</h3>
+          <p>카테고리보다 먼저 떠오르는 건 대개 고민입니다. `공기청정기 소음`, `20평대 가성비`, `자동모드`처럼 검색하면 관련 픽, 구매가이드, 가전백과를 묶어서 보여주는 위키형 검색 허브를 추가했습니다.</p>
+          <div class="wiki-keywords">
+            <a class="wiki-keyword" href="wiki.html">공기청정기 소음</a>
+            <a class="wiki-keyword" href="wiki.html">필터 비용</a>
+            <a class="wiki-keyword" href="wiki.html">로봇청소기 센서</a>
+            <a class="wiki-keyword" href="wiki.html">노트북 발열</a>
+            <a class="wiki-keyword" href="wiki.html">20평대 가성비</a>
           </div>
-        </div>
-        <div class="routes">
-          <a class="route-card" href="picks.html">
-            <div class="icon">🏆</div>
-            <h3>노써치픽</h3>
-            <p>최근 업데이트된 추천을 중심으로 지금 가장 빠른 결론을 제공합니다.</p>
-            <strong>바로 추천 보기</strong>
-          </a>
-          <a class="route-card" href="guides.html">
-            <div class="icon">📘</div>
-            <h3>구매가이드</h3>
-            <p>카테고리별 기준과 추천 이유를 읽는 심화 진입입니다.</p>
-            <strong>기준부터 읽기</strong>
-          </a>
-          <a class="route-card" href="encyclopedia.html">
-            <div class="icon">📚</div>
-            <h3>가전백과</h3>
-            <p>용어와 구조를 이해하기 위한 배경지식형 콘텐츠 허브입니다.</p>
-            <strong>용어와 개념 보기</strong>
-          </a>
-          <a class="route-card" href="categories.html">
-            <div class="icon">🧭</div>
-            <h3>카테고리</h3>
-            <p>어떤 영역부터 봐야 할지 감이 안 잡힐 때 들어가는 탐색 허브입니다.</p>
-            <strong>카테고리 탐색</strong>
-          </a>
-          <a class="route-card" href="wiki.html">
-            <div class="icon">🔎</div>
-            <h3>위키검색</h3>
-            <p>제품명보다 고민 키워드가 먼저 떠오를 때 관련 콘텐츠를 통합 검색하는 허브입니다.</p>
-            <strong>소음 · 필터 비용 · 가성비로 찾기</strong>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="block">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>노써치 위키검색</h2>
-            <p>카테고리보다 먼저 떠오르는 건 대개 고민입니다. `공기청정기 소음`, `20평대 가성비`, `자동모드`처럼 검색하면 관련 픽, 구매가이드, 가전백과를 묶어서 보여주는 위키형 검색 허브를 추가했습니다.</p>
-          </div>
-        </div>
-        <div class="routes">
-          <a class="route-card" href="wiki.html">
-            <div class="icon">🧠</div>
-            <h3>고민 기준으로 찾기</h3>
-            <p>“무슨 제품을 살까”보다 “무슨 문제가 고민인가”를 먼저 입력하는 탐색 흐름입니다.</p>
-            <strong>픽 · 가이드 · 백과 통합 검색</strong>
-          </a>
-          <a class="route-card" href="wiki.html">
-            <div class="icon">⌕</div>
-            <h3>추천 검색어</h3>
-            <p>공기청정기 소음, 필터 비용, 로봇청소기 센서, 노트북 발열 같은 키워드로 바로 시작할 수 있습니다.</p>
-            <strong>키워드로 관련 콘텐츠 모아보기</strong>
-          </a>
         </div>
       </div>
     </section>
@@ -1330,52 +1234,61 @@
 
   <footer class="footer">
     <div class="container">
-      홈은 노써치픽을 전면에 올리고, 그 다음 구매가이드와 가전백과로 이어지는 흐름으로 다시 정리했습니다.
+      홈은 노써치픽을 전면에 두고, CM 큐레이션과 가전백과, 위키검색으로 이어지는 흐름으로 다시 정리했습니다.
     </div>
   </footer>
 
+  <script src="content-render.js"></script>
   <script>
     (function () {
       var storageKey = "nosearch-lab-alerts";
-      var buttons = document.querySelectorAll(".lab-notify-btn");
       var toast = document.getElementById("toast");
-      var saved = {};
+      var timer = null;
 
-      try {
-        saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
-      } catch (error) {
-        saved = {};
+      function loadState() {
+        try {
+          return JSON.parse(localStorage.getItem(storageKey) || "{}");
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function saveState(state) {
+        localStorage.setItem(storageKey, JSON.stringify(state));
       }
 
       function showToast(message) {
-        if (!toast) return;
         toast.textContent = message;
         toast.classList.add("is-visible");
-        clearTimeout(showToast.timer);
-        showToast.timer = setTimeout(function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
           toast.classList.remove("is-visible");
         }, 1800);
       }
 
-      function applyState(button, isActive) {
-        button.classList.toggle("is-active", isActive);
-        button.textContent = isActive ? "알림 신청 완료" : "업데이트 알림 받기";
-        button.setAttribute("aria-pressed", isActive ? "true" : "false");
-      }
-
+      var state = loadState();
+      var buttons = document.querySelectorAll(".lab-notify-btn");
       buttons.forEach(function (button) {
         var key = button.getAttribute("data-alert-key");
-        applyState(button, Boolean(saved[key]));
+        if (state[key]) {
+          button.classList.add("is-subscribed");
+          button.textContent = "알림 신청 완료";
+        }
+
         button.addEventListener("click", function () {
-          var next = !saved[key];
-          saved[key] = next;
-          try {
-            localStorage.setItem(storageKey, JSON.stringify(saved));
-          } catch (error) {
-            // Ignore storage failures and keep UI state in memory for this session.
+          var current = loadState();
+          current[key] = !current[key];
+          saveState(current);
+
+          if (current[key]) {
+            button.classList.add("is-subscribed");
+            button.textContent = "알림 신청 완료";
+            showToast("업데이트 알림 신청이 저장되었습니다.");
+          } else {
+            button.classList.remove("is-subscribed");
+            button.textContent = "업데이트 알림 받기";
+            showToast("업데이트 알림 신청이 해제되었습니다.");
           }
-          applyState(button, next);
-          showToast(next ? "업데이트 알림을 신청했어요." : "업데이트 알림을 해제했어요.");
         });
       });
     })();

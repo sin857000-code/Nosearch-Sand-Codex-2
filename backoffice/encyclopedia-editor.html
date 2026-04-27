@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>가전백과 편집기</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-store="encyclopedia">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <small>Nosearch Backoffice</small>
+        <strong>콘텐츠 운영 센터</strong>
+      </div>
+      <nav class="nav">
+        <a href="index.html">대시보드</a>
+        <a href="submain-editor.html">노써치픽 서브메인</a>
+        <a href="guide-editor.html">구매가이드</a>
+        <a class="is-active" href="encyclopedia-editor.html">가전백과</a>
+        <a href="wiki-editor.html">위키검색</a>
+        <a href="schedule-editor.html">업데이트 일정</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <span class="eyebrow">Encyclopedia Editor</span>
+        <h1>질문형 가전백과 콘텐츠를 관리합니다.</h1>
+        <p>가전백과는 서브메인과 구매가이드 사이에서 기준을 더 쉽게 풀어주는 역할을 합니다. 질문 제목, 연결 키워드, 관련 페이지 묶음을 이곳에서 관리할 수 있습니다.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>콘텐츠 편집</h2>
+            <p>질문형 제목과 한 줄 요약, 연결되는 키워드를 세팅합니다.</p>
+          </div>
+        </div>
+
+        <form data-editor-form>
+          <div class="grid-2">
+            <article class="panel">
+              <div class="field">
+                <label for="encyclopedia-category">카테고리</label>
+                <select id="encyclopedia-category" name="category">
+                  <option>공기청정기</option>
+                  <option>노트북</option>
+                  <option>로봇청소기</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="encyclopedia-title">질문형 제목</label>
+                <input id="encyclopedia-title" name="title" />
+              </div>
+              <div class="field">
+                <label for="encyclopedia-summary">한 줄 요약</label>
+                <textarea id="encyclopedia-summary" name="summary"></textarea>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="field">
+                <label for="linkedSubmain-encyclopedia">연결 서브메인</label>
+                <input id="linkedSubmain-encyclopedia" name="linkedSubmain" />
+              </div>
+              <div class="field">
+                <label for="keywords">연결 키워드</label>
+                <textarea id="keywords" name="keywords"></textarea>
+                <small>콤마로 구분하면 충분합니다.</small>
+              </div>
+              <div class="field">
+                <label for="note">편집 메모</label>
+                <textarea id="note" name="note"></textarea>
+              </div>
+            </article>
+          </div>
+
+          <div class="save-bar">
+            <div class="save-status" data-save-status>아직 저장 기록이 없습니다.</div>
+            <div class="action-row">
+              <button class="primary" type="button" data-save>저장</button>
+              <button class="secondary" type="button" data-reset>샘플로 되돌리기</button>
+              <button class="ghost" type="button" data-export>JSON 내보내기</button>
+              <a class="secondary" href="../encyclopedia.html">사용자 페이지 보기</a>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
