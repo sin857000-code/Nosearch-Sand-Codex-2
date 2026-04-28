@@ -3,230 +3,138 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>노써치 백오피스 - 통합 에디터</title>
+<title>노써치 백오피스 - 비주얼 콘텐츠 에디터</title>
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="editor-shell">
-    <aside class="editor-sidebar">
-      <div class="brand">
-        <small>Nosearch Backoffice</small>
-        <strong>실화면 편집 에디터</strong>
-      </div>
-
-      <div class="workflow-panel">
-        <span class="eyebrow">Workflow</span>
-        <h3>초안 → 관리자 미리보기 → 최종 발행</h3>
-        <p class="muted">CM이 실제 화면을 보면서 편집하고, 초안과 발행 상태를 나눠 관리하는 구조입니다.</p>
-        <div class="status-stack">
-          <div class="status-chip blue" data-section-meta>현재 편집: 홈</div>
-          <div class="status-chip yellow" data-draft-meta>초안 저장: 기록 없음</div>
-          <div class="status-chip green" data-published-meta>최종 발행: 기록 없음</div>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header-main">
+        <div class="brand-block">
+          <span class="brand-mark">N</span>
+          <div>
+            <small>Nosearch Backoffice</small>
+            <strong>비주얼 콘텐츠 에디터</strong>
+          </div>
+        </div>
+        <div class="header-copy">
+          <strong>실제 화면 위에서 초안, 미리보기, 발행을 관리합니다.</strong>
+          <span>Sanity Presentation Tool, Storyblok Visual Editor, Contentful Live Preview처럼 프리뷰 중심 흐름으로 재구성한 목업입니다.</span>
         </div>
       </div>
-
-      <nav class="editor-nav">
-        <button class="editor-nav-btn is-active" type="button" data-section-tab="home">홈</button>
-        <button class="editor-nav-btn" type="button" data-section-tab="submain">노써치픽 서브메인</button>
-        <button class="editor-nav-btn" type="button" data-section-tab="guides">구매가이드 목록</button>
-        <button class="editor-nav-btn" type="button" data-section-tab="guide">구매가이드 상세</button>
-        <button class="editor-nav-btn" type="button" data-section-tab="encyclopedia">가전백과</button>
-        <button class="editor-nav-btn" type="button" data-section-tab="wiki">위키검색</button>
-        <button class="editor-nav-btn" type="button" data-section-tab="schedule">업데이트 일정</button>
-      </nav>
-
-      <div class="workflow-actions">
-        <button class="primary" type="button" data-action="save-draft">초안작성(임시저장)</button>
-        <button class="secondary" type="button" data-action="preview-admin">관리자용 미리보기</button>
-        <button class="secondary" type="button" data-action="publish-local">최종 발행</button>
-        <button class="secondary" type="button" data-action="publish-github">GitHub에 최종 발행</button>
-        <button class="ghost" type="button" data-action="preview-published">발행 상태 보기</button>
-        <button class="ghost" type="button" data-action="export-bundle">발행 JSON 내보내기</button>
-        <button class="ghost" type="button" data-action="reset-published">발행 상태로 되돌리기</button>
+      <div class="header-actions">
+        <button type="button" class="action-btn primary" data-action="save-draft">초안 저장</button>
+        <button type="button" class="action-btn secondary" data-action="preview-admin">관리자 미리보기</button>
+        <button type="button" class="action-btn secondary" data-action="publish-local">최종 발행</button>
+        <button type="button" class="action-btn secondary" data-action="publish-github">GitHub에 발행</button>
       </div>
-      <div class="field compact-field">
-        <label for="publish-secret">발행 키</label>
-        <input id="publish-secret" type="password" data-publish-secret placeholder="Vercel 환경변수와 맞는 발행 키" />
-        <small>GitHub 토큰은 서버에만 두고, 여기에는 발행 승인용 키만 넣습니다.</small>
-      </div>
-      <div class="save-status" data-workflow-status>관리자용 미리보기로 전환했습니다.</div>
-    </aside>
+    </header>
 
-    <main class="editor-main">
-      <section class="editor-content">
-        <div class="hero compact">
-          <span class="eyebrow">Unified Editor</span>
-          <h1>하나의 백오피스에서 하위 항목별로 편집합니다.</h1>
-          <p>실제 사용자 화면과 동일한 페이지를 오른쪽에서 바로 보면서, 왼쪽에서 초안 작성과 발행 준비를 함께 할 수 있도록 구조를 바꿨습니다.</p>
-        </div>
+    <main class="workspace">
+      <aside class="rail rail-left">
+        <section class="panel workflow-panel">
+          <span class="eyebrow">Workflow</span>
+          <h1>콘텐츠 맵</h1>
+          <p>왼쪽에서 편집 대상을 고르고, 가운데서 실제 화면을 보며, 오른쪽 인스펙터에서 필드를 수정합니다.</p>
+          <div class="status-stack">
+            <div class="status-chip blue" data-section-meta>현재 편집: 홈</div>
+            <div class="status-chip yellow" data-draft-meta>초안 저장: 기록 없음</div>
+            <div class="status-chip green" data-published-meta>최종 발행: 기록 없음</div>
+          </div>
+        </section>
 
-        <div class="editor-section" data-editor-section="home">
-          <div class="section-head">
+        <section class="panel content-map-panel">
+          <div class="panel-head">
             <div>
-              <h2>홈 반영 포인트</h2>
-              <p>홈은 개별 전용 데이터보다 서브메인, 위키, 일정 데이터의 조합으로 반영됩니다.</p>
+              <h2>페이지 선택</h2>
+              <p>CM이 지금 손보는 문서와 그 문서 안의 섹션을 빠르게 이동합니다.</p>
             </div>
           </div>
-          <div class="stack-card">
-            <ul class="stack-list">
-              <li><strong>최근 업데이트된 노써치픽</strong><span>서브메인 요약, 대표 픽, 다음 일정으로 구성됩니다.</span></li>
-              <li><strong>In The Lab</strong><span>업데이트 일정의 In The Lab 문구와 운영 메모를 가져옵니다.</span></li>
-              <li><strong>위키검색 유입부</strong><span>위키 대표 키워드와 별칭을 홈에 연결합니다.</span></li>
-            </ul>
-          </div>
-        </div>
+          <div class="section-list" data-section-list></div>
+        </section>
 
-        <div class="editor-section" data-editor-section="submain" hidden>
-          <div class="section-head">
+        <section class="panel outline-panel">
+          <div class="panel-head">
             <div>
-              <h2>노써치픽 서브메인 편집</h2>
-              <p>카테고리 핵심 카피, 4줄 요약, 대표 픽, CM 히스토리를 이 패널에서 바로 손봅니다.</p>
+              <h2>콘텐츠 아웃라인</h2>
+              <p>선택한 페이지 안에서 어떤 단을 수정하는지 바로 이동합니다.</p>
             </div>
           </div>
-          <div class="grid-2">
-            <article class="panel">
-              <div class="inline-2">
-                <div class="field"><label>카테고리</label><select data-store="submain" name="category"><option>공기청정기</option><option>노트북</option><option>로봇청소기</option><option>제습기</option></select></div>
-                <div class="field"><label>상태</label><select data-store="submain" name="status"><option>공개</option><option>초안</option><option>검수중</option></select></div>
-              </div>
-              <div class="field"><label>연결 파일</label><input data-store="submain" name="slug" /></div>
-              <div class="field"><label>서브메인 제목</label><input data-store="submain" name="title" /></div>
-              <div class="field"><label>상단 소개 문구</label><textarea data-store="submain" name="summary"></textarea></div>
-              <div class="inline-2">
-                <div class="field"><label>메타 배지 1</label><input data-store="submain" name="badge1" /></div>
-                <div class="field"><label>메타 배지 2</label><input data-store="submain" name="badge2" /></div>
-              </div>
-              <div class="field"><label>메타 배지 3</label><input data-store="submain" name="badge3" /></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>4줄 요약 1</label><input data-store="submain" name="summaryLine1" /></div>
-              <div class="field"><label>4줄 요약 2</label><input data-store="submain" name="summaryLine2" /></div>
-              <div class="field"><label>4줄 요약 3</label><input data-store="submain" name="summaryLine3" /></div>
-              <div class="field"><label>4줄 요약 4</label><input data-store="submain" name="summaryLine4" /></div>
-              <div class="inline-2">
-                <div class="field"><label>베스트픽</label><input data-store="submain" name="bestPick" /></div>
-                <div class="field"><label>가성비픽</label><input data-store="submain" name="valuePick" /></div>
-              </div>
-              <div class="inline-2">
-                <div class="field"><label>플러스픽</label><input data-store="submain" name="plusPick" /></div>
-                <div class="field"><label>프리미엄픽</label><input data-store="submain" name="premiumPick" /></div>
-              </div>
-            </article>
+          <div class="group-list" data-group-list></div>
+        </section>
+      </aside>
+
+      <section class="canvas-column">
+        <div class="panel canvas-toolbar">
+          <div>
+            <span class="eyebrow">Live Preview</span>
+            <h2 data-preview-title>홈</h2>
+            <p data-preview-description>홈에서 최근 업데이트된 카테고리와 위키 유입, In The Lab을 어떻게 보여줄지 확인합니다.</p>
           </div>
-          <div class="grid-2 section">
-            <article class="panel">
-              <div class="field"><label>연결 가전백과</label><textarea data-store="submain" name="encyclopediaLinks"></textarea></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>CM 업데이트 히스토리</label><textarea data-store="submain" name="cmHistory"></textarea></div>
-              <div class="field"><label>다음 업데이트 일정</label><textarea data-store="submain" name="nextSchedule"></textarea></div>
-            </article>
+          <div class="toolbar-actions">
+            <div class="segmented">
+              <button type="button" class="segment is-active" data-preview-mode="admin">관리자 미리보기</button>
+              <button type="button" class="segment" data-preview-mode="published-local">발행 상태</button>
+            </div>
+            <div class="segmented">
+              <button type="button" class="segment is-active" data-device="desktop">Desktop</button>
+              <button type="button" class="segment" data-device="mobile">Mobile</button>
+            </div>
+            <button type="button" class="icon-btn" data-action="refresh-preview">새로고침</button>
+            <button type="button" class="icon-btn" data-action="open-preview">새 탭으로 열기</button>
           </div>
         </div>
 
-        <div class="editor-section" data-editor-section="guides" hidden>
-          <div class="section-head"><div><h2>구매가이드 목록 편집</h2><p>홈 다음 단계에서 보이는 가이드 목록 카드 문구와 연결 흐름을 관리합니다.</p></div></div>
-          <div class="grid-2">
-            <article class="panel">
-              <div class="field"><label>카테고리</label><select data-store="guide" name="category"><option>공기청정기</option><option>노트북</option><option>제습기</option></select></div>
-              <div class="field"><label>목록 제목</label><input data-store="guide" name="listTitle" /></div>
-              <div class="field"><label>목록 설명</label><textarea data-store="guide" name="listSummary"></textarea></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>상태 문구</label><input data-store="guide" name="listStatus" /></div>
-              <div class="field"><label>연결 서브메인</label><input data-store="guide" name="linkedSubmain" /></div>
-              <div class="field"><label>연결 가전백과</label><input data-store="guide" name="linkedEncyclopedia" /></div>
-            </article>
+        <div class="preview-stage-wrap">
+          <div class="preview-stage" data-device-frame="desktop">
+            <iframe id="previewFrame" title="노써치 관리자 프리뷰"></iframe>
           </div>
         </div>
 
-        <div class="editor-section" data-editor-section="guide" hidden>
-          <div class="section-head"><div><h2>구매가이드 상세 편집</h2><p>구매가이드 상세 페이지의 주요 챕터와 핵심 문단을 수정합니다.</p></div></div>
-          <div class="grid-2">
-            <article class="panel">
-              <div class="field"><label>챕터 1 제목</label><input data-store="guide" name="chapter1Title" /></div>
-              <div class="field"><label>챕터 1 본문</label><textarea data-store="guide" name="chapter1Body"></textarea></div>
-              <div class="field"><label>챕터 2 제목</label><input data-store="guide" name="chapter2Title" /></div>
-              <div class="field"><label>챕터 2 본문</label><textarea data-store="guide" name="chapter2Body"></textarea></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>챕터 3 제목</label><input data-store="guide" name="chapter3Title" /></div>
-              <div class="field"><label>챕터 3 본문</label><textarea data-store="guide" name="chapter3Body"></textarea></div>
-              <div class="field"><label>챕터 4 제목</label><input data-store="guide" name="chapter4Title" /></div>
-              <div class="field"><label>챕터 4 본문</label><textarea data-store="guide" name="chapter4Body"></textarea></div>
-            </article>
+        <div class="panel notes-panel">
+          <div class="panel-head">
+            <div>
+              <h2>편집 가이드</h2>
+              <p>실제 CMS처럼 한 화면에서 바로 판단할 수 있게, 지금 문서에서 신경 써야 할 기준만 짧게 보여줍니다.</p>
+            </div>
           </div>
-        </div>
-
-        <div class="editor-section" data-editor-section="encyclopedia" hidden>
-          <div class="section-head"><div><h2>가전백과 편집</h2><p>질문형 제목, 연결 키워드, 서브메인 연결 문구를 수정합니다.</p></div></div>
-          <div class="grid-2">
-            <article class="panel">
-              <div class="field"><label>카테고리</label><select data-store="encyclopedia" name="category"><option>공기청정기</option><option>노트북</option><option>로봇청소기</option></select></div>
-              <div class="field"><label>질문형 제목</label><input data-store="encyclopedia" name="title" /></div>
-              <div class="field"><label>요약</label><textarea data-store="encyclopedia" name="summary"></textarea></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>연결 서브메인</label><input data-store="encyclopedia" name="linkedSubmain" /></div>
-              <div class="field"><label>키워드</label><textarea data-store="encyclopedia" name="keywords"></textarea></div>
-              <div class="field"><label>편집 메모</label><textarea data-store="encyclopedia" name="note"></textarea></div>
-            </article>
-          </div>
-        </div>
-
-        <div class="editor-section" data-editor-section="wiki" hidden>
-          <div class="section-head"><div><h2>위키검색 편집</h2><p>대표 검색어, 별칭, 우선 노출 결과를 수정합니다.</p></div></div>
-          <div class="grid-2">
-            <article class="panel">
-              <div class="field"><label>대표 키워드</label><input data-store="wiki" name="keyword" /></div>
-              <div class="field"><label>별칭 키워드</label><textarea data-store="wiki" name="aliases"></textarea></div>
-              <div class="field"><label>노출 상태</label><select data-store="wiki" name="exposure"><option>추천 키워드 노출</option><option>검색 전용</option><option>비노출</option></select></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>1순위 결과</label><input data-store="wiki" name="primaryResult" /></div>
-              <div class="field"><label>2순위 결과</label><input data-store="wiki" name="secondaryResult" /></div>
-              <div class="field"><label>3순위 결과</label><input data-store="wiki" name="tertiaryResult" /></div>
-              <div class="field"><label>노출 이유 메모</label><textarea data-store="wiki" name="rationale"></textarea></div>
-            </article>
-          </div>
-        </div>
-
-        <div class="editor-section" data-editor-section="schedule" hidden>
-          <div class="section-head"><div><h2>업데이트 일정 편집</h2><p>홈의 In The Lab과 전체 일정 보드에 들어갈 운영 문구를 수정합니다.</p></div></div>
-          <div class="grid-2">
-            <article class="panel">
-              <div class="inline-2">
-                <div class="field"><label>카테고리</label><select data-store="schedule" name="category"><option>공기청정기</option><option>노트북</option><option>로봇청소기</option><option>제습기</option></select></div>
-                <div class="field"><label>상태</label><select data-store="schedule" name="status"><option>정상</option><option>모니터링</option><option>우선 업데이트</option></select></div>
-              </div>
-              <div class="field"><label>다음 점검일</label><input data-store="schedule" name="nextDate" type="date" /></div>
-              <div class="field"><label>In The Lab 문구</label><input data-store="schedule" name="inLabCopy" /></div>
-            </article>
-            <article class="panel">
-              <div class="field"><label>서브메인 일정 요약</label><input data-store="schedule" name="submainSummary" /></div>
-              <div class="field"><label>운영 메모</label><textarea data-store="schedule" name="note"></textarea></div>
-            </article>
-          </div>
+          <div class="note-list" data-note-list></div>
         </div>
       </section>
 
-      <aside class="preview-pane">
-        <div class="preview-toolbar">
-          <div>
-            <strong>실제 화면 미리보기</strong>
-            <p class="muted">오른쪽 화면은 실제 사용자 페이지를 그대로 불러옵니다.</p>
+      <aside class="rail rail-right">
+        <section class="panel inspector-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">Inspector</span>
+              <h2 data-inspector-title>홈</h2>
+              <p data-inspector-description>현재 선택한 페이지의 핵심 필드만 그룹별로 수정합니다.</p>
+            </div>
+            <div class="dirty-box">
+              <strong data-dirty-count>0</strong>
+              <span>변경 필드</span>
+            </div>
           </div>
-          <div class="preview-mode-tabs">
-            <button class="preview-mode-btn is-active" type="button" data-preview-mode="admin">관리자 미리보기</button>
-            <button class="preview-mode-btn" type="button" data-preview-mode="published-local">최종 발행 상태</button>
+
+          <div class="inspector-toolbar">
+            <label class="secret-field" for="publish-secret">
+              <span>발행 키</span>
+              <input id="publish-secret" type="password" data-publish-secret placeholder="Vercel 환경변수와 맞는 발행 키" />
+            </label>
+            <div class="micro-actions">
+              <button type="button" class="icon-btn" data-action="export-bundle">JSON 내보내기</button>
+              <button type="button" class="icon-btn" data-action="reset-published">발행 상태로 되돌리기</button>
+            </div>
           </div>
-        </div>
-        <div class="preview-frame-shell">
-          <iframe id="previewFrame" title="관리자 미리보기"></iframe>
-        </div>
+
+          <div class="group-tabs" data-group-tabs></div>
+          <div class="group-panel" data-group-panel></div>
+          <div class="save-status" data-workflow-status>관리자용 미리보기로 전환했습니다.</div>
+        </section>
       </aside>
     </main>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
