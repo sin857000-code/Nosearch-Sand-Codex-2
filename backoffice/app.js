@@ -4,6 +4,7 @@ const DRAFT_BUNDLE_KEY = `${STORAGE_PREFIX}:draft-bundle`;
 const PUBLISHED_BUNDLE_KEY = `${STORAGE_PREFIX}:published-bundle`;
 const DRAFT_UPDATED_KEY = `${STORAGE_PREFIX}:draft-updated-at`;
 const PUBLISHED_UPDATED_KEY = `${STORAGE_PREFIX}:published-updated-at`;
+const PUBLISH_ENDPOINT = "../api/publish-content";
 
 const DEFAULT_DATA = {
   submain: {
@@ -280,6 +281,7 @@ function bindWorkflowActions() {
   const saveDraft = document.querySelector("[data-action='save-draft']");
   const previewAdmin = document.querySelector("[data-action='preview-admin']");
   const publishLocal = document.querySelector("[data-action='publish-local']");
+  const publishGithub = document.querySelector("[data-action='publish-github']");
   const openPublished = document.querySelector("[data-action='preview-published']");
   const exportBundle = document.querySelector("[data-action='export-bundle']");
   const resetToPublished = document.querySelector("[data-action='reset-published']");
@@ -307,6 +309,54 @@ function bindWorkflowActions() {
     setStatus(`최종 발행 상태로 반영했습니다 · ${formatDateTime(localStorage.getItem(PUBLISHED_UPDATED_KEY))}`, "is-success");
     updateMetaChips();
     activatePreviewMode("published-local");
+  });
+
+  publishGithub?.addEventListener("click", async () => {
+    workingBundle = collectBundleFromFields();
+    writeBundleToStorage(DRAFT_BUNDLE_KEY, workingBundle, DRAFT_UPDATED_KEY);
+    writeBundleToStorage(PUBLISHED_BUNDLE_KEY, workingBundle, PUBLISHED_UPDATED_KEY);
+    updateMetaChips();
+
+    const secretInput = document.querySelector("[data-publish-secret]");
+    const publishSecret = secretInput ? secretInput.value.trim() : "";
+
+    setStatus("GitHub 발행 요청을 보내는 중입니다.");
+
+    try {
+      const response = await fetch(PUBLISH_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          ...(publishSecret ? { "x-backoffice-secret": publishSecret } : {})
+        },
+        body: JSON.stringify({
+          bundle: workingBundle,
+          commitMessage: "Publish site content from backoffice"
+        })
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.ok) {
+        throw new Error(result && result.error ? result.error : "GitHub publish failed.");
+      }
+
+      const commitUrl = result.commit && result.commit.html_url ? result.commit.html_url : "";
+      setStatus(
+        commitUrl
+          ? `GitHub 발행 완료 · ${result.commit.sha.slice(0, 7)}`
+          : "GitHub 발행 완료",
+        "is-success"
+      );
+
+      if (commitUrl) {
+        window.open(commitUrl, "_blank", "noopener,noreferrer");
+      }
+
+      activatePreviewMode("published-local");
+    } catch (error) {
+      console.error(error);
+      setStatus(`GitHub 발행 실패 · ${error.message}`, "is-error");
+    }
   });
 
   openPublished?.addEventListener("click", () => activatePreviewMode("published-local"));
