@@ -2,24 +2,43 @@
   var STORAGE_PREFIX = "nosearch-bo";
   var SHARED_DATA_PATH = "content-data/site-content.json";
   var sharedContent = null;
+  var DRAFT_BUNDLE_KEY = STORAGE_PREFIX + ":draft-bundle";
+  var PUBLISHED_BUNDLE_KEY = STORAGE_PREFIX + ":published-bundle";
 
   function getPageName() {
     var parts = decodeURIComponent(window.location.pathname).split("/");
     return parts[parts.length - 1] || "index.html";
   }
 
+  function getPreviewMode() {
+    return new URLSearchParams(window.location.search).get("preview") || "";
+  }
+
+  function readBundle(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+      console.error("Failed to parse preview bundle", key, error);
+      return null;
+    }
+  }
+
   function getStore(store) {
+    var previewMode = getPreviewMode();
     var sharedStore = (sharedContent && sharedContent[store]) || null;
+    var bundleOverride = previewMode === "admin" ? readBundle(DRAFT_BUNDLE_KEY) : previewMode === "published-local" ? readBundle(PUBLISHED_BUNDLE_KEY) : null;
+    var overrideStore = bundleOverride && bundleOverride[store] ? bundleOverride[store] : null;
     try {
       var raw = localStorage.getItem(STORAGE_PREFIX + ":" + store);
-      var localStore = raw ? JSON.parse(raw) : null;
-      if (sharedStore || localStore) {
-        return Object.assign({}, sharedStore || {}, localStore || {});
+      var localStore = previewMode ? null : raw ? JSON.parse(raw) : null;
+      if (sharedStore || localStore || overrideStore) {
+        return Object.assign({}, sharedStore || {}, localStore || {}, overrideStore || {});
       }
       return null;
     } catch (error) {
       console.error("Failed to read content store", store, error);
-      return sharedStore;
+      return Object.assign({}, sharedStore || {}, overrideStore || {});
     }
   }
 
