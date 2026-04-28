@@ -1,5 +1,9 @@
 const STORAGE_PREFIX = "nosearch-bo";
 const SHARED_DATA_PATH = "../content-data/site-content.json";
+const DRAFT_BUNDLE_KEY = `${STORAGE_PREFIX}:draft-bundle`;
+const PUBLISHED_BUNDLE_KEY = `${STORAGE_PREFIX}:published-bundle`;
+const DRAFT_UPDATED_KEY = `${STORAGE_PREFIX}:draft-updated-at`;
+const PUBLISHED_UPDATED_KEY = `${STORAGE_PREFIX}:published-updated-at`;
 
 const DEFAULT_DATA = {
   submain: {
@@ -71,25 +75,36 @@ const DEFAULT_DATA = {
   }
 };
 
-function storageKey(store) {
-  return `${STORAGE_PREFIX}:${store}`;
+const PREVIEW_PAGE_BY_SECTION = {
+  home: "../index.html",
+  submain: "../picks-air-cleaner.html",
+  guides: "../guides.html",
+  guide: "../guide.html",
+  encyclopedia: "../encyclopedia.html",
+  wiki: "../wiki.html",
+  schedule: "../update-schedule.html"
+};
+
+let sharedData = {};
+let workingBundle = {};
+let currentSection = "home";
+let currentPreviewMode = "admin";
+let previewRefreshTimer = null;
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
 }
 
-function getStoreData(store, sharedData = {}) {
-  const fallback = {
-    ...structuredClone(DEFAULT_DATA[store] || {}),
-    ...(sharedData[store] || {})
-  };
-  try {
-    const raw = localStorage.getItem(storageKey(store));
-    if (!raw) {
-      return fallback;
-    }
-    return { ...fallback, ...JSON.parse(raw) };
-  } catch (error) {
-    console.error("Failed to parse storage data", store, error);
-    return fallback;
-  }
+function mergeBundles(base, override) {
+  const bundle = clone(base || {});
+  Object.keys(override || {}).forEach((store) => {
+    bundle[store] = { ...(bundle[store] || {}), ...(override[store] || {}) };
+  });
+  return bundle;
+}
+
+function getFallbackBundle() {
+  return clone(DEFAULT_DATA);
 }
 
 async function getSharedData() {
@@ -105,18 +120,24 @@ async function getSharedData() {
   }
 }
 
-function setStoreData(store, data) {
-  localStorage.setItem(storageKey(store), JSON.stringify(data));
-  localStorage.setItem(`${storageKey(store)}:updatedAt`, new Date().toISOString());
+function readBundleFromStorage(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    console.error("Failed to parse bundle storage", key, error);
+    return null;
+  }
 }
 
-function getUpdatedAt(store) {
-  return localStorage.getItem(`${storageKey(store)}:updatedAt`);
+function writeBundleToStorage(key, bundle, updatedKey) {
+  localStorage.setItem(key, JSON.stringify(bundle));
+  localStorage.setItem(updatedKey, new Date().toISOString());
 }
 
 function formatDateTime(value) {
   if (!value) {
-    return "아직 저장 기록이 없습니다.";
+    return "기록 없음";
   }
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
@@ -128,42 +149,53 @@ function formatDateTime(value) {
   }).format(date);
 }
 
-function fillForm(form, data) {
-  const fields = form.querySelectorAll("[name]");
-  fields.forEach((field) => {
-    const value = data[field.name];
+function populateFields(bundle) {
+  document.querySelectorAll("[data-store][name]").forEach((field) => {
+    const store = field.dataset.store;
+    const value = bundle?.[store]?.[field.name];
     if (typeof value === "undefined") {
-      return;
-    }
-    if (field.type === "checkbox") {
-      field.checked = Boolean(value);
       return;
     }
     field.value = value;
   });
 }
 
-function collectForm(form) {
-  const payload = {};
-  form.querySelectorAll("[name]").forEach((field) => {
-    if (field.type === "checkbox") {
-      payload[field.name] = field.checked;
-      return;
-    }
-    payload[field.name] = field.value.trim();
+function collectBundleFromFields() {
+  const nextBundle = mergeBundles(getFallbackBundle(), sharedData);
+  document.querySelectorAll("[data-store][name]").forEach((field) => {
+    const store = field.dataset.store;
+    nextBundle[store] = nextBundle[store] || {};
+    nextBundle[store][field.name] = field.value.trim();
   });
-  return payload;
+  return nextBundle;
 }
 
-function setSaveStatus(scope, message, type = "") {
-  const target = scope.querySelector("[data-save-status]");
+function setStatus(message, tone = "") {
+  const target = document.querySelector("[data-workflow-status]");
   if (!target) {
     return;
   }
   target.textContent = message;
   target.classList.remove("is-success", "is-error");
-  if (type) {
-    target.classList.add(type);
+  if (tone) {
+    target.classList.add(tone);
+  }
+}
+
+function updateMetaChips() {
+  const draftUpdated = localStorage.getItem(DRAFT_UPDATED_KEY);
+  const publishedUpdated = localStorage.getItem(PUBLISHED_UPDATED_KEY);
+  const draftMeta = document.querySelector("[data-draft-meta]");
+  const publishedMeta = document.querySelector("[data-published-meta]");
+  const sectionMeta = document.querySelector("[data-section-meta]");
+  if (draftMeta) {
+    draftMeta.textContent = `초안 저장: ${formatDateTime(draftUpdated)}`;
+  }
+  if (publishedMeta) {
+    publishedMeta.textContent = `최종 발행: ${formatDateTime(publishedUpdated)}`;
+  }
+  if (sectionMeta) {
+    sectionMeta.textContent = `현재 편집: ${document.querySelector(`[data-section-tab="${currentSection}"]`)?.textContent || "-"}`;
   }
 }
 
@@ -179,95 +211,138 @@ function downloadJson(filename, payload) {
   URL.revokeObjectURL(url);
 }
 
-function buildBundle(sharedData = {}) {
-  return Object.keys(DEFAULT_DATA).reduce((acc, store) => {
-    acc[store] = getStoreData(store, sharedData);
-    return acc;
-  }, {});
+function refreshPreview() {
+  const frame = document.getElementById("previewFrame");
+  if (!frame) {
+    return;
+  }
+  const basePath = PREVIEW_PAGE_BY_SECTION[currentSection] || "../index.html";
+  const query = currentPreviewMode === "admin" ? "preview=admin" : currentPreviewMode === "published-local" ? "preview=published-local" : "";
+  frame.src = query ? `${basePath}?${query}&ts=${Date.now()}` : `${basePath}?ts=${Date.now()}`;
 }
 
-async function initEditorPage(sharedData) {
-  const form = document.querySelector("[data-editor-form]");
-  if (!form) {
-    return;
-  }
-
-  const store = document.body.dataset.store;
-  if (!store) {
-    return;
-  }
-
-  fillForm(form, getStoreData(store, sharedData));
-  setSaveStatus(document, `마지막 저장: ${formatDateTime(getUpdatedAt(store))}`);
-
-  const saveButton = document.querySelector("[data-save]");
-  if (saveButton) {
-    saveButton.addEventListener("click", () => {
-      try {
-        const payload = collectForm(form);
-        setStoreData(store, payload);
-        setSaveStatus(document, `저장 완료 · ${formatDateTime(getUpdatedAt(store))}`, "is-success");
-      } catch (error) {
-        console.error(error);
-        setSaveStatus(document, "저장 중 오류가 발생했습니다.", "is-error");
-      }
-    });
-  }
-
-  const resetButton = document.querySelector("[data-reset]");
-  if (resetButton) {
-    resetButton.addEventListener("click", () => {
-      fillForm(form, DEFAULT_DATA[store]);
-      setSaveStatus(document, "샘플 데이터로 다시 채웠습니다. 저장하면 반영됩니다.");
-    });
-  }
-
-  const exportButton = document.querySelector("[data-export]");
-  if (exportButton) {
-    exportButton.addEventListener("click", () => {
-      downloadJson(`${store}.json`, collectForm(form));
-      setSaveStatus(document, "현재 폼 값을 JSON으로 내보냈습니다.", "is-success");
-    });
-  }
+function schedulePreviewRefresh() {
+  clearTimeout(previewRefreshTimer);
+  previewRefreshTimer = setTimeout(() => {
+    if (currentPreviewMode === "admin") {
+      writeBundleToStorage(DRAFT_BUNDLE_KEY, workingBundle, DRAFT_UPDATED_KEY);
+      refreshPreview();
+      updateMetaChips();
+    }
+  }, 450);
 }
 
-async function initDashboard(sharedData) {
-  const dashboard = document.querySelector("[data-dashboard]");
-  if (!dashboard) {
-    return;
-  }
+function activateSection(section) {
+  currentSection = section;
+  document.querySelectorAll("[data-section-tab]").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.sectionTab === section);
+  });
+  document.querySelectorAll("[data-editor-section]").forEach((panel) => {
+    panel.hidden = panel.dataset.editorSection !== section;
+  });
+  updateMetaChips();
+  refreshPreview();
+}
 
-  dashboard.querySelectorAll("[data-dashboard-store]").forEach((card) => {
-    const store = card.dataset.dashboardStore;
-    const data = getStoreData(store, sharedData);
-    const updated = getUpdatedAt(store);
-    const summaryField = card.dataset.summaryField;
-    const titleField = card.dataset.titleField;
-    const dateTarget = card.querySelector("[data-updated-at]");
-    const summaryTarget = card.querySelector("[data-summary]");
-    const titleTarget = card.querySelector("[data-title]");
+function activatePreviewMode(mode) {
+  currentPreviewMode = mode;
+  document.querySelectorAll("[data-preview-mode]").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.previewMode === mode);
+  });
+  const modeLabel = mode === "admin" ? "관리자용 미리보기" : mode === "published-local" ? "최종 발행 미리보기" : "공용 공개본";
+  setStatus(`${modeLabel}로 전환했습니다.`);
+  refreshPreview();
+}
 
-    if (dateTarget) {
-      dateTarget.textContent = formatDateTime(updated);
-    }
-    if (summaryTarget && summaryField) {
-      summaryTarget.textContent = data[summaryField] || "-";
-    }
-    if (titleTarget && titleField) {
-      titleTarget.textContent = data[titleField] || "-";
+function bindSectionTabs() {
+  document.querySelectorAll("[data-section-tab]").forEach((button) => {
+    button.addEventListener("click", () => activateSection(button.dataset.sectionTab));
+  });
+}
+
+function bindPreviewModeTabs() {
+  document.querySelectorAll("[data-preview-mode]").forEach((button) => {
+    button.addEventListener("click", () => activatePreviewMode(button.dataset.previewMode));
+  });
+}
+
+function bindFields() {
+  document.querySelectorAll("[data-store][name]").forEach((field) => {
+    field.addEventListener("input", () => {
+      workingBundle = collectBundleFromFields();
+      setStatus("초안에 반영할 변경사항이 있습니다.");
+      schedulePreviewRefresh();
+    });
+  });
+}
+
+function bindWorkflowActions() {
+  const saveDraft = document.querySelector("[data-action='save-draft']");
+  const previewAdmin = document.querySelector("[data-action='preview-admin']");
+  const publishLocal = document.querySelector("[data-action='publish-local']");
+  const openPublished = document.querySelector("[data-action='preview-published']");
+  const exportBundle = document.querySelector("[data-action='export-bundle']");
+  const resetToPublished = document.querySelector("[data-action='reset-published']");
+
+  saveDraft?.addEventListener("click", () => {
+    workingBundle = collectBundleFromFields();
+    writeBundleToStorage(DRAFT_BUNDLE_KEY, workingBundle, DRAFT_UPDATED_KEY);
+    setStatus(`초안 저장 완료 · ${formatDateTime(localStorage.getItem(DRAFT_UPDATED_KEY))}`, "is-success");
+    updateMetaChips();
+    if (currentPreviewMode === "admin") {
+      refreshPreview();
     }
   });
 
-  const exportBundleButton = document.querySelector("[data-export-bundle]");
-  if (exportBundleButton) {
-    exportBundleButton.addEventListener("click", () => {
-      downloadJson("site-content.json", buildBundle(sharedData));
-    });
-  }
+  previewAdmin?.addEventListener("click", () => {
+    workingBundle = collectBundleFromFields();
+    writeBundleToStorage(DRAFT_BUNDLE_KEY, workingBundle, DRAFT_UPDATED_KEY);
+    activatePreviewMode("admin");
+  });
+
+  publishLocal?.addEventListener("click", () => {
+    workingBundle = collectBundleFromFields();
+    writeBundleToStorage(DRAFT_BUNDLE_KEY, workingBundle, DRAFT_UPDATED_KEY);
+    writeBundleToStorage(PUBLISHED_BUNDLE_KEY, workingBundle, PUBLISHED_UPDATED_KEY);
+    setStatus(`최종 발행 상태로 반영했습니다 · ${formatDateTime(localStorage.getItem(PUBLISHED_UPDATED_KEY))}`, "is-success");
+    updateMetaChips();
+    activatePreviewMode("published-local");
+  });
+
+  openPublished?.addEventListener("click", () => activatePreviewMode("published-local"));
+
+  exportBundle?.addEventListener("click", () => {
+    workingBundle = collectBundleFromFields();
+    downloadJson("site-content.json", workingBundle);
+    setStatus("발행용 site-content.json을 내보냈습니다.", "is-success");
+  });
+
+  resetToPublished?.addEventListener("click", () => {
+    const publishedBundle = readBundleFromStorage(PUBLISHED_BUNDLE_KEY);
+    workingBundle = publishedBundle ? mergeBundles(mergeBundles(getFallbackBundle(), sharedData), publishedBundle) : mergeBundles(getFallbackBundle(), sharedData);
+    populateFields(workingBundle);
+    writeBundleToStorage(DRAFT_BUNDLE_KEY, workingBundle, DRAFT_UPDATED_KEY);
+    setStatus("현재 초안을 마지막 발행 상태 기준으로 되돌렸습니다.");
+    updateMetaChips();
+    if (currentPreviewMode === "admin") {
+      refreshPreview();
+    }
+  });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const sharedData = await getSharedData();
-  initEditorPage(sharedData);
-  initDashboard(sharedData);
-});
+async function init() {
+  sharedData = mergeBundles(getFallbackBundle(), await getSharedData());
+  const draftBundle = readBundleFromStorage(DRAFT_BUNDLE_KEY);
+  workingBundle = draftBundle ? mergeBundles(sharedData, draftBundle) : sharedData;
+
+  populateFields(workingBundle);
+  bindSectionTabs();
+  bindPreviewModeTabs();
+  bindFields();
+  bindWorkflowActions();
+  updateMetaChips();
+  activateSection(currentSection);
+  activatePreviewMode(currentPreviewMode);
+}
+
+document.addEventListener("DOMContentLoaded", init);
