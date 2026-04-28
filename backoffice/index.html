@@ -39,9 +39,15 @@
         <button class="primary" type="button" data-action="save-draft">초안작성(임시저장)</button>
         <button class="secondary" type="button" data-action="preview-admin">관리자용 미리보기</button>
         <button class="secondary" type="button" data-action="publish-local">최종 발행</button>
+        <button class="secondary" type="button" data-action="publish-github">GitHub에 최종 발행</button>
         <button class="ghost" type="button" data-action="preview-published">발행 상태 보기</button>
         <button class="ghost" type="button" data-action="export-bundle">발행 JSON 내보내기</button>
         <button class="ghost" type="button" data-action="reset-published">발행 상태로 되돌리기</button>
+      </div>
+      <div class="field compact-field">
+        <label for="publish-secret">발행 키</label>
+        <input id="publish-secret" type="password" data-publish-secret placeholder="Vercel 환경변수와 맞는 발행 키" />
+        <small>GitHub 토큰은 서버에만 두고, 여기에는 발행 승인용 키만 넣습니다.</small>
       </div>
       <div class="save-status" data-workflow-status>관리자용 미리보기로 전환했습니다.</div>
     </aside>
