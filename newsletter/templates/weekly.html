@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ subject }}</title>
+<style>
+  body { margin:0; padding:0; background:#f4f6f9; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+  .wrapper { max-width:600px; margin:0 auto; background:#ffffff; }
+  /* 헤더 */
+  .header { background:#1B2A4A; padding:28px 32px; text-align:center; }
+  .header .logo { color:#ffffff; font-size:22px; font-weight:700; letter-spacing:-0.5px; }
+  .header .tagline { color:#AED6F1; font-size:12px; margin-top:4px; }
+  /* 히어로 */
+  .hero { background:#2E86AB; padding:24px 32px; }
+  .hero .week-label { color:#AED6F1; font-size:12px; margin-bottom:6px; }
+  .hero .issue-title { color:#ffffff; font-size:20px; font-weight:700; line-height:1.4; }
+  /* 본문 */
+  .body { padding:28px 32px; }
+  .opening { color:#2C3E50; font-size:15px; line-height:1.8; margin-bottom:28px; }
+  /* 섹션 */
+  .section { margin-bottom:28px; }
+  .section-title { font-size:13px; font-weight:700; color:#2E86AB; text-transform:uppercase;
+                   letter-spacing:0.8px; margin-bottom:12px; padding-bottom:6px;
+                   border-bottom:2px solid #EBF5FB; }
+  .section-body { color:#2C3E50; font-size:14px; line-height:1.8; }
+  /* 랭킹 카드 */
+  .ranking-cards { display:block; }
+  .ranking-card { background:#F4F6F9; border-radius:8px; padding:14px 16px;
+                  margin-bottom:10px; border-left:4px solid #2E86AB; }
+  .card-name { font-weight:700; font-size:14px; color:#1B2A4A; }
+  .card-meta { font-size:12px; color:#7F8C8D; margin-top:3px; }
+  .card-badge { display:inline-block; background:#D5F5E3; color:#27AE60;
+                font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; margin-top:4px; }
+  .card-badge.down { background:#FADBD8; color:#E74C3C; }
+  /* CTA 버튼 */
+  .cta-block { text-align:center; margin:28px 0; }
+  .cta-btn { display:inline-block; background:#2E86AB; color:#ffffff; font-size:14px;
+             font-weight:700; padding:14px 36px; border-radius:8px; text-decoration:none; }
+  /* 통계 박스 */
+  .stats-row { display:table; width:100%; border-collapse:separate; border-spacing:8px; }
+  .stat-cell { display:table-cell; background:#EBF5FB; border-radius:8px; padding:14px;
+               text-align:center; width:33%; }
+  .stat-num { font-size:22px; font-weight:700; color:#2E86AB; }
+  .stat-label { font-size:11px; color:#7F8C8D; margin-top:3px; }
+  /* 푸터 */
+  .footer { background:#F4F6F9; padding:20px 32px; text-align:center; border-top:1px solid #ECF0F1; }
+  .footer p { font-size:11px; color:#95A5A6; margin:4px 0; }
+  .footer a { color:#2E86AB; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="logo">📊 노써치 위클리</div>
+    <div class="tagline">가전 랭킹 변화를 가장 빠르게</div>
+  </div>
+
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="week-label">{{ week_label }}</div>
+    <div class="issue-title">{{ subject }}</div>
+  </div>
+
+  <!-- 본문 -->
+  <div class="body">
+
+    <!-- 오프닝 -->
+    <div class="opening">{{ sections.opening | replace('\n', '<br>') }}</div>
+
+    <!-- 주간 통계 -->
+    <div class="section">
+      <div class="section-title">📈 이번 주 현황</div>
+      <div class="stats-row">
+        <div class="stat-cell">
+          <div class="stat-num">{{ stats.total_active }}</div>
+          <div class="stat-label">노출 랭킹 수</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">{{ stats.growth_count }}</div>
+          <div class="stat-label">성장 중인 랭킹</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">{{ stats.avg_recent_3m }}</div>
+          <div class="stat-label">평균 3개월 클릭</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하이라이트 -->
+    {% if sections.highlight %}
+    <div class="section">
+      <div class="section-title">⭐ 이번 주 하이라이트</div>
+      <div class="section-body">{{ sections.highlight | replace('\n', '<br>') }}</div>
+    </div>
+    {% endif %}
+
+    <!-- 성장 랭킹 Top 5 -->
+    {% if top_growers %}
+    <div class="section">
+      <div class="section-title">🚀 급상승 랭킹 TOP 5</div>
+      <div class="section-body">{{ sections.top_growers | replace('\n', '<br>') }}</div>
+      <div class="ranking-cards" style="margin-top:14px;">
+        {% for item in top_growers %}
+        <div class="ranking-card">
+          <div class="card-name">{{ item['category'] }} — {{ item['name'] }}</div>
+          <div class="card-meta">최근 3개월 클릭: {{ item['recent_3m_clicks'] }}</div>
+          {% if item['growth_pct'] > 0 %}
+          <span class="card-badge">▲ {{ item['growth_pct'] }}%</span>
+          {% else %}
+          <span class="card-badge down">▽ {{ item['growth_pct'] }}%</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- 계절 추천 -->
+    {% if seasonal_picks %}
+    <div class="section">
+      <div class="section-title">🗓 지금 이 계절에</div>
+      <div class="section-body">{{ sections.seasonal_tip | replace('\n', '<br>') }}</div>
+      <div class="ranking-cards" style="margin-top:14px;">
+        {% for item in seasonal_picks %}
+        <div class="ranking-card" style="border-left-color:#27AE60;">
+          <div class="card-name">{{ item['category'] }} — {{ item['name'] }}</div>
+          <div class="card-meta">3개월 클릭: {{ item['recent_3m_clicks'] }}  |  {{ item['trend'] }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- CTA -->
+    <div class="cta-block">
+      <a href="https://nosearch.com" class="cta-btn">전체 랭킹 보러가기 →</a>
+    </div>
+
+    <!-- 클로징 -->
+    {% if sections.closing %}
+    <div class="section">
+      <div class="section-body" style="color:#7F8C8D; font-size:13px;">
+        {{ sections.closing | replace('\n', '<br>') }}
+      </div>
+    </div>
+    {% endif %}
+
+  </div><!-- /body -->
+
+  <!-- 푸터 -->
+  <div class="footer">
+    <p>
+      <a href="https://nosearch.com">nosearch.com</a> &nbsp;|&nbsp;
+      <a href="{{ unsubscribe_url }}">구독 취소</a>
+    </p>
+    <p>이 메일은 노써치 뉴스레터를 구독하신 분께 발송됩니다.</p>
+  </div>
+
+</div><!-- /wrapper -->
+</body>
+</html>

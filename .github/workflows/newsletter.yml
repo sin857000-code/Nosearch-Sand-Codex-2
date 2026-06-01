@@ -1,0 +1,94 @@
+name: 노써치 뉴스레터 자동 생성
+
+on:
+  # 매주 목요일 오전 9시 (KST = UTC+9 → UTC 00:00)
+  schedule:
+    - cron: "0 0 * * 4"
+
+  # 수동 실행 (Actions 탭에서 트리거 가능)
+  workflow_dispatch:
+    inputs:
+      week_label:
+        description: "주차 레이블 (비우면 자동)"
+        required: false
+        default: ""
+      dry_run:
+        description: "dry-run (Stibee 업로드 없이 HTML만 생성)"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  generate-newsletter:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 환경 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: newsletter/requirements.txt
+
+      - name: 의존성 설치
+        run: pip install -r newsletter/requirements.txt
+
+      - name: 데이터 파일 다운로드 (Google Drive)
+        # 노써치 데이터 엑셀을 Google Drive에 올려놓고 다운로드
+        # 또는 repo에 직접 포함 시 이 단계 생략
+        env:
+          GDRIVE_FILE_ID: ${{ secrets.GDRIVE_FILE_ID }}
+        run: |
+          if [ -n "$GDRIVE_FILE_ID" ]; then
+            pip install gdown
+            mkdir -p newsletter/data
+            gdown "https://drive.google.com/uc?id=${GDRIVE_FILE_ID}" \
+                  -O newsletter/data/nosearch_data.xlsx
+            echo "✅ 데이터 파일 다운로드 완료"
+          else
+            echo "⚠️  GDRIVE_FILE_ID 없음 — 기존 data 폴더 데이터 사용"
+          fi
+
+      - name: 뉴스레터 초안 생성 및 Stibee 업로드
+        working-directory: newsletter
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          STIBEE_API_KEY:    ${{ secrets.STIBEE_API_KEY }}
+          STIBEE_LIST_ID:    ${{ secrets.STIBEE_LIST_ID }}
+          STIBEE_SENDER_NAME:  ${{ secrets.STIBEE_SENDER_NAME }}
+          STIBEE_SENDER_EMAIL: ${{ secrets.STIBEE_SENDER_EMAIL }}
+          STIBEE_REPLY_TO:     ${{ secrets.STIBEE_REPLY_TO }}
+          DATA_EXCEL_PATH: "data/nosearch_data.xlsx"
+        run: |
+          EXTRA_ARGS=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            EXTRA_ARGS="--dry-run"
+          fi
+          if [ -n "${{ inputs.week_label }}" ]; then
+            EXTRA_ARGS="$EXTRA_ARGS --week '${{ inputs.week_label }}'"
+          fi
+          python run.py $EXTRA_ARGS
+
+      - name: 생성된 HTML 아티팩트 저장
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsletter-html-${{ github.run_number }}
+          path: newsletter/output/*.html
+          retention-days: 30
+
+      - name: Slack 알림 (선택)
+        if: success() && vars.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ vars.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "text": "📧 노써치 뉴스레터 초안이 Stibee에 등록되었습니다.\n검토 후 발송해주세요: https://app.stibee.com"
+            }'
