@@ -25,19 +25,19 @@
 
 ### 2026-06-08 일보
 
-**작업 내용**
-- Claude Code 커스텀 스킬 저장 인프라 구축 시작
-- `.claude/commands/` 폴더 및 README 생성
-- `/start` 스킬 생성 (세션 시작 시 이전 작업 브리핑)
-- `/bye` 스킬 생성 (세션 종료 시 daily-log.md 저장 & git push)
-- `/start`에서 git pull 제거 (웹 세션은 자동으로 최신 상태)
-- `/bye` 개선 — 여러 세션 작업 누적 통합 방식
-- `/bye` 개선 — 일보고 형식 섹션 추가
+1. 작업 내용
+   1. Claude Code 커스텀 스킬 저장 인프라 구축 시작
+   2. `.claude/commands/` 폴더 및 README 생성
+   3. `/start` 스킬 생성 (세션 시작 시 이전 작업 브리핑)
+   4. `/bye` 스킬 생성 (세션 종료 시 daily-log.md 저장 & git push)
+   5. `/start`에서 git pull 제거 (웹 세션은 자동으로 최신 상태)
+   6. `/bye` 개선 — 여러 세션 작업 누적 통합 방식
+   7. `/bye` 개선 — 일보고 형식 섹션 추가 및 넘버링 적용
 
-**결과 / 변경사항**
-- `.claude/commands/start.md`, `bye.md` 생성 및 반복 개선
-- `.claude/memory/daily-log.md` 메모리 파일 생성
-- 모든 변경사항 git 커밋 & push 완료
+2. 결과 / 변경사항
+   1. `.claude/commands/start.md`, `bye.md` 생성 및 반복 개선
+   2. `.claude/memory/daily-log.md` 메모리 파일 생성
+   3. 모든 변경사항 git 커밋 & push 완료
 
-**다음 세션 예정**
-- 실제 프로젝트 작업 시작
+3. 다음 세션 예정
+   1. 실제 프로젝트 작업 시작
